@@ -6,5 +6,11 @@ public class Main {
 
         System.out.println("hola");
 
+        for (int i = 0 ; i<2 ; i++){
+
+            System.out.println("aaa");
+        }
+
+
     }
 }
