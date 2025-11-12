@@ -55,6 +55,19 @@ public class Producto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "idProducto='" + idProducto + '\'' +
+                ", nombreProducto='" + nombreProducto + '\'' +
+                ", precio=" + precio +
+                ", categoriaProducto=" + categoriaProducto +
+                ", descripcion='" + descripcion + '\'' +
+                '}';
+    }
+
 ///-- METODOS --
 
 

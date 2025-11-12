@@ -55,7 +55,18 @@ public class Comprobante {
         this.descuento = descuento;
     }
 
-    ///-- METODOS --
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Comprobante{" +
+                "idComprobante='" + idComprobante + '\'' +
+                ", idCliente=" + idCliente +
+                ", fecha='" + fecha + '\'' +
+                ", montoTotal=" + montoTotal +
+                ", descuento=" + descuento +
+                '}';
+    }
+///-- METODOS --
 
 
 }

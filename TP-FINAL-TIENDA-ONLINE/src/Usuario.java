@@ -40,4 +40,18 @@ private  String Contrasena;
     public void setContrasena(String contrasena) {
         Contrasena = contrasena;
     }
+
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "IDusuario=" + IDusuario +
+                ", Email='" + Email + '\'' +
+                ", Contrasena='" + Contrasena + '\'' +
+                '}';
+    }
 }
+
+
+
+

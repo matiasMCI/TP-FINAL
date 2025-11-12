@@ -5,7 +5,7 @@ public class Cliente extends Usuario{
     private String Edad;
     private TIPO_CLIENTE TipoCliente;
     private ESTADO_CLIENTE estado;
-
+    private Carrito carrito;
 
 
     ///-- CONSTRUCTOR --
@@ -50,8 +50,16 @@ public class Cliente extends Usuario{
         this.estado = estado;
     }
 
+///-- toSTRING --
 
-
-
-
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "Nombre='" + Nombre + '\'' +
+                ", Edad='" + Edad + '\'' +
+                ", TipoCliente=" + TipoCliente +
+                ", estado=" + estado +
+                ", carrito=" + carrito +
+                '}';
+    }
 }

@@ -41,7 +41,16 @@ public class Carrito {
         this.precioTotal = precioTotal;
     }
 
-    ///-- METODOS --
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Carrito{" +
+                "productos=" + productos +
+                ", cantProductos=" + cantProductos +
+                ", precioTotal=" + precioTotal +
+                '}';
+    }
+///-- METODOS --
 
 
 }

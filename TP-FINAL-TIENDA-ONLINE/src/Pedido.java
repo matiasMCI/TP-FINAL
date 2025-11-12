@@ -48,4 +48,15 @@ public class Pedido {
     public void setLista_productos(List<Producto> lista_productos) {
         Lista_productos = lista_productos;
     }
+
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "IDpedido=" + IDpedido +
+                ", NombreCliente='" + NombreCliente + '\'' +
+                ", estadoPedido=" + estadoPedido +
+                ", Lista_productos=" + Lista_productos +
+                '}';
+    }
 }

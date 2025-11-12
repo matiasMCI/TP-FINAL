@@ -38,6 +38,16 @@ public class Administrador extends Usuario {
         this.idAdmin = idAdmin;
     }
 
+    ///-- toSTRING --
+    @Override
+    public String toString() {
+        return "Administrador{" +
+                "nombre='" + nombre + '\'' +
+                ", edad=" + edad +
+                ", idAdmin=" + idAdmin +
+                '}';
+    }
+
     ///-- METODOS --
 
 
