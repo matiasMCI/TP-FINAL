@@ -1,3 +1,5 @@
+package Enums;
+
 public enum Quejas {
 
     PRODUCTO_ROTO,

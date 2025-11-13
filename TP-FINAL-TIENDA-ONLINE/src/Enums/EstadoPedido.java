@@ -1,3 +1,5 @@
+package Enums;
+
 public enum EstadoPedido {
 
 PREPARANDO_PEDIDO,

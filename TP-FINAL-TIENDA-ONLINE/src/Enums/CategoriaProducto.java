@@ -1,3 +1,5 @@
+package Enums;
+
 public enum CategoriaProducto {
     TECNOLOGIA,COMIDA_RAPIDA,BEBIDA,FRUTA,VERDURA,INDUMENTARIA,INFUSION,OTRAS
 }

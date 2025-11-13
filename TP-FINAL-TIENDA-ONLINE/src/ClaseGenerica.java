@@ -2,24 +2,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClaseGenerica <T>{
-    List<T> listaDeInventario;
+    List<T> listaGenerica = new ArrayList<>();
 
 
-    public ClaseGenerica(){
-        listaDeInventario = new ArrayList<>();
-    }
+
 
 
     public void agregarItem(T t){
-        listaDeInventario.add(t);
+        listaGenerica.add(t);
     }
+
+
 
     public String verGenerico(){
         String res = "";
-        for(T t : listaDeInventario){
+        for(T t : listaGenerica){
             res = res + t.toString();
         }
         return res;
     }
 
+    public T get(int indice) {
+        indice = indice-1;
+        return listaGenerica.get(indice);
+    }
+
+    public List<T> getListaGenerica() {
+        return listaGenerica;
+    }
 }

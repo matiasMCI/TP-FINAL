@@ -3,54 +3,38 @@ import java.util.List;
 
 public class Carrito {
 
-    private List<Producto> productos;
-    private int cantProductos;
-    private double precioTotal;
+  private Producto producto;
 
     ///-- CONSTRUCTO --
 
-    public Carrito(List<Producto> productos, int cantProductos, double precioTotal) {
-        this.productos = productos;
-        this.cantProductos = cantProductos;
-        this.precioTotal = precioTotal;
+    public Carrito(List<Producto> productos) {
+        this.producto = producto;
+
     }
 
     ///-- GETTERS SETTERS --
-
-    public List<Producto> getProductos() {
-        return productos;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public int getCantProductos() {
-        return cantProductos;
-    }
-
-    public void setCantProductos(int cantProductos) {
-        this.cantProductos = cantProductos;
-    }
-
-    public double getPrecioTotal() {
-        return precioTotal;
-    }
-
-    public void setPrecioTotal(double precioTotal) {
-        this.precioTotal = precioTotal;
-    }
-
-    ///-- toSTRING --
+    ///-- METODOS --
     @Override
     public String toString() {
         return "Carrito{" +
-                "productos=" + productos +
-                ", cantProductos=" + cantProductos +
-                ", precioTotal=" + precioTotal +
+                "producto=" + producto +
                 '}';
     }
-///-- METODOS --
 
 
+    public void MostrarCarrito (){
+        System.out.println(producto);
+    }
+
+    public int Cant(){
+    return 1;
+    }
 }

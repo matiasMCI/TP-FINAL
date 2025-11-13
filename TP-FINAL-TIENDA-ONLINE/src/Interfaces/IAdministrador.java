@@ -1,8 +1,10 @@
+package Interfaces;
+
 public interface IAdministrador {
 
-    public void DarDeBajaCliente();
-    public void DarDeAltaCliente();
-    public void ModificarCliente();
+    public void DarDeBajaCliente(int id);
+    public void DarDeAltaCliente(int id);
+    public void ModificarCliente(int id);
     public void ModificarProducto();
     public void DarDeBajaProducto();
     public void DarDeAltaProducto();

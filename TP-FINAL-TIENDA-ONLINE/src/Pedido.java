@@ -1,3 +1,5 @@
+import Enums.EstadoPedido;
+
 import java.util.List;
 
 public class Pedido {

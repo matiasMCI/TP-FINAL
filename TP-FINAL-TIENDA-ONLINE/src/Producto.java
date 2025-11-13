@@ -1,6 +1,8 @@
+import Enums.CategoriaProducto;
+
 public class Producto {
 
-    private String idProducto;
+    private String  idProducto;
     private String nombreProducto;
     private double precio;
     private CategoriaProducto categoriaProducto;
