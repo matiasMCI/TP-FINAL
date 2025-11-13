@@ -5,6 +5,7 @@ import Excepciones.NameNotFoundEX;
 import Excepciones.OpcionInvalidaEX;
 import Interfaces.ICliente;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +21,8 @@ public class Cliente extends Usuario implements ICliente {
     private double domicilio ;
     private  List<HistorialDePedidos> HistorialDeCompras;
     private  double fondos ;
+    private Object pedido1;
+    private List<Pedido> listaPedidos;
     ///-- CONSTRUCTOR --
     public Cliente( String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado , double domicilio , double fondos ) {
         super(email, contrasena);
@@ -113,6 +116,9 @@ public class Cliente extends Usuario implements ICliente {
             precioTotal += c.getProducto().getPrecio();
             System.out.println(c.toString());
         }
+
+
+
         System.out.println("precio Total: " + precioTotal);
         return precioTotal;
     }
@@ -224,15 +230,26 @@ int flag = 0;
      }
     }
 
-    public Pedido crearPedido (Cliente c){
+    public void crearPedido (Cliente c){
 
+      List<Producto> productos = new ArrayList<>();
 
+   for (Carrito ca : carrito){
 
+       productos.add(ca.getProducto());
 
-    return Pedido;
+   }
+
+       Pedido pedido1 = new Pedido(c.Nombre ,productos);
+       listaPedidos.add(pedido1);
     }
 
 
+    public void verListaDePedidos(){
+        for (Pedido p : listaPedidos){
+            p.toString();
+        }
+    }
 
     public double ConfirmarPago(double precioTotal , Cliente c){
         Scanner sc = new Scanner(System.in);

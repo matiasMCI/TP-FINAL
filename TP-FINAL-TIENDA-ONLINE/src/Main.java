@@ -17,6 +17,8 @@ public class Main {
         Administrador administrador = sistemaTienda.getAdminPorID(1);
         System.out.println(administrador.toString());
 
+      //  administrador.DarDeAltaProducto();
+
 
 
 

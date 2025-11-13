@@ -1,6 +1,8 @@
 import Enums.CategoriaProducto;
 import Enums.ESTADO_CLIENTE;
 import Enums.TIPO_CLIENTE;
+import Excepciones.ElementoDuplicadoEx;
+import Excepciones.IDdontExistEX;
 
 public class SistemaTienda {
 
@@ -23,15 +25,17 @@ public class SistemaTienda {
     ///-- METODOS --
 
 
-    public void agregarProducto(Producto producto) {
+    public static void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
         String id = producto.getIdProducto();
         listaDeProductos.add(id,producto);
     }
 
-    public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion){
+    public static void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
         Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion);
-
         agregarProducto(producto);
+    }
+    public static void eliminarProducto(String idProducto)throws IDdontExistEX {
+       listaDeProductos.remove(idProducto);
     }
 
     public void agregarCliente(Cliente cliente) {
@@ -84,7 +88,7 @@ public class SistemaTienda {
     }
 
 
-    public claseGenericaTest<Producto> getListaDeProductos() {
+    public static claseGenericaTest<Producto> getListaDeProductos() {
         return listaDeProductos;
     }
 

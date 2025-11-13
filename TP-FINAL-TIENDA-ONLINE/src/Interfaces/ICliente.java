@@ -11,5 +11,7 @@ public interface ICliente {
     public void EstadoPedido();
     public void DevolverProducto();
     public double mostrarCarrito();
-    public Pedido crearPedido ();
+    public void crearPedido ();
+    public void verListaDePedidos();
+
 }

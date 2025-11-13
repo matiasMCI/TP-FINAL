@@ -1,3 +1,4 @@
+import Enums.CategoriaProducto;
 import Enums.ESTADO_CLIENTE;
 import Interfaces.IAdministrador;
 
@@ -117,11 +118,11 @@ public class Administrador extends Usuario implements IAdministrador {
     public void ModificarProducto(){
 
     }
-    public void DarDeBajaProducto(){
-
+    public void DarDeBajaProducto(String id){
+        SistemaTienda.eliminarProducto(id);
     }
-    public void DarDeAltaProducto(){
-
+    public void DarDeAltaProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion){
+        SistemaTienda.agregarProducto(idProducto,nombreProducto,precio,categoriaProducto,descripcion);
     }
     public void MostrarMasVendidos(){
 

@@ -10,10 +10,8 @@ public class Pedido {
     private List<Producto> Lista_productos;
 
     ///-- CONSTRUCTOR --
-    public Pedido(int IDpedido, String nombreCliente, EstadoPedido estadoPedido, List<Producto> lista_productos) {
-        this.IDpedido = IDpedido;
+    public Pedido( String nombreCliente, List<Producto> lista_productos) {
         NombreCliente = nombreCliente;
-        this.estadoPedido = estadoPedido;
         Lista_productos = lista_productos;
     }
 
