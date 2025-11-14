@@ -1,15 +1,25 @@
+package sistema;
+
+import Clases.*;
 import Enums.CategoriaProducto;
 import Enums.ESTADO_CLIENTE;
 import Enums.TIPO_CLIENTE;
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.IDdontExistEX;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.classfile.attribute.PermittedSubclassesAttribute;
+import java.util.Map;
 
 public class SistemaTienda {
 
     private claseGenericaTest<Producto> listaDeProductos;
     private ClaseGenerica<Cliente> listaDeClientes;
-    private ClaseGenerica<Pedido>listaDePedido;
+    private ClaseGenerica<Pedido> listaDePedido;
     private ClaseGenerica<Administrador> listaDeAdministradores;
+    private static final String JSONproductos = "productos.txt";
+    private static final String JSONclientes = "clientes.txt";
 
     public SistemaTienda() {
         listaDeClientes = new ClaseGenerica<>();
@@ -82,7 +92,22 @@ public class SistemaTienda {
         }
         return null;
     }
+    public Cliente getClientePorID(int id){
+        for(Cliente cliente : listaDeClientes.getListaGenerica()){
+            if(cliente.getIDusuario() == id){
+                return cliente;
+            }
+        }
+        return null;
+    }
 
+    public Producto getProductoPorID(SistemaTienda sistemaTienda, String id)throws IDdontExistEX{
+        Producto producto = sistemaTienda.getListaDeProductos().getPorId(id);
+        if (producto == null ){
+            throw new IDdontExistEX("El id ingresado esta vacio o es incorrecto");
+        }
+        return producto;
+    }
 
     public claseGenericaTest<Producto> getListaDeProductos() {
         return listaDeProductos;
@@ -101,5 +126,63 @@ public class SistemaTienda {
     }
 
 
+    public JSONArray productosToJSON(){
+
+        JSONArray jsonArrayProductos = new JSONArray();
+        for(Map.Entry<String, Producto> entry : listaDeProductos.getListaGenericaTest().entrySet()){
+            Producto producto = entry.getValue();
+            JSONObject jsonObjectProducto = new JSONObject();
+            jsonObjectProducto.put("IdProducto",producto.getIdProducto());
+            jsonObjectProducto.put("nombreProducto",producto.getNombreProducto());
+            jsonObjectProducto.put("precio",producto.getPrecio());
+            jsonObjectProducto.put("CategoriaProducto",producto.getCategoriaProducto());
+            jsonObjectProducto.put("descripcion", producto.getDescripcion());
+
+            jsonArrayProductos.put(jsonObjectProducto);
+
+        }
+
+        return jsonArrayProductos;
+
+    }
+
+
+  // String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado , double domicilio , double fondos , email contrasena
+
+
+
+    public  JSONArray ClientesToJSON(){
+        JSONArray PULLclientes = new JSONArray() ;
+
+
+
+        for (Cliente c : listaDeClientes.getListaGenerica()){
+            JSONObject clientesOBJ = new JSONObject();
+            clientesOBJ.put("nombre",c.getNombre());
+            clientesOBJ.put("edad",c.getEdad());
+            clientesOBJ.put("Tipo de cliente",c.getTipoCliente());
+            clientesOBJ.put("estado del cliente",c.getEstado());
+            clientesOBJ.put("domicilio ",c.getDomicilio());
+            clientesOBJ.put("fondos del cliente",c.getFondos());
+            clientesOBJ.put("email",c.getEmail());
+            clientesOBJ.put("contrasena",c.getContrasena());
+
+
+
+            PULLclientes.put(clientesOBJ);
+        }
+
+     return PULLclientes;
+    }
+
+
+    public void subirJSONProducto(){
+
+        JSONUtiles.uploadJSON(productosToJSON(),JSONproductos);
+    }
+    public void subirJSONClientes(){
+
+        JSONUtiles.uploadJSON(ClientesToJSON(),JSONclientes);
+    }
 
 }

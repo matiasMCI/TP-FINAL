@@ -1,3 +1,5 @@
+package Clases;
+
 public class Comprobante {
 
     private String idComprobante;
@@ -58,7 +60,7 @@ public class Comprobante {
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Comprobante{" +
+        return "Clases.Comprobante{" +
                 "idComprobante='" + idComprobante + '\'' +
                 ", idCliente=" + idCliente +
                 ", fecha='" + fecha + '\'' +

@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package Clases;
+
 import java.util.List;
 
 public class Carrito {
@@ -7,7 +8,7 @@ public class Carrito {
 
     ///-- CONSTRUCTO --
 
-    public Carrito(List<Producto> productos) {
+    public Carrito(Producto productos) {
         this.producto = producto;
 
     }
@@ -24,7 +25,7 @@ public class Carrito {
     ///-- METODOS --
     @Override
     public String toString() {
-        return "Carrito{" +
+        return "Clases.Carrito{" +
                 "producto=" + producto +
                 '}';
     }

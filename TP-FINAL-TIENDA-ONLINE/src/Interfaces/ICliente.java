@@ -1,17 +1,19 @@
 package Interfaces;
 
+import Clases.*;
+import sistema.SistemaTienda;
+
 public interface ICliente {
-    public void AgregarAlCarrito(Carrito producto);
+    public void AgregarAlCarrito(Producto producto);
     public void EliminarDelCarrito(String string);
-    public void ModificarPerfil(int opcion , int id);
-    public void EstablecerDomicilioDeEntrega(double nuevoDomicilio , int id);
-    public void HistorialDeCompra();
-    public void RealizarCompra(int id);
+    public void ModificarPerfil(SistemaTienda sistema, int opcion , int id);
+    public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,double nuevoDomicilio , int id);
+    public void AgregarHistorialDeCompra(Pedido pedido1);
+    public void RealizarCompra(SistemaTienda sistema,int id);
     public double ConfirmarPago(double precioTotal , Cliente c);
-    public void EstadoPedido();
-    public void DevolverProducto();
     public double mostrarCarrito();
-    public void crearPedido ();
+    public void crearPedido (Cliente c);
     public void verListaDePedidos();
+    public void HistorialDeCompra();
 
 }

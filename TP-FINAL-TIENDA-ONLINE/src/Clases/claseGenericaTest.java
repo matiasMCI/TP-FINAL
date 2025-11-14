@@ -1,3 +1,5 @@
+package Clases;
+
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.IDdontExistEX;
 
@@ -32,5 +34,7 @@ public class claseGenericaTest <T>{
         }
     }
 
-
+    public HashMap<String, T> getListaGenericaTest() {
+        return listaGenericaTest;
+    }
 }

@@ -1,3 +1,5 @@
+package Clases;
+
 import Enums.CategoriaProducto;
 
 public class Producto {
@@ -61,7 +63,7 @@ public class Producto {
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Clases.Producto{" +
                 "idProducto='" + idProducto + '\'' +
                 ", nombreProducto='" + nombreProducto + '\'' +
                 ", precio=" + precio +

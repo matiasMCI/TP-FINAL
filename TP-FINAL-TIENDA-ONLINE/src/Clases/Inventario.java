@@ -1,4 +1,4 @@
-import java.util.List;
+package Clases;
 
 public class Inventario {
 
@@ -34,7 +34,7 @@ public class Inventario {
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Inventario{" +
+        return "Clases.Inventario{" +
                 "IDpedido=" + IDpedido +
                 ", stock=" + stock +
                 '}';

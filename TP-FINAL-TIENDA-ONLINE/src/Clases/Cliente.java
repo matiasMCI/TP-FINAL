@@ -1,9 +1,12 @@
+package Clases;
+
 import Enums.ESTADO_CLIENTE;
 import Enums.TIPO_CLIENTE;
 import Excepciones.IDdontExistEX;
 import Excepciones.NameNotFoundEX;
 import Excepciones.OpcionInvalidaEX;
 import Interfaces.ICliente;
+import sistema.SistemaTienda;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +20,9 @@ public class Cliente extends Usuario implements ICliente {
     private int Edad;
     private TIPO_CLIENTE TipoCliente;
     private ESTADO_CLIENTE estado;
-    private List<Carrito> carrito;
+    private List<Producto> carrito;
     private double domicilio ;
-    private  List<HistorialDePedidos> HistorialDeCompras;
+    private  List<HistorialDePedidos> historialDeCompras;
     private  double fondos ;
     private Object pedido1;
     private List<Pedido> listaPedidos;
@@ -32,6 +35,9 @@ public class Cliente extends Usuario implements ICliente {
         this.estado = estado;
         this.domicilio = domicilio;
         this.fondos = fondos;
+
+        carrito = new ArrayList<>();
+        historialDeCompras = new ArrayList<>();
     }
 
     ///-- GETTERS SETTERS --
@@ -67,11 +73,11 @@ public class Cliente extends Usuario implements ICliente {
         this.estado = estado;
     }
 
-    public List<Carrito> getCarrito() {
+    public List<Producto> getProducto() {
         return carrito;
     }
 
-    public void setCarrito(List<Carrito> carrito) {
+    public void setProducto(List<Producto> carrito) {
         this.carrito = carrito;
     }
 
@@ -91,11 +97,19 @@ public class Cliente extends Usuario implements ICliente {
         this.fondos = fondos;
     }
 
+    public List<HistorialDePedidos> getHistorialDeCompras() {
+        return historialDeCompras;
+    }
+
+    public void setHistorialDeCompras(List<HistorialDePedidos> historialDeCompras) {
+        this.historialDeCompras = historialDeCompras;
+    }
+
     ///-- toSTRING --
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return "Clases.Cliente{" +
                 "Nombre='" + Nombre + '\'' +
                 ", Edad='" + Edad + '\'' +
                 ", TipoCliente=" + TipoCliente +
@@ -103,17 +117,16 @@ public class Cliente extends Usuario implements ICliente {
                 ", carrito=" + carrito +
                 '}';
     }
-    ///-- METODOS --
-    ///
+    ///-- METODOS --///
 
-    public void AgregarAlCarrito(Carrito producto){
+    public void AgregarAlCarrito(Producto producto){
         carrito.add(producto);
     }
 
     public double mostrarCarrito(){
         double precioTotal = 0;
-        for (Carrito c : carrito){
-            precioTotal += c.getProducto().getPrecio();
+        for ( Producto c : carrito){
+            precioTotal += c.getPrecio();
             System.out.println(c.toString());
         }
 
@@ -123,13 +136,12 @@ public class Cliente extends Usuario implements ICliente {
         return precioTotal;
     }
 
-
     public void EliminarDelCarrito(String string) throws NameNotFoundEX {
 
 int flag = 0;
 
-    for(Carrito c : carrito){
-        if (c.getProducto().getNombreProducto().equalsIgnoreCase(string)){
+    for(Producto c : carrito){
+        if (c.getNombreProducto().equalsIgnoreCase(string)){
                     carrito.remove(c);
                     flag = 1;
         }
@@ -139,18 +151,15 @@ int flag = 0;
         }
     }
 
-    public void ModificarPerfil(int opcion , int id) throws OpcionInvalidaEX, IDdontExistEX {
+    public void ModificarPerfil(SistemaTienda sistema,int opcion , int id) throws OpcionInvalidaEX, IDdontExistEX {
         int flag = 0;
         String continuar = "no";
         Scanner sc = new Scanner(System.in);
-        for (Cliente c : SistemaTienda.getListaDeClientes().listaGenerica){
+        for (Cliente c : sistema.getListaDeClientes().listaGenerica){
             if (c.getIDusuario() == id){
                 do {
                     flag = 1 ;
-                    System.out.println("(1)Modificar nombre: ");
-                    System.out.println("(2)Modificar email: ");
-                    System.out.println("(3)Modificar contrasena: ");
-                    System.out.println("(4)Modificar edad: ");
+
                     switch (opcion){
                         case 1 :
                             System.out.println("ingrese el nuevo nombre");
@@ -190,35 +199,43 @@ int flag = 0;
         }
         if (flag == 0){
             IDdontExistEX iDdontExistEX = new IDdontExistEX("El id ingresado no se encuentra en sistema");
+            System.out.println(iDdontExistEX.toString());
         }
 
 
     }
 
-    public void EstablecerDomicilioDeEntrega(double nuevoDomicilio , int id)throws IDdontExistEX{
+    public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,double nuevoDomicilio , int id)throws IDdontExistEX{
         int flag = 0;
-        for (Cliente c : SistemaTienda.getListaDeClientes().listaGenerica){
+        for (Cliente c : sistema.getListaDeClientes().listaGenerica){
             if(c.getIDusuario() == id){
 
                 flag = 1;
                 c.setDomicilio(nuevoDomicilio);
-
+                System.out.println(c.getDomicilio());
             }
         }
         if(flag == 0){
             IDdontExistEX iDdontExistEX = new IDdontExistEX("El id no se encuentra registrado en el sistema");
+            System.out.println(iDdontExistEX.toString());
         }
 
     }
 
-    public void HistorialDeCompra(){
-
+    public void AgregarHistorialDeCompra(Pedido pedido1){
+        HistorialDePedidos d = new HistorialDePedidos(pedido1);
+        historialDeCompras.add(d);
     }
 
+    public void HistorialDeCompra(){
+        for (HistorialDePedidos c : historialDeCompras){
+            System.out.println(c.toString());
+        }
+    }
 
-    public void RealizarCompra(int id) throws IDdontExistEX{
+    public void RealizarCompra(SistemaTienda sistema,int id) throws IDdontExistEX{
     int flag = 0 ;
-        for (Cliente c : SistemaTienda.getListaDeClientes().listaGenerica){
+        for (Cliente c : sistema.getListaDeClientes().listaGenerica){
         if (c.getIDusuario() == id){
            flag = 1;
             double precioTotal = mostrarCarrito();
@@ -227,6 +244,7 @@ int flag = 0;
     }
      if(flag == 0){
          IDdontExistEX iDdontExistEX = new IDdontExistEX("El id no esta registrado en el sistema");
+         System.out.println(iDdontExistEX.toString());
      }
     }
 
@@ -234,26 +252,29 @@ int flag = 0;
 
       List<Producto> productos = new ArrayList<>();
 
-   for (Carrito ca : carrito){
+   for (Producto ca : carrito){
 
-       productos.add(ca.getProducto());
+       productos.add(ca);
 
    }
 
        Pedido pedido1 = new Pedido(c.Nombre ,productos);
        listaPedidos.add(pedido1);
-    }
 
+    }
 
     public void verListaDePedidos(){
         for (Pedido p : listaPedidos){
-            p.toString();
+            System.out.println(p);
         }
     }
+
+
 
     public double ConfirmarPago(double precioTotal , Cliente c){
         Scanner sc = new Scanner(System.in);
         String confirmacion = "no";
+        double SF = 0;
         double saldoFinal;
         System.out.println("El precio total a pagar es de " + precioTotal);
         System.out.println("Desea Confirmar el pago ? ");
@@ -261,19 +282,15 @@ int flag = 0;
         if (confirmacion.equalsIgnoreCase("SI")){
             saldoFinal = c.getFondos()-precioTotal;
             crearPedido(c);
-            return saldoFinal;
+            SF=saldoFinal;
         }
         else {
             System.out.println("Pago cancelado");
         }
+        return SF;
     }
 
-    public void EstadoPedido(){
 
-    }
-    public void DevolverProducto(){
-
-    }
 
 
 }

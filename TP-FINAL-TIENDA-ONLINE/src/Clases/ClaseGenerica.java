@@ -1,3 +1,5 @@
+package Clases;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class ClaseGenerica <T>{
     public String verGenerico(){
         String res = "";
         for(T t : listaGenerica){
-            res = res + t.toString();
+            res += t.toString() + "\n";
         }
         return res;
     }

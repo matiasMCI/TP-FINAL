@@ -1,3 +1,5 @@
+package Clases;
+
 import Enums.EstadoPedido;
 
 import java.util.List;
@@ -52,7 +54,7 @@ public class Pedido {
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Pedido{" +
+        return "Clases.Pedido{" +
                 "IDpedido=" + IDpedido +
                 ", NombreCliente='" + NombreCliente + '\'' +
                 ", estadoPedido=" + estadoPedido +

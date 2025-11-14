@@ -1,20 +1,23 @@
 package Interfaces;
 
+import org.json.JSONArray;
+import sistema.SistemaTienda;
 import Enums.CategoriaProducto;
 
 public interface IAdministrador {
 
-    public void DarDeBajaCliente(int id);
-    public void DarDeAltaCliente(int id);
-    public void ModificarCliente(int id);
-    public void ModificarProducto();
-    public void DarDeBajaProducto(String id);
-    public void DarDeAltaProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion);
-    public void MostrarMasVendidos();
-    public void ClienteMasFrecuente();
-    public void VerClientes();
-    public void VerListaDeProductos();
-    public void VerPedidos();
-    public void VerComprobantes();
+    public void DarDeBajaCliente(SistemaTienda sistema,int id);
+    public void DarDeAltaCliente(SistemaTienda sistema,int id);
+    public void ModificarCliente(SistemaTienda sistema,int id);
+    public void ModificarProducto(SistemaTienda sistemaTienda, String id);
+    public void DarDeBajaProducto(SistemaTienda sistema,String id);
+    public void DarDeAltaProducto(SistemaTienda sistema,String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion);
+    public void MostrarMasVendidos(SistemaTienda sistema);
+    public void ClienteMasFrecuente(SistemaTienda sistema);
+    public void VerClientes(SistemaTienda sistema);
+    public void VerListaDeProductos(SistemaTienda sistema);
+    public void VerPedidos(SistemaTienda sistema);
+    public void cargarJsonProducto(SistemaTienda sistema );
+    public void cargarJsonClientes(SistemaTienda sistema);
 
 }

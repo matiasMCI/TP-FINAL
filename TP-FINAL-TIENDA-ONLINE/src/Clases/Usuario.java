@@ -1,3 +1,5 @@
+package Clases;
+
 public abstract class Usuario {
 private static int contador = 1;
 private int IDusuario;
@@ -44,7 +46,7 @@ private  String Contrasena;
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "Clases.Usuario{" +
                 "IDusuario=" + IDusuario +
                 ", Email='" + Email + '\'' +
                 ", Contrasena='" + Contrasena + '\'' +
