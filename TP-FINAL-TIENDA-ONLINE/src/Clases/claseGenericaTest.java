@@ -5,6 +5,12 @@ import Excepciones.IDdontExistEX;
 
 import java.util.HashMap;
 
+
+/**
+ * Clase genérica que maneja una lista de elementos de tipo T.
+ * Permite agregar, obtener y ver todos los elementos.
+ **/
+
 public class claseGenericaTest <T>{
     HashMap<String, T> listaGenericaTest = new HashMap<>();
 
