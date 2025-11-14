@@ -57,7 +57,7 @@ public class Administrador extends Usuario implements IAdministrador {
     ///-- METODOS --
 
 
-    public void DarDeBajaCliente(int id){
+    public void DarDeBajaCliente(SistemaTienda sistemaTienda, int id){
         for(Cliente cliente : SistemaTienda.getListaDeClientes().listaGenerica){
             if(cliente.getIDusuario() == id){
                 cliente.setEstado(ESTADO_CLIENTE.BAJA);

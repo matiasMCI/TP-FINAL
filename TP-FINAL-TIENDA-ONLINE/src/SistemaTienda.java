@@ -6,8 +6,8 @@ import Excepciones.IDdontExistEX;
 
 public class SistemaTienda {
 
-    private static claseGenericaTest<Producto> listaDeProductos;
-    private static ClaseGenerica<Cliente> listaDeClientes;
+    private claseGenericaTest<Producto> listaDeProductos;
+    private ClaseGenerica<Cliente> listaDeClientes;
     private ClaseGenerica<Pedido>listaDePedido;
     private ClaseGenerica<Administrador> listaDeAdministradores;
 
@@ -18,23 +18,19 @@ public class SistemaTienda {
         listaDeAdministradores = new ClaseGenerica<>();
     }
 
-
-
-
-
     ///-- METODOS --
 
 
-    public static void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
-        String id = producto.getIdProducto();
-        listaDeProductos.add(id,producto);
+    public void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
+
+        listaDeProductos.add(producto.getIdProducto(), producto);
     }
 
-    public static void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
+    public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
         Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion);
         agregarProducto(producto);
     }
-    public static void eliminarProducto(String idProducto)throws IDdontExistEX {
+    public void eliminarProducto(String idProducto)throws IDdontExistEX {
        listaDeProductos.remove(idProducto);
     }
 
@@ -59,13 +55,13 @@ public class SistemaTienda {
     }
 
 
-    public static void VerListaDeTodosLosProductos(){
+    public void VerListaDeTodosLosProductos(){
 
         listaDeProductos.mostrarGenericoTest();
 
     }
 
-    public static void VerListaDeTodosLosClientes(){
+    public void VerListaDeTodosLosClientes(){
 
         System.out.println(listaDeClientes.verGenerico());
 
@@ -88,11 +84,11 @@ public class SistemaTienda {
     }
 
 
-    public static claseGenericaTest<Producto> getListaDeProductos() {
+    public claseGenericaTest<Producto> getListaDeProductos() {
         return listaDeProductos;
     }
 
-    public static ClaseGenerica<Cliente> getListaDeClientes() {
+    public ClaseGenerica<Cliente> getListaDeClientes() {
         return listaDeClientes;
     }
 
