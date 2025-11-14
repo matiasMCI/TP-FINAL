@@ -124,6 +124,9 @@ public class Administrador extends Usuario implements IAdministrador {
     public void DarDeAltaProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion){
         SistemaTienda.agregarProducto(idProducto,nombreProducto,precio,categoriaProducto,descripcion);
     }
+    public void mostrarListaProductos(){
+        SistemaTienda.VerListaDeTodosLosProductos();
+    }
     public void MostrarMasVendidos(){
 
     }
