@@ -63,19 +63,29 @@ public class Administrador extends Usuario implements IAdministrador {
     ///-- METODOS --
 
 
-    public void DarDeBajaCliente(SistemaTienda sistema, int id){
+    public void DarDeBajaCliente(SistemaTienda sistema, int id)throws IDdontExistEX{
+        boolean flag = false;
         for(Cliente cliente : sistema.getListaDeClientes().listaGenerica){
             if(cliente.getIDusuario() == id){
                 cliente.setEstado(ESTADO_CLIENTE.BAJA);
             }
         }
+        if(flag == false){
+            throw new IDdontExistEX("No se encontro cliente con ese id...");
+        }
     }
 
-    public void DarDeAltaCliente(SistemaTienda sistema,int id){
+    public void DarDeAltaCliente(SistemaTienda sistema,int id)throws IDdontExistEX{
+        boolean flag = false;
         for(Cliente cliente : sistema.getListaDeClientes().listaGenerica){
             if(cliente.getIDusuario() == id){
                 cliente.setEstado(ESTADO_CLIENTE.ALTA);
             }
+        }
+
+
+        if(flag == false){
+            throw new IDdontExistEX("No se encontro cliente con ese id...");
         }
     }
 
@@ -208,12 +218,7 @@ public class Administrador extends Usuario implements IAdministrador {
 
        sistema.agregarProducto(idProducto,nombreProducto,precio,categoriaProducto,descripcion);
     }
-    public void MostrarMasVendidos(SistemaTienda sistema){
 
-
-
-
-    }
     public void ClienteMasFrecuente(SistemaTienda sistema){
 
       int  i=0 , mayor=0;

@@ -10,10 +10,10 @@ public interface ICliente {
     public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,double nuevoDomicilio , int id);
     public void AgregarHistorialDeCompra(Pedido pedido1);
     public void RealizarCompra(SistemaTienda sistema,int id);
-    public double ConfirmarPago(double precioTotal , Cliente c);
+    public double ConfirmarPago(SistemaTienda sistema , double precioTotal , Cliente c);
     public double mostrarCarrito();
-    public void crearPedido (Cliente c);
-    public void verListaDePedidos();
+    public void crearPedido (SistemaTienda sistema , Cliente c);
+    public void verListaDePedidos(SistemaTienda sistema);
     public void HistorialDeCompra();
 
 }

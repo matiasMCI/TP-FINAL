@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.classfile.attribute.PermittedSubclassesAttribute;
+import java.util.List;
 import java.util.Map;
 
 public class SistemaTienda {
@@ -34,6 +35,10 @@ public class SistemaTienda {
     public void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
 
         listaDeProductos.add(producto.getIdProducto(), producto);
+    }
+    public void agregarPedido(Pedido pedido)throws ElementoDuplicadoEx {
+            listaDePedido.agregarItem(pedido);
+
     }
 
     public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{

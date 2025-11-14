@@ -25,7 +25,7 @@ public class Cliente extends Usuario implements ICliente {
     private  List<HistorialDePedidos> historialDeCompras;
     private  double fondos ;
     private Object pedido1;
-    private List<Pedido> listaPedidos;
+
     ///-- CONSTRUCTOR --
     public Cliente( String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado , double domicilio , double fondos ) {
         super(email, contrasena);
@@ -239,7 +239,7 @@ int flag = 0;
         if (c.getIDusuario() == id){
            flag = 1;
             double precioTotal = mostrarCarrito();
-            c.setFondos(ConfirmarPago(precioTotal , c));
+            c.setFondos(ConfirmarPago(sistema, precioTotal , c));
         }
     }
      if(flag == 0){
@@ -248,30 +248,27 @@ int flag = 0;
      }
     }
 
-    public void crearPedido (Cliente c){
+    public void crearPedido (SistemaTienda sistema , Cliente c){
+        List<Producto> productarray = new ArrayList<>();
 
-      List<Producto> productos = new ArrayList<>();
-
-   for (Producto ca : carrito){
-
-       productos.add(ca);
-
-   }
-
-       Pedido pedido1 = new Pedido(c.Nombre ,productos);
-       listaPedidos.add(pedido1);
-
-    }
-
-    public void verListaDePedidos(){
-        for (Pedido p : listaPedidos){
-            System.out.println(p);
+        for (Producto p : carrito){
+            productarray.add(p);
         }
+
+        Pedido pedido = new Pedido(c.getNombre(), productarray);
+        sistema.agregarPedido(pedido);
     }
 
+    public void verListaDePedidos(SistemaTienda sistema) {
+
+        System.out.println(sistema.getListaDePedido().verGenerico());
 
 
-    public double ConfirmarPago(double precioTotal , Cliente c){
+    }
+ 
+
+
+    public double ConfirmarPago(SistemaTienda sistema ,double precioTotal , Cliente c){
         Scanner sc = new Scanner(System.in);
         String confirmacion = "no";
         double SF = 0;
@@ -281,7 +278,7 @@ int flag = 0;
         confirmacion = sc.nextLine();
         if (confirmacion.equalsIgnoreCase("SI")){
             saldoFinal = c.getFondos()-precioTotal;
-            crearPedido(c);
+            crearPedido(sistema,c);
             SF=saldoFinal;
         }
         else {

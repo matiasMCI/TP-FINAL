@@ -12,7 +12,6 @@ public interface IAdministrador {
     public void ModificarProducto(SistemaTienda sistemaTienda, String id);
     public void DarDeBajaProducto(SistemaTienda sistema,String id);
     public void DarDeAltaProducto(SistemaTienda sistema,String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion);
-    public void MostrarMasVendidos(SistemaTienda sistema);
     public void ClienteMasFrecuente(SistemaTienda sistema);
     public void VerClientes(SistemaTienda sistema);
     public void VerListaDeProductos(SistemaTienda sistema);
