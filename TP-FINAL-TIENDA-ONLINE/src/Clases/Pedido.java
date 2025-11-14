@@ -6,6 +6,12 @@ import java.util.List;
 
 public class Pedido {
 
+    /**
+     * la clase pedido son los datos que se van a guardar de una compra que luego se van a guardar en un historiar
+     * depedidos para la comodidad del cliente , esta guarda el id de pedido , el nombre del cliente , el estado del
+     * pedido y una lista de los productos que se compraron
+     */
+
     private int IDpedido = 1;
     private String NombreCliente;
     private EstadoPedido estadoPedido;

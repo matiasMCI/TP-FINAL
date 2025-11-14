@@ -12,6 +12,14 @@ import java.util.Scanner;
 
 public class Administrador extends Usuario implements IAdministrador {
 
+    /**
+     * Esta clase representa a los usuarios que van a poder controlar los clientes y productos
+     * de la pagina / app de ventas del supermercado , es el rol que tiene acceso a metodos mas especificos
+     * y importantes del sistema , como agregar productos o eliminar clientes
+     */
+
+
+
     private String nombre;
     private int edad;
     private int idAdmin;
@@ -211,8 +219,13 @@ public class Administrador extends Usuario implements IAdministrador {
         sistema.agregarCliente(email, contrasena, nombre, edad, tipoCliente, estado, domicilio, fondos);
     }
 
-    public void DarDeBajaProducto(SistemaTienda sistema, String id){
-        sistema.eliminarProducto(id);
+    public void DarDeBajaProducto(SistemaTienda sistema, String id)throws IDdontExistEX{
+        if(sistema.getListaDeProductos().getListaGenericaTest().containsKey(id)){
+            sistema.eliminarProducto(id);
+        }else{
+            throw new IDdontExistEX("No existe un producto con esa id...");
+        }
+
     }
     public void DarDeAltaProducto(SistemaTienda sistema, String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion){
 

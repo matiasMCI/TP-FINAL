@@ -14,7 +14,14 @@ import java.util.Scanner;
 
 public class Cliente extends Usuario implements ICliente {
 
-
+/**
+* La clase cliente
+* representa al usuario que va a usar la pagina / aplicacion del mercado para su consumo
+ * conntiene informacion como sus datos (nombre , edad , etc )
+ * e implementa metodos creados en una intefar para poder usar las opciones
+ * que la pagina permite a los clientes , como agregar al carrito , comprar , modificar su perfil , etc.
+*
+ */
 
     private String Nombre;
     private int Edad;
@@ -119,10 +126,13 @@ public class Cliente extends Usuario implements ICliente {
     }
     ///-- METODOS --///
 
+
+    ///  agrega un producto al carrito
     public void AgregarAlCarrito(Producto producto){
         carrito.add(producto);
     }
 
+    ///  muestra el carrito
     public double mostrarCarrito(){
         double precioTotal = 0;
         for ( Producto c : carrito){
@@ -135,7 +145,7 @@ public class Cliente extends Usuario implements ICliente {
         System.out.println("precio Total: " + precioTotal);
         return precioTotal;
     }
-
+///  eliminaa un elemento del carrito
     public void EliminarDelCarrito(String string) throws NameNotFoundEX {
 
 int flag = 0;
@@ -150,7 +160,7 @@ int flag = 0;
              throw new NameNotFoundEX("El nombre ingresado no se encuentra en el carrito, nombre: " + string);
         }
     }
-
+///  permite modificar al propio usuario sus datos
     public void ModificarPerfil(SistemaTienda sistema,int opcion , int id) throws OpcionInvalidaEX, IDdontExistEX {
         int flag = 0;
         String continuar = "no";
@@ -204,7 +214,7 @@ int flag = 0;
 
 
     }
-
+///  sirve para establecer el punto de entrega
     public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,double nuevoDomicilio , int id)throws IDdontExistEX{
         int flag = 0;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
@@ -222,17 +232,13 @@ int flag = 0;
 
     }
 
+    /// funcion para ir guardando los pedidos en un historial de pedidos
     public void AgregarHistorialDeCompra(Pedido pedido1){
         HistorialDePedidos d = new HistorialDePedidos(pedido1);
         historialDeCompras.add(d);
     }
 
-    public void HistorialDeCompra(){
-        for (HistorialDePedidos c : historialDeCompras){
-            System.out.println(c.toString());
-        }
-    }
-
+/// realiza la compra del carrito entero
     public void RealizarCompra(SistemaTienda sistema,int id) throws IDdontExistEX{
     int flag = 0 ;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
@@ -240,6 +246,7 @@ int flag = 0;
            flag = 1;
             double precioTotal = mostrarCarrito();
             c.setFondos(ConfirmarPago(sistema, precioTotal , c));
+            System.out.println("Fondos: "+c.getFondos());
         }
     }
      if(flag == 0){
@@ -247,7 +254,7 @@ int flag = 0;
          System.out.println(iDdontExistEX.toString());
      }
     }
-
+/// funcion que se ejectua cada ves que se confirma una compra , crea un pedidio de ella
     public void crearPedido (SistemaTienda sistema , Cliente c){
         List<Producto> productarray = new ArrayList<>();
 
@@ -257,17 +264,18 @@ int flag = 0;
 
         Pedido pedido = new Pedido(c.getNombre(), productarray);
         sistema.agregarPedido(pedido);
+        HistorialDePedidos hd = new HistorialDePedidos(pedido);
+        historialDeCompras.add(hd);
     }
+    ///  muestra el historial de pedidos
+    public void verListaDePedidos(SistemaTienda sistema ) {
 
-    public void verListaDePedidos(SistemaTienda sistema) {
-
+       for (HistorialDePedidos his : historialDeCompras)
         System.out.println(sistema.getListaDePedido().verGenerico());
 
 
     }
- 
-
-
+/// funcion que se ejecuta al usar la funcion de realizar compra , esta te pregunta si queres realizar el pago y crea el pedido con la funcionn crear pedido
     public double ConfirmarPago(SistemaTienda sistema ,double precioTotal , Cliente c){
         Scanner sc = new Scanner(System.in);
         String confirmacion = "no";

@@ -1,0 +1,37 @@
+[
+    {
+        "descripcion": "Laptop empresarial de 14 pulgadas, 16GB RAM, SSD 512GB",
+        "precio": 899.99,
+        "CategoriaProducto": "TECNOLOGIA",
+        "IdProducto": "PROD001",
+        "nombreProducto": "Laptop Lenovo ThinkPad"
+    },
+    {
+        "descripcion": "Auriculares inalámbricos con cancelación de ruido",
+        "precio": 299.99,
+        "CategoriaProducto": "TECNOLOGIA",
+        "IdProducto": "PROD002",
+        "nombreProducto": "Auriculares Sony WH-1000XM4"
+    },
+    {
+        "descripcion": "Café tostado premium de origen colombiano",
+        "precio": 14.5,
+        "CategoriaProducto": "ALIMENTOS",
+        "IdProducto": "PROD003",
+        "nombreProducto": "Café Colombiano Premium 1kg"
+    },
+    {
+        "descripcion": "Camiseta 100% algodón, cómoda y durable",
+        "precio": 12.99,
+        "CategoriaProducto": "INDUMENTARIA",
+        "IdProducto": "PROD004",
+        "nombreProducto": "Camiseta Negra Unisex"
+    },
+    {
+        "descripcion": "Silla ergonómica para juegos y oficina",
+        "precio": 189,
+        "CategoriaProducto": "HOGAR",
+        "IdProducto": "PROD005",
+        "nombreProducto": "Silla Gamer Cougar"
+    }
+]

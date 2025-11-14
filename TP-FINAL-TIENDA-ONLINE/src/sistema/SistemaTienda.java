@@ -13,14 +13,25 @@ import java.lang.classfile.attribute.PermittedSubclassesAttribute;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase SistemaTienda.
+ * Gestiona los productos, clientes, pedidos y administradores de la tienda.
+ * Permite agregar, eliminar y consultar elementos, y exportar datos a JSON.
+ *
+ */
+
 public class SistemaTienda {
 
     private claseGenericaTest<Producto> listaDeProductos;
     private ClaseGenerica<Cliente> listaDeClientes;
     private ClaseGenerica<Pedido> listaDePedido;
     private ClaseGenerica<Administrador> listaDeAdministradores;
-    private static final String JSONproductos = "productos.txt";
-    private static final String JSONclientes = "clientes.txt";
+    private static final String JSONproductos = "productos";
+    private static final String JSONclientes = "clientes";
+
+    /**
+     * Constructor. Inicializa las listas de productos, clientes, pedidos y administradores.
+     */
 
     public SistemaTienda() {
         listaDeClientes = new ClaseGenerica<>();
@@ -31,24 +42,42 @@ public class SistemaTienda {
 
     ///-- METODOS --
 
-
+    /**
+     * Agrega un producto a la tienda.
+     *
+     * Exception ElementoDuplicadoEx Si el producto ya existe.
+     */
     public void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
 
         listaDeProductos.add(producto.getIdProducto(), producto);
     }
+    public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
+        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion);
+        agregarProducto(producto);
+    }
+
+
+    /**
+     * Agrega un pedido en la tienda.
+     *
+     * Exception ElementoDuplicadoEx Si el pedido ya existe.
+     */
     public void agregarPedido(Pedido pedido)throws ElementoDuplicadoEx {
             listaDePedido.agregarItem(pedido);
 
     }
 
-    public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
-        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion);
-        agregarProducto(producto);
-    }
+
     public void eliminarProducto(String idProducto)throws IDdontExistEX {
        listaDeProductos.remove(idProducto);
     }
 
+
+    /**
+     * Agrega un Cliente en la tienda.
+     *
+     *
+     */
     public void agregarCliente(Cliente cliente) {
         listaDeClientes.agregarItem(cliente);
     }
@@ -58,16 +87,23 @@ public class SistemaTienda {
         agregarCliente(cliente);
     }
 
+    /**
+     * Agrega un Administrador en la tienda.
+     *
+     *
+     */
+
     public void agregarAdministrador(Administrador administrador) {
         listaDeAdministradores.agregarItem(administrador);
     }
-
 
 
     public void agregarAdministrador(String nombre,String email, String contrasena,  int edad, int idAdmin){
         Administrador admin = new Administrador(email, contrasena, nombre, edad, idAdmin);
         agregarAdministrador(admin);
     }
+
+
 
 
     public void VerListaDeTodosLosProductos(){
@@ -106,6 +142,12 @@ public class SistemaTienda {
         return null;
     }
 
+
+    /**
+     * Obtiene un producto por su ID.
+     *
+     * Exception IDdontExistEX Si no se encuentra el producto.
+     */
     public Producto getProductoPorID(SistemaTienda sistemaTienda, String id)throws IDdontExistEX{
         Producto producto = sistemaTienda.getListaDeProductos().getPorId(id);
         if (producto == null ){
@@ -131,6 +173,12 @@ public class SistemaTienda {
     }
 
 
+    /**
+     * Convierte la lista de productos a JSONArray para exportar a JSON.
+     *
+     */
+
+
     public JSONArray productosToJSON(){
 
         JSONArray jsonArrayProductos = new JSONArray();
@@ -152,9 +200,11 @@ public class SistemaTienda {
     }
 
 
-  // String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado , double domicilio , double fondos , email contrasena
 
-
+    /**
+     * Convierte la lista de productos a JSONArray para exportar a JSON.
+     *
+     */
 
     public  JSONArray ClientesToJSON(){
         JSONArray PULLclientes = new JSONArray() ;

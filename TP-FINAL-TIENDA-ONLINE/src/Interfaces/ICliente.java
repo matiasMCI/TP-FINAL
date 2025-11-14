@@ -14,6 +14,6 @@ public interface ICliente {
     public double mostrarCarrito();
     public void crearPedido (SistemaTienda sistema , Cliente c);
     public void verListaDePedidos(SistemaTienda sistema);
-    public void HistorialDeCompra();
+
 
 }

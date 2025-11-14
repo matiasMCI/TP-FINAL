@@ -8,7 +8,7 @@ import java.io.*;
 public class JSONUtiles {
     public static void uploadJSON(JSONArray jsonArray, String archive){
         try{
-            BufferedWriter salida = new BufferedWriter(new FileWriter(archive+".txt"));
+            BufferedWriter salida = new BufferedWriter(new FileWriter(archive+".json"));
             salida.write(jsonArray.toString(4));
             salida.flush();
             salida.close();

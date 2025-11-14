@@ -1,4 +1,13 @@
 package Clases;
+/**
+*
+* La clase abstracta Usuario sirve como base en la creacion de
+ * clases CLientes y Administradores
+*
+*
+ */
+
+
 
 public abstract class Usuario {
 private static int contador = 1;

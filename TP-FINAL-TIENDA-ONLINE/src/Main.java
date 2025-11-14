@@ -3,6 +3,7 @@ import Clases.Cliente;
 import Enums.CategoriaProducto;
 import Enums.ESTADO_CLIENTE;
 import Enums.TIPO_CLIENTE;
+import Excepciones.IDdontExistEX;
 import sistema.SistemaTienda;
 
 import java.util.Scanner;
@@ -48,15 +49,12 @@ public class Main {
 
         ///administrador.VerClientes(sistemaTienda);
 
-        ///
-
-
         Cliente cliente = sistemaTienda.getClientePorID(2);
-        System.out.println(cliente.toString());
+        ///System.out.println(cliente.toString());
 
-        cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD002"));
-        cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD003"));
-        cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD004"));
+        /// cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD002"));
+        /// cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD003"));
+        /// cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, "PROD004"));
 
 
         /// Entrada al sistema
@@ -68,7 +66,7 @@ public class Main {
         System.out.println("--------Bienvenido----------");
         System.out.println("Ingrese su ID");
         int id = sc.nextInt();
-        for ( Cliente  c : sistemaTienda.getListaDeClientes().getListaGenerica()){
+        for ( Cliente  c : sistemaTienda.getListaDeClientes().getListaGenerica()) {
 
             if (id == c.getIDusuario()) {
                 System.out.println("-- BIENVENIDO AL SISTEMA CLIENTE --");
@@ -95,7 +93,7 @@ public class Main {
 
                                 System.out.println("ingrese el id del producto");
                                 String res = sc.nextLine();
-                                cliente.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, res));
+                                c.AgregarAlCarrito(sistemaTienda.getProductoPorID(sistemaTienda, res));
 
                                 System.out.println("desea continuar?");
                                 continuar = sc.nextLine();
@@ -108,7 +106,7 @@ public class Main {
 
                                 System.out.println("ingrese el nombre del producto a eliminar");
                                 String res = sc.nextLine();
-                                cliente.EliminarDelCarrito(res);
+                                c.EliminarDelCarrito(res);
                                 System.out.println("desea continuar?");
 
                                 continuar = sc.nextLine();
@@ -124,7 +122,7 @@ public class Main {
                             System.out.println("(4)Modificar edad: ");
 
                             int cambio = sc.nextInt();
-                            cliente.ModificarPerfil(sistemaTienda, cambio, id);
+                            c.ModificarPerfil(sistemaTienda, cambio, id);
 
 
                             break;
@@ -132,23 +130,24 @@ public class Main {
 
                             System.out.println("ingrese el nombre y altura de su nuevo domicilio");
                             double nuevoDomicilio = sc.nextDouble();
-                            cliente.EstablecerDomicilioDeEntrega(sistemaTienda, nuevoDomicilio, id);
+                            c.EstablecerDomicilioDeEntrega(sistemaTienda, nuevoDomicilio, id);
 
                             break;
                         case 5:
 
-                            cliente.RealizarCompra(sistemaTienda, id);
+                            c.RealizarCompra(sistemaTienda, id);
+
 
                             break;
                         case 6:
-                            cliente.HistorialDeCompra();
+                            c.verListaDePedidos(sistemaTienda);
                             break;
+
                         default:
                             System.out.println("Opcion invalida...");
                             break;
 
                     }
-
 
 
                     System.out.println("Desea continuar? si/no: ");
@@ -157,8 +156,8 @@ public class Main {
                 } while (continuar.equalsIgnoreCase("si"));
 
             }
+        }
 
-            else {
                 for (Administrador administrador1 : sistemaTienda.getListaDeAdministradores().getListaGenerica()){
 
                     if (id == administrador1.getIDusuario()){
@@ -193,35 +192,54 @@ public class Main {
 
                                      break;
                                  case 2:
-                                     administrador1.DarDeAltaProducto(sistemaTienda,"PROD006", "Coca cola", 2500.00, CategoriaProducto.BEBIDA, "Coca cola de 1.5 lts");
+
+                                         administrador1.DarDeAltaProducto(sistemaTienda, "PROD006", "Coca cola", 2500.00, CategoriaProducto.BEBIDA, "Coca cola de 1.5 lts");
 
                                      break;
                                  case 3:
-                                     System.out.println("Ingrese el id del cliente a dar de alta: ");
-                                     idCliente = sc.nextInt();
-                                     administrador1.DarDeAltaCliente(sistemaTienda,idCliente);
+                                     try {
+                                         System.out.println("Ingrese el id del cliente a dar de alta: ");
+                                         idCliente = sc.nextInt();
+                                         administrador1.DarDeAltaCliente(sistemaTienda, idCliente);
+                                     }catch (IDdontExistEX e){
+                                         System.out.println("error al dar de alta cliente:" + e.getMessage());
+                                     }
                                      break;
                                  case 4:
-                                     System.out.println("Ingrese el id del cliente a dar de baja: ");
-                                     idCliente = sc.nextInt();
-                                     administrador1.DarDeBajaCliente(sistemaTienda, idCliente);
-
+                                     try {
+                                         System.out.println("Ingrese el id del cliente a dar de baja: ");
+                                         idCliente = sc.nextInt();
+                                         administrador1.DarDeBajaCliente(sistemaTienda, idCliente);
+                                     }catch (IDdontExistEX e){
+                                         System.out.println("error al dar de baja cleinte: " + e.getMessage());
+                                     }
                                      break;
                                  case 5:
-                                     System.out.println("Ingrese el producto a eliminar: ");
-                                     idProducto = sc.nextLine();
-                                     administrador1.DarDeBajaProducto(sistemaTienda, idProducto);
+                                     try {
+                                         System.out.println("Ingrese el producto a eliminar: ");
+                                         idProducto = sc.nextLine();
+                                         administrador1.DarDeBajaProducto(sistemaTienda, idProducto);
+                                     }catch (IDdontExistEX e){
+                                         System.out.println("Error al eliminar producto; " + e.getMessage());
+                                     }
                                      break;
                                  case 6:
-                                     System.out.println("Ingrese la id del cliente a modificar: ");
-                                     idCliente = sc.nextInt();
-                                     administrador1.ModificarCliente(sistemaTienda,idCliente);
-
+                                     try {
+                                         System.out.println("Ingrese la id del cliente a modificar: ");
+                                         idCliente = sc.nextInt();
+                                         administrador1.ModificarCliente(sistemaTienda, idCliente);
+                                     }catch (IDdontExistEX e){
+                                         System.out.println("Error al modificar cliente: " + e.getMessage());
+                                     }
                                      break;
                                  case 7:
-                                     System.out.println("Ingrese la id del producto a modificar: ");
-                                     idProducto = sc.nextLine();
-                                     administrador1.ModificarProducto(sistemaTienda, idProducto);
+                                     try {
+                                         System.out.println("Ingrese la id del producto a modificar: ");
+                                         idProducto = sc.nextLine();
+                                         administrador1.ModificarProducto(sistemaTienda, idProducto);
+                                     }catch (IDdontExistEX e){
+                                         System.out.println("Error al modificar producto: "+ e.getMessage());
+                                     }
                                      break;
                                  case 8:
                                      administrador1.VerClientes(sistemaTienda);
@@ -251,7 +269,10 @@ public class Main {
 
                     }
                 }
+
+        System.out.println("Saliendo del sistema adios...");
             }
+
         }
 
 
@@ -275,5 +296,3 @@ public class Main {
 
 
 
-    }
-}

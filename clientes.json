@@ -1,0 +1,72 @@
+[
+    {
+        "Tipo de cliente": "DISCAPACIDAD",
+        "estado del cliente": "ALTA",
+        "contrasena": "martin123",
+        "fondos del cliente": 12000,
+        "nombre": "Martín López",
+        "edad": 28,
+        "email": "martin.lopez@gmail.com",
+        "domicilio ": 500
+    },
+    {
+        "Tipo de cliente": "SOCIO_MARKETforSMILES",
+        "estado del cliente": "ALTA",
+        "contrasena": "carlaPass",
+        "fondos del cliente": 45000,
+        "nombre": "Carla Méndez",
+        "edad": 35,
+        "email": "carla_mendez@hotmail.com",
+        "domicilio ": 300
+    },
+    {
+        "Tipo de cliente": "JUBILADO",
+        "estado del cliente": "BAJA",
+        "contrasena": "juan2024",
+        "fondos del cliente": 8000,
+        "nombre": "Juan Pérez",
+        "edad": 42,
+        "email": "juan.perez@yahoo.com",
+        "domicilio ": 700
+    },
+    {
+        "Tipo de cliente": "UNIVERSITARIO",
+        "estado del cliente": "ALTA",
+        "contrasena": "sofi789",
+        "fondos del cliente": 32000,
+        "nombre": "Sofía Rivera",
+        "edad": 22,
+        "email": "sofia.rivera@gmail.com",
+        "domicilio ": 250
+    },
+    {
+        "Tipo de cliente": "SOCIO_MARKETforSMILES",
+        "estado del cliente": "ALTA",
+        "contrasena": "nicoPass",
+        "fondos del cliente": 75000,
+        "nombre": "Nicolás García",
+        "edad": 31,
+        "email": "nicolas.garcia@outlook.com",
+        "domicilio ": 150
+    },
+    {
+        "Tipo de cliente": "SOCIO_MARKETforSMILES",
+        "estado del cliente": "ALTA",
+        "contrasena": "vale2023",
+        "fondos del cliente": 2000,
+        "nombre": "Valeria Montes",
+        "edad": 27,
+        "email": "valeria.montes@gmail.com",
+        "domicilio ": 600
+    },
+    {
+        "Tipo de cliente": "SOCIO_MARKETforSMILES",
+        "estado del cliente": "ALTA",
+        "contrasena": "rojas456",
+        "fondos del cliente": 56000,
+        "nombre": "Pablo Rojas",
+        "edad": 45,
+        "email": "pablo_rojas@gmail.com",
+        "domicilio ": 400
+    }
+]

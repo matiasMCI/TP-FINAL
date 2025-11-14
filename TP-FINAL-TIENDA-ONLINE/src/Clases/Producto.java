@@ -2,6 +2,13 @@ package Clases;
 
 import Enums.CategoriaProducto;
 
+
+/**
+ * La clase Producto representa un artículo disponible en una tienda.
+ *  Contiene información sobre el id, nombre y precio del producto.
+ *
+ */
+
 public class Producto {
 
     private String  idProducto;
