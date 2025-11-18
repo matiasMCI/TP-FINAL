@@ -12,39 +12,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cliente extends Usuario implements ICliente {
+public class Cliente extends Usuario  {
 
-/**
-* La clase cliente
-* representa al usuario que va a usar la pagina / aplicacion del mercado para su consumo
- * conntiene informacion como sus datos (nombre , edad , etc )
- * e implementa metodos creados en una intefar para poder usar las opciones
- * que la pagina permite a los clientes , como agregar al carrito , comprar , modificar su perfil , etc.
-*
- */
+
 
     private String Nombre;
     private int Edad;
+    private  double fondos ;
     private TIPO_CLIENTE TipoCliente;
     private ESTADO_CLIENTE estado;
     private List<Producto> carrito;
-    private double domicilio ;
+    private String domicilio ;
     private  List<HistorialDePedidos> historialDeCompras;
-    private  double fondos ;
-    private Object pedido1;
+
 
     ///-- CONSTRUCTOR --
-    public Cliente( String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado , double domicilio , double fondos ) {
-        super(email, contrasena);
+    public Cliente( String nombre, String email, String contrasena, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado) {
+        super(nombre,email, contrasena);
         this.Nombre = nombre;
         this.Edad = edad;
         this.TipoCliente = tipoCliente;
-        this.estado = estado;
-        this.domicilio = domicilio;
-        this.fondos = fondos;
-
-        carrito = new ArrayList<>();
-        historialDeCompras = new ArrayList<>();
+        this.estado = ESTADO_CLIENTE.BAJA;
+        this.domicilio = "";
+        this.fondos = 0;
     }
 
     ///-- GETTERS SETTERS --
@@ -62,6 +52,18 @@ public class Cliente extends Usuario implements ICliente {
 
     public void setEdad(int edad) {
         Edad = edad;
+    }
+
+    public List<Producto> getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(List<Producto> carrito) {
+        this.carrito = carrito;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 
     public TIPO_CLIENTE getTipoCliente() {
@@ -88,12 +90,8 @@ public class Cliente extends Usuario implements ICliente {
         this.carrito = carrito;
     }
 
-    public double getDomicilio() {
+    public String getDomicilio() {
         return domicilio;
-    }
-
-    public void setDomicilio(double domicilio) {
-        this.domicilio = domicilio;
     }
 
     public double getFondos() {
@@ -161,12 +159,12 @@ int flag = 0;
         }
     }
 ///  permite modificar al propio usuario sus datos
-    public void ModificarPerfil(SistemaTienda sistema,int opcion , int id) throws OpcionInvalidaEX, IDdontExistEX {
+    public void ModificarPerfil(SistemaTienda sistema,int opcion , String id) throws OpcionInvalidaEX, IDdontExistEX {
         int flag = 0;
         String continuar = "no";
         Scanner sc = new Scanner(System.in);
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
-            if (c.getIDusuario() == id){
+            if (c.getIDusuario().equals(id)){
                 do {
                     flag = 1 ;
 
@@ -215,10 +213,10 @@ int flag = 0;
 
     }
 ///  sirve para establecer el punto de entrega
-    public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,double nuevoDomicilio , int id)throws IDdontExistEX{
+    public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,String nuevoDomicilio , String id)throws IDdontExistEX{
         int flag = 0;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
-            if(c.getIDusuario() == id){
+            if(c.getIDusuario().equals(id)){
 
                 flag = 1;
                 c.setDomicilio(nuevoDomicilio);
@@ -239,10 +237,10 @@ int flag = 0;
     }
 
 /// realiza la compra del carrito entero
-    public void RealizarCompra(SistemaTienda sistema,int id) throws IDdontExistEX{
+    public void RealizarCompra(SistemaTienda sistema,String id) throws IDdontExistEX{
     int flag = 0 ;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
-        if (c.getIDusuario() == id){
+        if (c.getIDusuario().equals(id)){
            flag = 1;
             double precioTotal = mostrarCarrito();
             c.setFondos(ConfirmarPago(sistema, precioTotal , c));

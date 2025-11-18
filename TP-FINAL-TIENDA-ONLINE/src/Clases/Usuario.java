@@ -10,56 +10,79 @@ package Clases;
 
 
 public abstract class Usuario {
-private static int contador = 1;
-private int IDusuario;
+        private static int contador = 1;
 
-private String Email;
+        private String IDusuario;
+        private String nombre;
+        private String Email;
+        private  String Contrasena;
 
-private  String Contrasena;
+            ///-- CONSTRUCTOR --
+            public Usuario(String nombre, String email, String contrasena) {
 
-    ///-- CONSTRUCTOR --
-    public Usuario( String email, String contrasena) {
-
-        this.IDusuario = contador++;
-        this.Email = email;
-        this.Contrasena = contrasena;
+                this.IDusuario = idGenerador();
+                this.nombre = nombre;
+                this.Email = email;
+                this.Contrasena = contrasena;
 
 
-    }
+            }
 
     ///-- GETTERS SETTERS --
-    public int getIDusuario() {
-        return IDusuario;
+
+    public static int getContador() {
+        return contador;
     }
 
-    public void setIDusuario(int IDusuario) {
+    public static void setContador(int contador) {
+        Usuario.contador = contador;
+    }
+
+    public void setIDusuario(String IDusuario) {
         this.IDusuario = IDusuario;
     }
 
-    public String getEmail() {
-        return Email;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    private String idGenerador(){
+                return "ID" + contador++;
     }
 
-    public String getContrasena() {
-        return Contrasena;
+    public String getIDusuario() {
+        return IDusuario;
     }
 
-    public void setContrasena(String contrasena) {
-        Contrasena = contrasena;
-    }
 
-    ///-- toSTRING --
+
+
+
+            public String getEmail() {
+                return Email;
+            }
+
+            public void setEmail(String email) {
+                Email = email;
+            }
+
+            public String getContrasena() {
+                return Contrasena;
+            }
+
+            public void setContrasena(String contrasena) {
+                Contrasena = contrasena;
+            }
+
+            ///-- toSTRING --
     @Override
     public String toString() {
-        return "Clases.Usuario{" +
-                "IDusuario=" + IDusuario +
-                ", Email='" + Email + '\'' +
-                ", Contrasena='" + Contrasena + '\'' +
-                '}';
+        return "ID='" + IDusuario + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", Email='" + Email + '\'';
     }
 }
 

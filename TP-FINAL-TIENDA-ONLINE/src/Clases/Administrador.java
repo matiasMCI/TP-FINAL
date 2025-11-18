@@ -10,7 +10,7 @@ import sistema.SistemaTienda;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Administrador extends Usuario implements IAdministrador {
+public class Administrador extends Usuario {
 
     /**
      * Esta clase representa a los usuarios que van a poder controlar los clientes y productos
@@ -26,7 +26,7 @@ public class Administrador extends Usuario implements IAdministrador {
 
     ///-- CONSTRUCTOR --
     public Administrador( String nombre,String email, String contrasena, int edad, int idAdmin) {
-        super(email, contrasena);
+        super(nombre, email, contrasena);
         this.nombre = nombre;
         this.edad = edad;
         this.idAdmin = idAdmin;
@@ -71,10 +71,10 @@ public class Administrador extends Usuario implements IAdministrador {
     ///-- METODOS --
 
 
-    public void DarDeBajaCliente(SistemaTienda sistema, int id)throws IDdontExistEX{
+    public void DarDeBajaCliente(SistemaTienda sistema, String id)throws IDdontExistEX{
         boolean flag = false;
         for(Cliente cliente : sistema.getListaDeClientes().listaGenerica){
-            if(cliente.getIDusuario() == id){
+            if(cliente.getIDusuario().equals(id)){
                 cliente.setEstado(ESTADO_CLIENTE.BAJA);
             }
         }
@@ -83,10 +83,10 @@ public class Administrador extends Usuario implements IAdministrador {
         }
     }
 
-    public void DarDeAltaCliente(SistemaTienda sistema,int id)throws IDdontExistEX{
+    public void DarDeAltaCliente(SistemaTienda sistema,String id)throws IDdontExistEX{
         boolean flag = false;
         for(Cliente cliente : sistema.getListaDeClientes().listaGenerica){
-            if(cliente.getIDusuario() == id){
+            if(cliente.getIDusuario().equals(id)){
                 cliente.setEstado(ESTADO_CLIENTE.ALTA);
             }
         }
@@ -97,13 +97,13 @@ public class Administrador extends Usuario implements IAdministrador {
         }
     }
 
-    public void ModificarCliente(SistemaTienda sistema, int id) throws IDdontExistEX{
+    public void ModificarCliente(SistemaTienda sistema, String id) throws IDdontExistEX{
         boolean flag = false;
         String continuar;
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingrese opcion: ");
         for(Cliente cliente : sistema.getListaDeClientes().listaGenerica){
-            if(cliente.getIDusuario() == id){
+            if(cliente.getIDusuario().equals(id)){
                 flag=true;
                 do {
                     System.out.println("(1)Modificar nombre: ");
@@ -214,10 +214,10 @@ public class Administrador extends Usuario implements IAdministrador {
     }
 
 
-
+/*
     public void agregarCliente(SistemaTienda sistema, String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado, double domicilio , double fondos){
         sistema.agregarCliente(email, contrasena, nombre, edad, tipoCliente, estado, domicilio, fondos);
-    }
+    }*/
 
     public void DarDeBajaProducto(SistemaTienda sistema, String id)throws IDdontExistEX{
         if(sistema.getListaDeProductos().getListaGenericaTest().containsKey(id)){

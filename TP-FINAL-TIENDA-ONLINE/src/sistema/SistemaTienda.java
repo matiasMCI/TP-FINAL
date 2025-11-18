@@ -82,8 +82,8 @@ public class SistemaTienda {
         listaDeClientes.agregarItem(cliente);
     }
 
-    public void agregarCliente(String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado, double domicilio , double fondos){
-        Cliente cliente = new Cliente(email,contrasena,nombre,edad,tipoCliente,estado,domicilio,fondos);
+    public void agregarCliente(String email, String contrasena, String nombre, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado, String domicilio , double fondos){
+        Cliente cliente = new Cliente(email,contrasena,nombre,edad,tipoCliente,estado);
         agregarCliente(cliente);
     }
 
@@ -125,17 +125,17 @@ public class SistemaTienda {
     }
 
 
-    public Administrador getAdminPorID(int id){
+    public Administrador getAdminPorID(String id){
         for(Administrador admin : listaDeAdministradores.getListaGenerica()){
-            if(admin.getIDusuario() == id){
+            if(admin.getIDusuario().equals(id)){
                 return admin;
             }
         }
         return null;
     }
-    public Cliente getClientePorID(int id){
+    public Cliente getClientePorID(String id){
         for(Cliente cliente : listaDeClientes.getListaGenerica()){
-            if(cliente.getIDusuario() == id){
+            if(cliente.getIDusuario().equals(id)){
                 return cliente;
             }
         }
