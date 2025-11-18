@@ -25,7 +25,7 @@ public class Administrador extends Usuario {
     private int idAdmin;
 
     ///-- CONSTRUCTOR --
-    public Administrador( String nombre,String email, String contrasena, int edad, int idAdmin) {
+    public Administrador( String nombre,String email, String contrasena) {
         super(nombre, email, contrasena);
         this.nombre = nombre;
         this.edad = edad;

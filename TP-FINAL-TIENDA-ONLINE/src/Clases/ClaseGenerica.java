@@ -13,8 +13,6 @@ public class ClaseGenerica <T>{
         listaGenerica.add(t);
     }
 
-
-
     public String verGenerico(){
         String res = "";
         for(T t : listaGenerica){
@@ -22,7 +20,9 @@ public class ClaseGenerica <T>{
         }
         return res;
     }
-
+    public boolean isListaVacia(){
+        return listaGenerica.isEmpty();
+    }
     public T get(int indice) {
         indice = indice-1;
         return listaGenerica.get(indice);
