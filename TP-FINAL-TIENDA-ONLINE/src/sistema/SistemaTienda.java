@@ -6,6 +6,7 @@ import Enums.ESTADO_CLIENTE;
 import Enums.TIPO_CLIENTE;
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.IDdontExistEX;
+import JSONUtiles.JSONUtiles;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,11 +26,11 @@ public class SistemaTienda {
 
 
 
+    private ClaseGenericaMap<Admin> listaAdmin;
+    private ClaseGenericaMap<Cliente> listaCliente;
+    private ClaseGenericaMap<Producto> listaProductos;
+    private ClaseGenericaMap<Pedido>listaPedidos;
 
-    private claseGenericaTest<Producto> listaDeProductos;
-    private ClaseGenerica<Cliente> listaDeCliente;
-    private ClaseGenerica<Pedido> listaDePedido;
-    private ClaseGenerica<Administrador> listaDeAdmin;
 
 
     /**
@@ -37,96 +38,35 @@ public class SistemaTienda {
      */
 
     public SistemaTienda() {
-        listaDeCliente = new ClaseGenerica<>();
-        listaDePedido = new ClaseGenerica<>();
-        listaDeProductos = new claseGenericaTest<>();
-        listaDeAdmin = new ClaseGenerica<>();
+        listaAdmin = new ClaseGenericaMap<>();
+        listaCliente = new ClaseGenericaMap<>();
+        listaProductos = new ClaseGenericaMap<>();
+        listaPedidos = new ClaseGenericaMap<>();
     }
 
     ///-- METODOS --
 
 
     /// Funciones de agregarcion por menu
-    public void agregarCliente(String nombre, String email, String contrasena, int edad,TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado){
-        Cliente cliente = new Cliente(nombre, email, contrasena, edad,tipoCliente,estado);
-        listaDeCliente.agregarItem(cliente);
+    public void agregarCliente(String nombre, String email, String contrasena, int edad){
+        Cliente cliente = new Cliente(nombre, email, contrasena, edad);
+        listaCliente.agregarGenerico(cliente.getIDusuario(),cliente);
     }
     public void agregarAdmin(String nombre, String email, String contrasena){
-        Administrador admin = new Administrador(nombre, email, contrasena);
-        listaDeAdmin.agregarItem(admin);
+        Admin admin = new Admin(nombre, email, contrasena);
+        listaAdmin.agregarGenerico(admin.getIDusuario(),admin);
     }
-
-
-
-
-
 
     /**
      * Agrega un producto a la tienda.
      *
      * Exception ElementoDuplicadoEx Si el producto ya existe.
      */
-    public void agregarProducto(Producto producto)throws ElementoDuplicadoEx {
-
-        listaDeProductos.add(producto.getIdProducto(), producto);
-    }
-    public void agregarProducto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion)throws  ElementoDuplicadoEx{
-        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion);
-        agregarProducto(producto);
+    public void agregarProducto(String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock)throws  ElementoDuplicadoEx{
+        Producto producto = new Producto(nombreProducto, precio, categoriaProducto, descripcion, stock);
+        listaProductos.agregarGenerico(producto.getIdProducto(),producto);
     }
 
-
-    /**
-     * Agrega un pedido en la tienda.
-     *
-     * Exception ElementoDuplicadoEx Si el pedido ya existe.
-     */
-    public void agregarPedido(Pedido pedido)throws ElementoDuplicadoEx {
-            listaDePedido.agregarItem(pedido);
-
-    }
-
-
-    public void eliminarProducto(String idProducto)throws IDdontExistEX {
-       listaDeProductos.remove(idProducto);
-    }
-
-
-    public void VerListaDeTodosLosProductos(){
-
-        listaDeProductos.mostrarGenericoTest();
-
-    }
-
-    public void VerListaDeTodosLosClientes(){
-
-        System.out.println(listaDeCliente.verGenerico());
-
-    }
-
-    public void VerListaDeTodosLosPedidos(){
-
-        System.out.println(listaDePedido.verGenerico());
-
-    }
-
-
-    public Administrador getAdminPorID(String id){
-        for(Administrador admin : listaDeAdmin.getListaGenerica()){
-            if(admin.getIDusuario().equals(id)){
-                return admin;
-            }
-        }
-        return null;
-    }
-    public Cliente getClientePorID(String id){
-        for(Cliente cliente : listaDeCliente.getListaGenerica()){
-            if(cliente.getIDusuario().equals(id)){
-                return cliente;
-            }
-        }
-        return null;
-    }
 
 
     /**
@@ -135,29 +75,44 @@ public class SistemaTienda {
      * Exception IDdontExistEX Si no se encuentra el producto.
      */
     public Producto getProductoPorID(SistemaTienda sistemaTienda, String id)throws IDdontExistEX{
-        Producto producto = sistemaTienda.getListaDeProductos().getPorId(id);
+        Producto producto = sistemaTienda.getProductoPorID(sistemaTienda,id);
         if (producto == null ){
             throw new IDdontExistEX("El id ingresado esta vacio o es incorrecto");
         }
         return producto;
     }
 
-    public claseGenericaTest<Producto> getListaDeProductos() {
-        return listaDeProductos;
+
+
+
+
+    public void mostrarListaCliente(){
+        System.out.println(" \n───────────     CLIENTES      ───────────");
+        listaCliente.mostrar();
+        System.out.println("────────────────────────────────────────────\n");
+    }
+    public  void mostrarListaAdmin(){
+        System.out.println("───────────    ADMINS   ───────────");
+        listaAdmin.mostrar();
+        System.out.println("────────────────────────────────────────────\n");
+    }
+    public void mostrarListaProducto(){
+        System.out.println("\n───────────  PRODUCTOS  ───────────");
+        listaProductos.mostrar();
+        System.out.println("────────────────────────────────────────────-\n");
     }
 
-    public ClaseGenerica<Cliente> getListaDeClientes() {
-        return listaDeCliente;
+    public ClaseGenericaMap<Admin> getListaAdmin() {
+        return listaAdmin;
     }
 
-    public ClaseGenerica<Pedido> getListaDePedido() {
-        return listaDePedido;
+    public ClaseGenericaMap<Cliente> getListaCliente() {
+        return listaCliente;
     }
 
-    public ClaseGenerica<Administrador> getListaDeAdministradores() {
-        return listaDeAdmin;
+    public ClaseGenericaMap<Producto> getListaProductos() {
+        return listaProductos;
     }
-
 
     /**
      * Convierte la lista de productos a JSONArray para exportar a JSON.
@@ -167,15 +122,14 @@ public class SistemaTienda {
 
     public JSONArray productosToJSON(){
         JSONArray jsonArrayProductos = new JSONArray();
-        for(Map.Entry<String, Producto> entry : listaDeProductos.getListaGenericaTest().entrySet()){
-            Producto producto = entry.getValue();
+        for(String id : listaProductos.getListaMapGenerica().keySet()){
             JSONObject jsonObjectProducto = new JSONObject();
-            jsonObjectProducto.put("IdProducto",producto.getIdProducto());
-            jsonObjectProducto.put("nombreProducto",producto.getNombreProducto());
-            jsonObjectProducto.put("precio",producto.getPrecio());
-            jsonObjectProducto.put("CategoriaProducto",producto.getCategoriaProducto());
-            jsonObjectProducto.put("descripcion", producto.getDescripcion());
-
+            jsonObjectProducto.put("idProducto",listaProductos.getPorId(id).getIdProducto());
+            jsonObjectProducto.put("nombreProducto",listaProductos.getPorId(id).getNombreProducto());
+            jsonObjectProducto.put("precio",listaProductos.getPorId(id).getPrecio());
+            jsonObjectProducto.put("categoriaProducto",listaProductos.getPorId(id).getCategoriaProducto());
+            jsonObjectProducto.put("descripcion",listaProductos.getPorId(id).getDescripcion());
+            jsonObjectProducto.put("stock",listaProductos.getPorId(id).getStock());
             jsonArrayProductos.put(jsonObjectProducto);
         }
         return jsonArrayProductos;
@@ -187,9 +141,9 @@ public class SistemaTienda {
 
         public JSONArray adminsToJson(){
             JSONArray jsonArrayAdmins = new JSONArray();
-            for(Administrador a : listaDeAdmin.getListaGenerica()){
+            for(Admin a : listaAdmin.getListaMapGenerica().values()){
                 JSONObject jsonObjectAdmin = new JSONObject();
-                jsonObjectAdmin.put("IDUsuario",a.getIDusuario());
+                jsonObjectAdmin.put("IDUsuario",a.getIdAdmin());
                 jsonObjectAdmin.put("nombre",a.getNombre());
                 jsonObjectAdmin.put("email",a.getEmail());
                 jsonObjectAdmin.put("contraseña",a.getContrasena());
@@ -200,7 +154,7 @@ public class SistemaTienda {
 
     public  JSONArray ClientesToJSON(){
         JSONArray PULLclientes = new JSONArray() ;
-        for (Cliente c : listaDeCliente.getListaGenerica()){
+        for (Cliente c : listaCliente.getListaMapGenerica().values()){
             JSONObject jsonObjectCliente = new JSONObject();
             jsonObjectCliente.put("IDUsuario",c.getIDusuario());
             jsonObjectCliente.put("nombre",c.getNombre());
@@ -208,9 +162,6 @@ public class SistemaTienda {
             jsonObjectCliente.put("contraseña",c.getContrasena());
             jsonObjectCliente.put("edad",c.getEdad());
             jsonObjectCliente.put("fondos",c.getFondos());
-            jsonObjectCliente.put("tipo de cliente",c.getTipoCliente());
-            jsonObjectCliente.put("domicilio ",c.getDomicilio());
-            jsonObjectCliente.put("estado",c.getEstado());
 
             PULLclientes.put(jsonObjectCliente);
         }

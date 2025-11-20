@@ -19,13 +19,10 @@ public abstract class Usuario {
 
             ///-- CONSTRUCTOR --
             public Usuario(String nombre, String email, String contrasena) {
-
                 this.IDusuario = idGenerador();
                 this.nombre = nombre;
                 this.Email = email;
                 this.Contrasena = contrasena;
-
-
             }
 
     ///-- GETTERS SETTERS --
@@ -57,27 +54,23 @@ public abstract class Usuario {
         return IDusuario;
     }
 
+    public String getEmail() {
+        return Email;
+    }
 
+    public void setEmail(String email) {
+        Email = email;
+    }
 
+    public String getContrasena() {
+        return Contrasena;
+    }
 
+    public void setContrasena(String contrasena) {
+        Contrasena = contrasena;
+    }
 
-            public String getEmail() {
-                return Email;
-            }
-
-            public void setEmail(String email) {
-                Email = email;
-            }
-
-            public String getContrasena() {
-                return Contrasena;
-            }
-
-            public void setContrasena(String contrasena) {
-                Contrasena = contrasena;
-            }
-
-            ///-- toSTRING --
+    ///-- toSTRING --
     @Override
     public String toString() {
         return "ID='" + IDusuario + '\'' +

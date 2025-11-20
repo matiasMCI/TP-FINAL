@@ -2,7 +2,10 @@ package Clases;
 
 import Enums.EstadoPedido;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Pedido {
 
@@ -12,59 +15,99 @@ public class Pedido {
      * pedido y una lista de los productos que se compraron
      */
 
-    private int IDpedido = 1;
-    private String NombreCliente;
-    private EstadoPedido estadoPedido;
-    private List<Producto> Lista_productos;
+    private static int contador = 1;
+
+    private String idPedido;
+    private Map<String, ItemCarrito> items;
+    private double montoTotal;
+    private String idCliente;
+    private String fecha;
+    private EstadoPedido estado;
+
 
     ///-- CONSTRUCTOR --
-    public Pedido( String nombreCliente, List<Producto> lista_productos) {
-        NombreCliente = nombreCliente;
-        Lista_productos = lista_productos;
+    public Pedido( String idCliente, Map<String ,ItemCarrito>items) {
+       this.idPedido = generarID();
+        this.idCliente = idCliente;
+        this.items = new HashMap<>(items);
+        this.montoTotal = calcularTotal();
+        this.fecha = LocalDate.now().toString();
+        this.estado = EstadoPedido.PAGADO;
     }
+
 
     ///-- GETTERS SETTERS --
-
-    public int getIDpedido() {
-        return IDpedido;
+    public static int getContador() {
+        return contador;
     }
 
-    public void setIDpedido(int IDpedido) {
-        this.IDpedido = IDpedido;
+    public static void setContador(int contador) {
+        Pedido.contador = contador;
     }
 
-    public String getNombreCliente() {
-        return NombreCliente;
+    public String getIdPedido() {
+        return idPedido;
     }
 
-    public void setNombreCliente(String nombreCliente) {
-        NombreCliente = nombreCliente;
+    public void setIdPedido(String idPedido) {
+        this.idPedido = idPedido;
     }
 
-    public EstadoPedido getEstadoPedido() {
-        return estadoPedido;
+    public Map<String, ItemCarrito> getItems() {
+        return items;
     }
 
-    public void setEstadoPedido(EstadoPedido estadoPedido) {
-        this.estadoPedido = estadoPedido;
+    public void setItems(Map<String, ItemCarrito> items) {
+        this.items = items;
     }
 
-    public List<Producto> getLista_productos() {
-        return Lista_productos;
+    public double getMontoTotal() {
+        return montoTotal;
     }
 
-    public void setLista_productos(List<Producto> lista_productos) {
-        Lista_productos = lista_productos;
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
+    }
+
+
+
+    private String generarID(){
+        return "PED"+ contador++;
+    }
+    private double calcularTotal(){
+        double total = 0;
+        for(ItemCarrito item : items.values()){
+            total += item.getProducto().getPrecio() * item.getCantidad();
+        }
+        return total;
     }
 
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Clases.Pedido{" +
-                "IDpedido=" + IDpedido +
-                ", NombreCliente='" + NombreCliente + '\'' +
-                ", estadoPedido=" + estadoPedido +
-                ", Lista_productos=" + Lista_productos +
+        return "Pedido{" +
+                "idPedido='" + idPedido + '\'' +
+                ", items=" + items +
+                ", montoTotal=" + montoTotal +
+                ", idCliente='" + idCliente + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", estado=" + estado +
                 '}';
     }
 }

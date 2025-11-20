@@ -1,6 +1,6 @@
 package Menu;
 
-import Clases.Administrador;
+import Clases.Admin;
 import Clases.Cliente;
 import sistema.SistemaTienda;
 
@@ -38,7 +38,7 @@ public class Menu {
     }
 
 
-    public static void menuAdmin(Administrador admin, SistemaTienda sistema){
+    public static void menuAdmin(Admin admin, SistemaTienda sistema){
 
 
 

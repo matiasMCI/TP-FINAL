@@ -10,88 +10,36 @@ import sistema.SistemaTienda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Cliente extends Usuario  {
 
 
 
-    private String Nombre;
-    private int Edad;
+
+    private int edad;
     private  double fondos ;
-    private TIPO_CLIENTE TipoCliente;
-    private ESTADO_CLIENTE estado;
-    private List<Producto> carrito;
-    private String domicilio ;
-    private  List<HistorialDePedidos> historialDeCompras;
+    private boolean estado;
+    private Map<String, ItemCarrito> carrito;
+    private List<Pedido> historialDeCompras;
 
 
     ///-- CONSTRUCTOR --
-    public Cliente( String nombre, String email, String contrasena, int edad, TIPO_CLIENTE tipoCliente, ESTADO_CLIENTE estado) {
-        super(nombre,email, contrasena);
-        this.Nombre = nombre;
-        this.Edad = edad;
-        this.TipoCliente = tipoCliente;
-        this.estado = ESTADO_CLIENTE.BAJA;
-        this.domicilio = "";
+    public Cliente(String nombre, String email, String contrasena, int edad){
+        super(nombre,email,contrasena);
+        this.edad = edad;
         this.fondos = 0;
+        this.estado = false;
     }
 
     ///-- GETTERS SETTERS --
-    public String getNombre() {
-        return Nombre;
-    }
-
-    public void setNombre(String nombre) {
-        Nombre = nombre;
-    }
-
     public int getEdad() {
-        return Edad;
+        return edad;
     }
 
     public void setEdad(int edad) {
-        Edad = edad;
-    }
-
-    public List<Producto> getCarrito() {
-        return carrito;
-    }
-
-    public void setCarrito(List<Producto> carrito) {
-        this.carrito = carrito;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public TIPO_CLIENTE getTipoCliente() {
-        return TipoCliente;
-    }
-
-    public void setTipoCliente(TIPO_CLIENTE tipoCliente) {
-        TipoCliente = tipoCliente;
-    }
-
-    public ESTADO_CLIENTE getEstado() {
-        return estado;
-    }
-
-    public void setEstado(ESTADO_CLIENTE estado) {
-        this.estado = estado;
-    }
-
-    public List<Producto> getProducto() {
-        return carrito;
-    }
-
-    public void setProducto(List<Producto> carrito) {
-        this.carrito = carrito;
-    }
-
-    public String getDomicilio() {
-        return domicilio;
+        this.edad = edad;
     }
 
     public double getFondos() {
@@ -102,118 +50,68 @@ public class Cliente extends Usuario  {
         this.fondos = fondos;
     }
 
-    public List<HistorialDePedidos> getHistorialDeCompras() {
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public Map<String, ItemCarrito> getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Map<String, ItemCarrito> carrito) {
+        this.carrito = carrito;
+    }
+
+    public List<Pedido> getHistorialDeCompras() {
         return historialDeCompras;
     }
 
-    public void setHistorialDeCompras(List<HistorialDePedidos> historialDeCompras) {
+    public void setHistorialDeCompras(List<Pedido> historialDeCompras) {
         this.historialDeCompras = historialDeCompras;
     }
-
-    ///-- toSTRING --
-
-    @Override
-    public String toString() {
-        return "Clases.Cliente{" +
-                "Nombre='" + Nombre + '\'' +
-                ", Edad='" + Edad + '\'' +
-                ", TipoCliente=" + TipoCliente +
-                ", estado=" + estado +
-                ", carrito=" + carrito +
-                '}';
+    public boolean isEstado() {
+        return estado;
     }
+
+    public void activar(){
+        estado = true;
+    }
+    public void desactivar(){
+        estado = false;
+    }
+
+    public String conversorEstado(){
+        if(isEstado()){
+            return "Cuenta activada";
+        }else{
+            return "Cuenta desactivada";
+        }
+    }
+
     ///-- METODOS --///
-
-
-    ///  agrega un producto al carrito
-    public void AgregarAlCarrito(Producto producto){
-        carrito.add(producto);
+    public void mostrarPerfil(){
+        System.out.println("\n─────────── Perfil Cliente ───────────");
+        System.out.println("ID: " + this.getIDusuario());
+        System.out.println("Nombre: " + this.getNombre());
+        System.out.println("Edad: " + edad);
+        System.out.println("Email: " + this.getEmail());
+        System.out.println("Contraseña: " + this.getContrasena());
+        System.out.println("Fondos: " + fondos);
+        System.out.println("Estado: " + conversorEstado());
+        System.out.println("─────────────────────────────────\n");
     }
 
-    ///  muestra el carrito
-    public double mostrarCarrito(){
-        double precioTotal = 0;
-        for ( Producto c : carrito){
-            precioTotal += c.getPrecio();
-            System.out.println(c.toString());
-        }
 
 
 
-        System.out.println("precio Total: " + precioTotal);
-        return precioTotal;
-    }
-///  eliminaa un elemento del carrito
-    public void EliminarDelCarrito(String string) throws NameNotFoundEX {
 
-int flag = 0;
 
-    for(Producto c : carrito){
-        if (c.getNombreProducto().equalsIgnoreCase(string)){
-                    carrito.remove(c);
-                    flag = 1;
-        }
-    }
-        if(flag == 0){
-             throw new NameNotFoundEX("El nombre ingresado no se encuentra en el carrito, nombre: " + string);
-        }
-    }
+
+
 ///  permite modificar al propio usuario sus datos
-    public void ModificarPerfil(SistemaTienda sistema,int opcion , String id) throws OpcionInvalidaEX, IDdontExistEX {
-        int flag = 0;
-        String continuar = "no";
-        Scanner sc = new Scanner(System.in);
-        for (Cliente c : sistema.getListaDeClientes().listaGenerica){
-            if (c.getIDusuario().equals(id)){
-                do {
-                    flag = 1 ;
 
-                    switch (opcion){
-                        case 1 :
-                            System.out.println("ingrese el nuevo nombre");
-                            String nombre = sc.nextLine();
-                            c.setNombre(nombre);
-                            break;
-                        case 2:
-                            System.out.println("ingrese su edad correcta");
-                            int edadNueva = sc.nextInt();
-                            c.setEdad(edadNueva);
-                            break;
-                        case 3:
-                            System.out.println("ingrese su nuevo Email");
-                            String nuevoEmail = sc.nextLine();
-                            c.setEmail(nuevoEmail);
-                            break;
-                        case 4:
-                            System.out.println("ingrese su nueva contraseña");
-                            String nuevaContraseña = sc.nextLine();
-                            c.setContrasena(nuevaContraseña);
-                            break;
-
-                        default:
-
-                            OpcionInvalidaEX ex = new OpcionInvalidaEX("La opcione es invalida");
-                            break;
-
-                    }
-                    System.out.println("Cambios aplicados");
-                    System.out.println(c);
-                    System.out.println(" Desea realizar otro cambio si/no");
-                    continuar = sc.nextLine();
-
-                } while (continuar.equalsIgnoreCase("si"));
-
-            }
-        }
-        if (flag == 0){
-            IDdontExistEX iDdontExistEX = new IDdontExistEX("El id ingresado no se encuentra en sistema");
-            System.out.println(iDdontExistEX.toString());
-        }
-
-
-    }
 ///  sirve para establecer el punto de entrega
-    public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,String nuevoDomicilio , String id)throws IDdontExistEX{
+   /* public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,String nuevoDomicilio , String id)throws IDdontExistEX{
         int flag = 0;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
             if(c.getIDusuario().equals(id)){
@@ -234,9 +132,10 @@ int flag = 0;
     public void AgregarHistorialDeCompra(Pedido pedido1){
         HistorialDePedidos d = new HistorialDePedidos(pedido1);
         historialDeCompras.add(d);
-    }
-
+    }*/
+/*
 /// realiza la compra del carrito entero
+
     public void RealizarCompra(SistemaTienda sistema,String id) throws IDdontExistEX{
     int flag = 0 ;
         for (Cliente c : sistema.getListaDeClientes().listaGenerica){
@@ -292,7 +191,7 @@ int flag = 0;
         }
         return SF;
     }
-
+*/
 
 
 

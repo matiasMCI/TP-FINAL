@@ -10,29 +10,39 @@ import Enums.CategoriaProducto;
  */
 
 public class Producto {
+    private static int contador = 1;
 
     private String  idProducto;
     private String nombreProducto;
     private double precio;
     private CategoriaProducto categoriaProducto;
     private String descripcion;
+    private int stock;
 
 
     ///-- CONSTRUCTOR --
-    public Producto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion) {
-        this.idProducto = idProducto;
+    public Producto( String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock) {
+        this.idProducto = idGenerador();
         this.nombreProducto = nombreProducto;
         this.precio = precio;
         this.categoriaProducto = categoriaProducto;
         this.descripcion = descripcion;
+        this.stock = stock;
     }
     ///-- GETTERS SETTERS --
+    public String idGenerador(){
+        return String.format("ID" + "%03d",contador++);
+    }
     public String getIdProducto() {
         return idProducto;
     }
 
     public void setIdProducto(String idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public int getStock() {
+        return stock;
     }
 
     public String getNombreProducto() {
@@ -78,6 +88,8 @@ public class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
+
+
 
 ///-- METODOS --
 

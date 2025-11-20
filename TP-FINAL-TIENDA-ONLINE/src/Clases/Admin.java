@@ -2,15 +2,12 @@ package Clases;
 
 import Enums.CategoriaProducto;
 import Enums.ESTADO_CLIENTE;
-import Enums.TIPO_CLIENTE;
 import Excepciones.IDdontExistEX;
-import Interfaces.IAdministrador;
 import sistema.SistemaTienda;
 
-import java.util.Map;
 import java.util.Scanner;
 
-public class Administrador extends Usuario {
+public class Admin extends Usuario {
 
     /**
      * Esta clase representa a los usuarios que van a poder controlar los clientes y productos
@@ -25,7 +22,7 @@ public class Administrador extends Usuario {
     private int idAdmin;
 
     ///-- CONSTRUCTOR --
-    public Administrador( String nombre,String email, String contrasena) {
+    public Admin(String nombre, String email, String contrasena) {
         super(nombre, email, contrasena);
         this.nombre = nombre;
         this.edad = edad;
