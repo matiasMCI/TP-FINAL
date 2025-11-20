@@ -6,6 +6,7 @@ import Excepciones.ElementoDuplicadoEx;
 import Excepciones.ElementoInexistenteEx;
 import JSONUtiles.JSONUtiles;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -39,7 +40,67 @@ public class SistemaTienda {
         listaProductos = new ClaseGenericaMap<>();
         listaPedidos = new ClaseGenericaMap<>();
     }
+    /// Json a las listas
+    public SistemaTienda(JSONObject data, JSONArray data2) throws JSONException {
+        this();
 
+        /// Variable para guardar al maximo ID
+        int maxID = 0;
+        String id;
+
+        /// Llenado de lista Admins
+        JSONArray jsonArrayAdmins = data.getJSONArray("admins");
+        for(int i = 0; i < jsonArrayAdmins.length(); i++){
+            JSONObject jsonObjectAdmin = jsonArrayAdmins.getJSONObject(i);
+            id = jsonObjectAdmin.getString("IDUsuario");
+            int num = Integer.parseInt(id.replace("ID",""));
+            if(num > maxID){
+                maxID = num;
+            }
+            JSONAgregarAdmin(jsonObjectAdmin.getString("IDUsuario"),jsonObjectAdmin.getString("nombre"),
+                    jsonObjectAdmin.getString("email"),jsonObjectAdmin.getString("contraseña"));
+        }
+
+        /// Llenado de listas Clientes
+        JSONArray jsonArrayClientes = data.getJSONArray("clientes");
+        for(int i = 0; i < jsonArrayClientes.length();i++) {
+            JSONObject jsonObjectCliente = jsonArrayClientes.getJSONObject(i);
+
+            /// Va agarrando ID y buscando el maximo
+            id = jsonObjectCliente.getString("IDUsuario");
+            int num = Integer.parseInt(id.replace("ID", ""));
+            if (num > maxID) {
+                maxID = num;
+            }
+            JSONAgregarCliente(jsonObjectCliente.getString("IDUsuario"),
+                    jsonObjectCliente.getString("nombre"), jsonObjectCliente.getString("email"),
+                    jsonObjectCliente.getString("contraseña"), jsonObjectCliente.getInt("edad"),
+                    jsonObjectCliente.getDouble("fondos"), jsonObjectCliente.getBoolean("estado")
+            );
+        }
+        /// Encuentro el maximo ID y seteo mi contador en el siguiente a ese
+        Usuario.setContador(maxID+1);
+
+        int maxIDProducto = 0;
+        String idProducto;
+        /// Lista productos
+        for(int i = 0; i < data2.length(); i++){
+            JSONObject jsonObjectProducto = data2.getJSONObject(i);
+
+            idProducto = jsonObjectProducto.getString("idProducto");
+            int num = Integer.parseInt(idProducto.replace("ID",""));
+            if(num > maxIDProducto){
+                maxIDProducto = num;
+            }
+            JSONAgregarProducto(jsonObjectProducto.getString("idProducto"),
+                    jsonObjectProducto.getString("nombreProducto"),
+                    jsonObjectProducto.getDouble("precio"),
+                    jsonObjectProducto.getEnum(CategoriaProducto.class,"categoriaProducto"),
+                    jsonObjectProducto.getString("descripcion"),
+                    jsonObjectProducto.getInt("stock"));
+        }
+        Producto.setContador(maxIDProducto+1);
+    }
 
 
     ///-- METODOS --

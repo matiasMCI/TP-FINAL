@@ -39,6 +39,10 @@ public class Producto {
         this.stock = stock;
     }
     ///-- GETTERS SETTERS --
+    public static void setContador(int valor){
+        contador = valor;
+    }
+
     public String idGenerador(){
         return String.format("ID" + "%03d",contador++);
     }
