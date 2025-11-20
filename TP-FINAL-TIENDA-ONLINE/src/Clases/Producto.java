@@ -29,6 +29,15 @@ public class Producto {
         this.descripcion = descripcion;
         this.stock = stock;
     }
+    /// CONSTRUCTOR JSON
+    public Producto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock){
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.precio = precio;
+        this.categoriaProducto = categoriaProducto;
+        this.descripcion = descripcion;
+        this.stock = stock;
+    }
     ///-- GETTERS SETTERS --
     public String idGenerador(){
         return String.format("ID" + "%03d",contador++);

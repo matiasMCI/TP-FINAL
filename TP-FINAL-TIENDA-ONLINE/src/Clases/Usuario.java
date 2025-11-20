@@ -12,18 +12,26 @@ package Clases;
 public abstract class Usuario {
         private static int contador = 1;
 
-        private String IDusuario;
+        private String idUsuario;
         private String nombre;
-        private String Email;
-        private  String Contrasena;
+        private String email;
+        private  String contrasena;
 
             ///-- CONSTRUCTOR --
             public Usuario(String nombre, String email, String contrasena) {
-                this.IDusuario = idGenerador();
+                this.idUsuario = idGenerador();
                 this.nombre = nombre;
-                this.Email = email;
-                this.Contrasena = contrasena;
+                this.email = email;
+                this.contrasena = contrasena;
             }
+
+    /// CONSTRUCTOR PARA JSON
+    public Usuario(String IDUsuario, String nombre, String email, String contrasena){
+        this.idUsuario = IDUsuario;
+        this.nombre = nombre;
+        this.email = email;
+        this.contrasena = contrasena;
+    }
 
     ///-- GETTERS SETTERS --
 
@@ -36,7 +44,7 @@ public abstract class Usuario {
     }
 
     public void setIDusuario(String IDusuario) {
-        this.IDusuario = IDusuario;
+        this.idUsuario = IDusuario;
     }
 
     public String getNombre() {
@@ -50,32 +58,39 @@ public abstract class Usuario {
                 return "ID" + contador++;
     }
 
-    public String getIDusuario() {
-        return IDusuario;
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getContrasena() {
-        return Contrasena;
+        return contrasena;
     }
 
     public void setContrasena(String contrasena) {
-        Contrasena = contrasena;
+        this.contrasena = contrasena;
     }
 
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "ID='" + IDusuario + '\'' +
+        return "Usuario{" +
+                "idUsuario='" + idUsuario + '\'' +
                 ", nombre='" + nombre + '\'' +
-                ", Email='" + Email + '\'';
+                ", email='" + email + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                '}';
     }
 }
 

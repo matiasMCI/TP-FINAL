@@ -2,15 +2,11 @@ package sistema;
 
 import Clases.*;
 import Enums.CategoriaProducto;
-import Enums.ESTADO_CLIENTE;
-import Enums.TIPO_CLIENTE;
 import Excepciones.ElementoDuplicadoEx;
-import Excepciones.IDdontExistEX;
+import Excepciones.ElementoInexistenteEx;
 import JSONUtiles.JSONUtiles;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Clase SistemaTienda.
@@ -44,43 +40,39 @@ public class SistemaTienda {
         listaPedidos = new ClaseGenericaMap<>();
     }
 
+
+
     ///-- METODOS --
 
 
     /// Funciones de agregarcion por menu
     public void agregarCliente(String nombre, String email, String contrasena, int edad){
         Cliente cliente = new Cliente(nombre, email, contrasena, edad);
-        listaCliente.agregarGenerico(cliente.getIDusuario(),cliente);
+        listaCliente.agregarGenerico(cliente.getIdUsuario(),cliente);
     }
     public void agregarAdmin(String nombre, String email, String contrasena){
         Admin admin = new Admin(nombre, email, contrasena);
-        listaAdmin.agregarGenerico(admin.getIDusuario(),admin);
+        listaAdmin.agregarGenerico(admin.getIdUsuario(),admin);
     }
-
-    /**
-     * Agrega un producto a la tienda.
-     *
-     * Exception ElementoDuplicadoEx Si el producto ya existe.
-     */
     public void agregarProducto(String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock)throws  ElementoDuplicadoEx{
         Producto producto = new Producto(nombreProducto, precio, categoriaProducto, descripcion, stock);
         listaProductos.agregarGenerico(producto.getIdProducto(),producto);
     }
-
-
-
-    /**
-     * Obtiene un producto por su ID.
-     *
-     * Exception IDdontExistEX Si no se encuentra el producto.
-     */
-    public Producto getProductoPorID(SistemaTienda sistemaTienda, String id)throws IDdontExistEX{
-        Producto producto = sistemaTienda.getProductoPorID(sistemaTienda,id);
-        if (producto == null ){
-            throw new IDdontExistEX("El id ingresado esta vacio o es incorrecto");
-        }
-        return producto;
+    /// FUNCIONES AGREGACION POR JSON
+    public  void JSONAgregarCliente(String IDUsuario, String nombre, String email, String contrasena, int edad, double fondos, boolean estado){
+        Cliente cliente = new Cliente(IDUsuario, nombre, email, contrasena, edad, fondos, estado);
+        listaCliente.agregarGenerico(cliente.getIdUsuario(),cliente);
     }
+    public void JSONAgregarAdmin(String IDUsuario, String nombre, String email, String contrasena){
+        Admin admin = new Admin(IDUsuario,nombre,email,contrasena);
+        listaAdmin.agregarGenerico(admin.getIdUsuario(),admin);
+    }
+    public void JSONAgregarProducto(String idProducto,String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock){
+        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion, stock);
+        listaProductos.agregarGenerico(producto.getIdProducto(), producto);
+    }
+
+
 
 
 
@@ -156,12 +148,13 @@ public class SistemaTienda {
         JSONArray PULLclientes = new JSONArray() ;
         for (Cliente c : listaCliente.getListaMapGenerica().values()){
             JSONObject jsonObjectCliente = new JSONObject();
-            jsonObjectCliente.put("IDUsuario",c.getIDusuario());
+            jsonObjectCliente.put("IDUsuario",c.getIdUsuario());
             jsonObjectCliente.put("nombre",c.getNombre());
             jsonObjectCliente.put("email",c.getEmail());
             jsonObjectCliente.put("contraseña",c.getContrasena());
             jsonObjectCliente.put("edad",c.getEdad());
             jsonObjectCliente.put("fondos",c.getFondos());
+            jsonObjectCliente.put("estado",c.isEstado());
 
             PULLclientes.put(jsonObjectCliente);
         }

@@ -1,17 +1,7 @@
 package Clases;
 
-import Enums.ESTADO_CLIENTE;
-import Enums.TIPO_CLIENTE;
-import Excepciones.IDdontExistEX;
-import Excepciones.NameNotFoundEX;
-import Excepciones.OpcionInvalidaEX;
-import Interfaces.ICliente;
-import sistema.SistemaTienda;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Cliente extends Usuario  {
 
@@ -25,12 +15,19 @@ public class Cliente extends Usuario  {
     private List<Pedido> historialDeCompras;
 
 
-    ///-- CONSTRUCTOR --
+    ///-- CONSTRUCTOR NORMAL
     public Cliente(String nombre, String email, String contrasena, int edad){
         super(nombre,email,contrasena);
         this.edad = edad;
         this.fondos = 0;
         this.estado = false;
+    }
+    /// CONSTRUCTOR PARA JSON
+    public Cliente(String IDUsuario, String nombre, String email, String contrasena, int edad, double fondos, boolean estado){
+        super(IDUsuario,nombre,email,contrasena);
+        this.edad = edad;
+        this.fondos = fondos;
+        this.estado = estado;
     }
 
     ///-- GETTERS SETTERS --
@@ -91,7 +88,7 @@ public class Cliente extends Usuario  {
     ///-- METODOS --///
     public void mostrarPerfil(){
         System.out.println("\n─────────── Perfil Cliente ───────────");
-        System.out.println("ID: " + this.getIDusuario());
+        System.out.println("ID: " + this.getIdUsuario());
         System.out.println("Nombre: " + this.getNombre());
         System.out.println("Edad: " + edad);
         System.out.println("Email: " + this.getEmail());
