@@ -260,7 +260,7 @@ public class Administrador extends Usuario {
         sistema.VerListaDeTodosLosPedidos();
     }
 
-
+/*
     public void cargarJsonProducto(SistemaTienda sistema ){
         sistema.subirJSONProducto();
     }
@@ -268,5 +268,5 @@ public class Administrador extends Usuario {
     public void cargarJsonClientes(SistemaTienda sistema){
         sistema.subirJSONClientes();
     }
-
+*/
 }

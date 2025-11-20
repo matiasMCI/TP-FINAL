@@ -9,8 +9,11 @@ public class Menu {
     /// Menu Clientes
     public static void menuCliente(SistemaTienda sistema, Cliente cliente){
 
-
     }
+
+
+
+
     /// Menu inactivo, es decir si el cliente esta de baja
     public static void mostrarMenuInactivo(){
         System.out.println("1. Ver Perfil");
@@ -36,6 +39,19 @@ public class Menu {
 
 
     public static void menuAdmin(Administrador admin, SistemaTienda sistema){
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
