@@ -33,7 +33,7 @@ public class JSONUtiles {
         String lectura= "";
         try
         {
-            BufferedReader entrada = new BufferedReader(new FileReader(archive+".txt"));
+            BufferedReader entrada = new BufferedReader(new FileReader(archive+".json"));
             while((lectura = entrada.readLine())!=null){
                 contenido.append(lectura);
             }

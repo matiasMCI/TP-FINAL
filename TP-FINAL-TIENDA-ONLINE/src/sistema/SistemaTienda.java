@@ -4,10 +4,14 @@ import Clases.*;
 import Enums.CategoriaProducto;
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.ElementoInexistenteEx;
+import Excepciones.ListasVaciasEx;
 import JSONUtiles.JSONUtiles;
+import Menu.Menu;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Scanner;
 
 /**
  * Clase SistemaTienda.
@@ -133,12 +137,6 @@ public class SistemaTienda {
         listaProductos.agregarGenerico(producto.getIdProducto(), producto);
     }
 
-
-
-
-
-
-
     public void mostrarListaCliente(){
         System.out.println(" \n───────────     CLIENTES      ───────────");
         listaCliente.mostrar();
@@ -166,6 +164,93 @@ public class SistemaTienda {
     public ClaseGenericaMap<Producto> getListaProductos() {
         return listaProductos;
     }
+
+    public ClaseGenericaMap<Pedido> getListaPedidos() {
+        return listaPedidos;
+    }
+
+
+    public boolean existeCliente(String nombre){
+        for(Cliente cliente : listaCliente.getListaMapGenerica().values()){
+            if(cliente.getNombre().equalsIgnoreCase(nombre)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /// Loguearse
+    public void loguearse()throws ListasVaciasEx {
+
+        if(listaCliente.isListaVacia() && listaAdmin.isListaVacia()){
+            throw new ListasVaciasEx("Listas vacias...");
+        }
+        String decision;
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            /// Ingresamos los datos para loguearse y se verifican las credenciales en el sistema
+            System.out.println("─────────── LOGIN ───────────");
+            System.out.println("Ingrese su email:");
+            String email = sc.nextLine().trim(); ///Uso trim para evitar espacios y errores en el buffer
+            System.out.println("Ingrese su contraseña: ");
+            String contrasena = sc.nextLine().trim();
+            System.out.println("─────────────────────────────────\n");
+            /// Si las credenciales coinciden con las de un admin, tenemo accesos a ese objeto admin
+            for (Admin admin : listaAdmin.getListaMapGenerica().values()) {
+                if (admin.getEmail().equals( email) && admin.getContrasena().equals( contrasena)) {
+
+                    System.out.println("Logueado como Admin!");
+                    Menu.menuAdmin(admin, this);
+                    subirJSON();
+                    return;
+                }
+            }
+            /// Si las credenciales coinciden con las de un cliente, tenemos acceso a ese objeto cliente
+            for (Cliente cliente : listaCliente.getListaMapGenerica().values()) {
+                if (cliente.getEmail().equals(email) && cliente.getContrasena().equals(contrasena)) {
+
+                    System.out.println("Logueado como Cliente!");
+
+                    Menu.menuCliente(this , cliente);
+                    subirJSON();
+                    return;
+                }
+            }
+            System.out.println(" Usuario no encontrado...");
+            System.out.println("Desea intentarlo de nuevo? si/no: ");
+            decision = sc.nextLine().trim();
+        }while(decision.equalsIgnoreCase("si"));
+    }
+
+
+    /// REGISTRARSE -> Crea un nuevo cliente con los datos ingresados y lo mete en la listaCliente
+    public void registrarse()throws ElementoDuplicadoEx {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("─────────── Registrarse ───────────");
+        System.out.println("Ingrese su nombre: ");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese su email: ");
+        String email = sc.nextLine();
+        System.out.println("Ingrese su contrasena: ");
+        String contrasena = sc.nextLine();
+        System.out.println("Ingrese su edad: ");
+        int edad = sc.nextInt();
+        if (existeCliente(nombre)) {
+            throw new ElementoDuplicadoEx("El usuario a registrar ya existe en la lista...");
+        }
+        agregarCliente(nombre, email, contrasena, edad);
+        System.out.println("Cliente registrado!");
+        subirJSON();
+    }
+
+
+
+
+
+
 
     /**
      * Convierte la lista de productos a JSONArray para exportar a JSON.

@@ -10,10 +10,18 @@ import java.util.Scanner;
 public class Menu {
 
 
+    public static void menuLogin(){
+        System.out.println("─────────── TIENDA ONLINE ───────────");
+        System.out.println();
+        System.out.println("(1) Iniciar sesión");
+        System.out.println("(2) Registrarse");
+        System.out.println("(3) Salir");
+        System.out.println();
+        System.out.println("─────────────────────────────────────");
+    }
 
 
 
-    
     /// Menu Clientes
     public static void menuCliente(SistemaTienda sistema, Cliente cliente){
         Scanner sc = new Scanner(System.in);

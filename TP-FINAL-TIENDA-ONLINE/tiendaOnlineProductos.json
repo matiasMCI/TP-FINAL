@@ -1,0 +1,10 @@
+[
+    {
+        "descripcion": "coca cola de 1.5 lts",
+        "precio": 2200,
+        "idProducto": "ID001",
+        "stock": 22,
+        "nombreProducto": "Coca cola",
+        "categoriaProducto": "BEBIDAS"
+    }
+]

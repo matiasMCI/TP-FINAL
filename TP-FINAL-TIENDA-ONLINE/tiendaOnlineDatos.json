@@ -1,0 +1,19 @@
+{
+    "clientes": [
+        {
+            "IDUsuario": "ID2",
+            "estado": false,
+            "nombre": "matias",
+            "edad": 22,
+            "fondos": 0,
+            "email": "matias@gmail.com",
+            "contraseña": "matias222"
+        }
+    ],
+    "admins": [{
+        "IDUsuario": "ID1",
+        "nombre": "ADMIN",
+        "email": "admin",
+        "contraseña": "admin"
+    }]
+}
