@@ -5,6 +5,6 @@
         "idProducto": "ID001",
         "stock": 22,
         "nombreProducto": "Coca cola",
-        "categoriaProducto": "BEBIDAS"
+        "categoriaProducto":"BEBIDAS"
     }
 ]

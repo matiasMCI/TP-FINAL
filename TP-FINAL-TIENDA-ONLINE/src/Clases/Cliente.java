@@ -1,5 +1,8 @@
 package Clases;
 
+import Excepciones.*;
+import sistema.SistemaTienda;
+
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +100,86 @@ public class Cliente extends Usuario  {
         System.out.println("Estado: " + conversorEstado());
         System.out.println("─────────────────────────────────\n");
     }
+
+    /// Funcion para agregar Fondos al cliente
+    /// Esta consta de una limite de 500,000 pesos.
+    /// No se pueden agregar fondos negativos
+    ///
+    public void agregarFondos(double fondos)throws AccionImposibleEx,FondosSuperadosEx{
+        if(fondos <= 0){
+            throw new AccionImposibleEx("No se puede ingresar negativos...");
+        }
+        if((this.fondos  + fondos)> 500000){
+            throw new FondosSuperadosEx("Excederas los fondos maximos($500,000)");
+        }
+        this.setFondos(this.fondos + fondos);
+        System.out.println("fondos cargados!");
+        System.out.println("Total Fondos: " + this.fondos);
+    }
+
+    /// Funcion para eliminar un producto que este en el carrito mediante su ID
+    /// Si no esta arroja un excepcion -> ElementoInexistenteEx
+    public void eliminarDeCarrito(String IDProducto)throws ElementoInexistenteEx {
+        /// Comprueba si existe ese producto en el carrito por la IDProducto
+        if(!carrito.containsKey(IDProducto)){
+            throw new ElementoInexistenteEx("No existe ese producto en el carrito...");
+        }
+        carrito.remove(IDProducto);
+        System.out.println("Producto eliminado con exito!");
+    }
+    /// Esta Funcion vacia el carrito por completo,
+    /// Si el carrito ya esta vacio arroja CarritoVacioEx
+    public void vaciarCarrito()throws CarritoVacioEx {
+        if(carrito.isEmpty()){
+            throw new CarritoVacioEx("El carrito ya esta vacio");
+        }else {
+            carrito.clear();
+            System.out.println("Carrito vaciado con exito!");
+        }
+    }
+
+    /// Esta funcion agrega al carrito un producto por su ID y permite setear una cantidad.
+    /// Si en las listaProductos no existe la IDProducto pasada por parametro arroja ElementoInexistenteEx
+    /// Si ya no hay stock del producto arroja SinStockEx
+    ///
+    public void agregarACarrito(SistemaTienda sistema, String IDProducto, int cantidad) throws SinStockEx, ElementoInexistenteEx {
+
+        /// Compureba si existe la idProducto
+        if(!sistema.getListaProductos().existeId(IDProducto)){
+            throw new ElementoInexistenteEx("No existe un producto con esa id...");
+        }
+        /// Si existe lo agarra yguarda en un objeto Producto
+        Producto producto = sistema.getListaProductos().getPorId(IDProducto);
+        /// Comprueba si hay suficiente stock
+        if(sistema.getListaProductos().getPorId(producto.getIdProducto()).getStock() < cantidad){
+            throw new SinStockEx("No hay suficiente stock...");
+        }
+        /// Comprueba si ese producto ya esta en el carrito
+        /// Si lo esta suma la cantidad dada a la que ya esta en carrito
+        if(carrito.containsKey(producto.getIdProducto())){
+            ItemCarrito itemCarrito = carrito.get(producto.getIdProducto());
+            /// Comprueba si sigue habiendo suficiente stock
+            if(sistema.getListaProductos().getPorId(producto.getIdProducto()).getStock() < itemCarrito.getCantidad() + cantidad){
+                throw new SinStockEx("No hay suficiente stock para aumentar la cantidad...");
+            }
+            itemCarrito.setCantidad(itemCarrito.getCantidad() + cantidad);
+            System.out.println("Agregado exitosamente!\n\n");
+
+        } else {
+            carrito.put(producto.getIdProducto(), new ItemCarrito(producto,cantidad));
+            System.out.println("Agregado exitosamente!\n\n");
+        }
+    }
+
+    /// Esta funcion calcula el total del carrito y lo devuelve
+    public double totalCarrito(){
+        double total = 0;
+        for(ItemCarrito item : carrito.values()){
+            total += item.getCantidad() * item.getProducto().getPrecio();
+        }
+        return total;
+    }
+
 
 
 
