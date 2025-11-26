@@ -27,7 +27,7 @@
         "descripcion": "paquete fideo tallarin 500gr",
         "precio": 1200,
         "idProducto": "ID004",
-        "stock": 14,
+        "stock": 11,
         "nombreProducto": "Tallarines Marolio",
         "categoriaProducto": "ALIMENTOS"
     },
@@ -35,7 +35,7 @@
         "descripcion": "bolsa de papas fritas lays 250gr",
         "precio": 2200,
         "idProducto": "ID005",
-        "stock": 15,
+        "stock": 12,
         "nombreProducto": "papas fritas lays",
         "categoriaProducto": "ALIMENTOS"
     }

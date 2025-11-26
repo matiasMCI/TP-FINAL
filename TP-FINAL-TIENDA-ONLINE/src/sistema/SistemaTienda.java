@@ -2,6 +2,7 @@ package sistema;
 
 import Clases.*;
 import Enums.CategoriaProducto;
+import Enums.EstadoPedido;
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.ElementoInexistenteEx;
 import Excepciones.ListasVaciasEx;
@@ -12,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -25,6 +29,7 @@ public class SistemaTienda {
 
     private static final String archivoCompleto = "tiendaOnlineDatos";
     private static final String  archivoProductos = "tiendaOnlineProductos";
+    private static final String archivoPedidos = "tiendaOnlinePedidos";
 
 
 
@@ -46,7 +51,7 @@ public class SistemaTienda {
         listaPedidos = new ClaseGenericaMap<>();
     }
     /// Json a las listas
-    public SistemaTienda(JSONObject data, JSONArray data2) throws JSONException {
+    public SistemaTienda(JSONObject data, JSONArray data2, JSONArray dataPedido) throws JSONException {
         this();
 
         /// Variable para guardar al maximo ID
@@ -86,6 +91,7 @@ public class SistemaTienda {
         /// Encuentro el maximo ID y seteo mi contador en el siguiente a ese
         Usuario.setContador(maxID+1);
 
+        /// /////////////////////
         int maxIDProducto = 0;
         String idProducto;
         /// Lista productos
@@ -105,6 +111,71 @@ public class SistemaTienda {
                     jsonObjectProducto.getInt("stock"));
         }
         Producto.setContador(maxIDProducto+1);
+
+///  ////////////////////////
+
+
+        int maxIDPedido = 0;
+        String idPedido;
+
+        for (int i = 0; i < dataPedido.length(); i++) {
+
+            JSONObject jsonPedido = dataPedido.getJSONObject(i);
+
+            // ------------ ID ------------
+            idPedido = jsonPedido.getString("idPedido");
+            int num = Integer.parseInt(idPedido.replace("PED", ""));
+            if (num > maxIDPedido) {
+                maxIDPedido = num;
+            }
+
+            Pedido pedido = new Pedido( jsonPedido.getString("idPedido"),
+                    jsonPedido.getDouble("montoTotal"),
+                    jsonPedido.getString("idCliente"),
+                    jsonPedido.getString("fecha"),
+                    jsonPedido.getEnum(EstadoPedido.class, "estado")
+            );
+
+            ///  Items
+            JSONArray arrayItems = jsonPedido.getJSONArray("items");
+            Map<String, ItemCarrito> mapaItems = new HashMap<>();
+
+            for (int j = 0; j < arrayItems.length(); j++) {
+
+                JSONObject jsonItem = arrayItems.getJSONObject(j);
+
+                idProducto = jsonItem.getString("idProducto");
+                int cantidad = jsonItem.getInt("cantidad");
+
+                ///  Producto
+                Producto prod = listaProductos.getPorId(idProducto);
+
+                ItemCarrito item = new ItemCarrito(prod, cantidad);
+
+                mapaItems.put(idProducto, item);
+            }
+
+            pedido.setItems(mapaItems);
+            listaPedidos.agregarGenerico(pedido.getIdPedido(), pedido);
+
+            /// Lleno las lista historialPedidos de cada uno de los clientes
+            Cliente cliente = listaCliente.getPorId(pedido.getIdCliente());
+            if (cliente != null) {
+                cliente.getHistorialPedidos().add(pedido);
+            }
+
+        }
+        /// Setear contador
+        Pedido.setContador(maxIDPedido + 1);
+
+
+
+
+
+
+
+
+
     }
 
 
@@ -140,6 +211,7 @@ public class SistemaTienda {
         Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion, stock);
         listaProductos.agregarGenerico(producto.getIdProducto(), producto);
     }
+
 
     public void mostrarListaCliente(){
         System.out.println(" \n───────────     CLIENTES      ───────────");
@@ -401,9 +473,9 @@ public class SistemaTienda {
             /// Ingresamos los datos para loguearse y se verifican las credenciales en el sistema
             System.out.println("─────────── LOGIN ───────────");
             System.out.println("Ingrese su email:");
-            String email = sc.nextLine().trim(); ///Uso trim para evitar espacios y errores en el buffer
+            String email = sc.nextLine(); ///Uso trim para evitar espacios y errores en el buffer
             System.out.println("Ingrese su contraseña: ");
-            String contrasena = sc.nextLine().trim();
+            String contrasena = sc.nextLine();
             System.out.println("─────────────────────────────────\n");
             /// Si las credenciales coinciden con las de un admin, tenemo accesos a ese objeto admin
             for (Admin admin : listaAdmin.getListaMapGenerica().values()) {
@@ -514,6 +586,38 @@ public class SistemaTienda {
 
 
 
+    public JSONArray pedidosToJSON() {
+        JSONArray jsonArrayPedidos = new JSONArray();
+
+        for (String id : listaPedidos.getListaMapGenerica().keySet()) {
+            Pedido pedido = listaPedidos.getPorId(id);
+            JSONObject jsonPedido = new JSONObject();
+
+            jsonPedido.put("idPedido", pedido.getIdPedido());
+            jsonPedido.put("montoTotal", pedido.getMontoTotal());
+            jsonPedido.put("idCliente", pedido.getIdCliente());
+            jsonPedido.put("fecha", pedido.getFecha());
+            jsonPedido.put("estado", pedido.getEstado().toString());
+
+            JSONArray jsonItems = new JSONArray();
+
+            for (Map.Entry<String, ItemCarrito> entry : pedido.getItems().entrySet()) {
+                ItemCarrito item = entry.getValue();
+                JSONObject jsonItem = new JSONObject();
+
+                jsonItem.put("idProducto", item.getProducto().getIdProducto());
+                jsonItem.put("cantidad", item.getCantidad());
+                jsonItem.put("precioUnitario", item.getProducto().getPrecio());
+                jsonItem.put("subtotal", item.getProducto().getPrecio() * item.getCantidad());
+
+                jsonItems.put(jsonItem);
+            }
+            jsonPedido.put("items", jsonItems);
+            jsonArrayPedidos.put(jsonPedido);
+        }
+        return jsonArrayPedidos;
+    }
+
 
 
 
@@ -556,7 +660,7 @@ public class SistemaTienda {
         }
 
     public  JSONArray ClientesToJSON(){
-        JSONArray PULLclientes = new JSONArray() ;
+        JSONArray jsonArrayClientes = new JSONArray() ;
         for (Cliente c : listaCliente.getListaMapGenerica().values()){
             JSONObject jsonObjectCliente = new JSONObject();
             jsonObjectCliente.put("IDUsuario",c.getIdUsuario());
@@ -567,9 +671,9 @@ public class SistemaTienda {
             jsonObjectCliente.put("fondos",c.getFondos());
             jsonObjectCliente.put("estado",c.isEstado());
 
-            PULLclientes.put(jsonObjectCliente);
+            jsonArrayClientes.put(jsonObjectCliente);
         }
-     return PULLclientes;
+        return jsonArrayClientes;
     }
     public JSONObject AllToJSON(JSONArray jsonCliente, JSONArray jsonAdmin){
         JSONObject JSONObjectAll = new JSONObject();
@@ -583,6 +687,9 @@ public class SistemaTienda {
     }
     public void subirJSONProductos(){
             JSONUtiles.uploadJSON(productosToJSON(),archivoProductos);
+    }
+    public void subirJSONPedidos(){
+            JSONUtiles.uploadJSON(pedidosToJSON(),archivoPedidos);
     }
 
 

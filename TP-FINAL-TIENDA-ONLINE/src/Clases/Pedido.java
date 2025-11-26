@@ -35,6 +35,15 @@ public class Pedido {
         this.estado = EstadoPedido.PAGADO;
     }
 
+    /// CONSTRUCTO JSON
+    public Pedido(String idPedido, double montoTotal, String idCliente, String fecha, EstadoPedido estado){
+        this.idPedido = idPedido;
+        this.montoTotal = montoTotal;
+        this.idCliente = idCliente;
+        this.fecha = fecha;
+        this.estado = estado;
+    }
+
 
     ///-- GETTERS SETTERS --
     public static int getContador() {

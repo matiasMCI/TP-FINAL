@@ -19,7 +19,9 @@ try {
     JSONObject jsonData = new JSONObject(data);
     String data2 = JSONUtiles.downloadJSON("tiendaOnlineProductos");
     JSONArray jsonArrayData2 = new JSONArray(data2);
-    SistemaTienda sistema = new SistemaTienda(jsonData, jsonArrayData2);
+    String dataPedido = JSONUtiles.downloadJSON("tiendaOnlinePedidos");
+    JSONArray jsonArrayDataPedido = new JSONArray(dataPedido);
+    SistemaTienda sistema = new SistemaTienda(jsonData, jsonArrayData2, jsonArrayDataPedido);
 
 
     Scanner sc = new Scanner(System.in);
@@ -70,23 +72,4 @@ try {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

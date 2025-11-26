@@ -1,0 +1,92 @@
+[
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID002",
+        "idPedido": "PED1",
+        "items": [
+            {
+                "precioUnitario": 2200,
+                "subtotal": 4400,
+                "idProducto": "ID001",
+                "cantidad": 2
+            },
+            {
+                "precioUnitario": 1200,
+                "subtotal": 2400,
+                "idProducto": "ID004",
+                "cantidad": 2
+            }
+        ],
+        "montoTotal": 6400
+    },
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID003",
+        "idPedido": "PED2",
+        "items": [
+            {
+                "precioUnitario": 3250,
+                "subtotal": 3250,
+                "idProducto": "ID002",
+                "cantidad": 1
+            },
+            {
+                "precioUnitario": 2200,
+                "subtotal": 2200,
+                "idProducto": "ID005",
+                "cantidad": 1
+            }
+        ],
+        "montoTotal": 5250
+    },
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID004",
+        "idPedido": "PED3",
+        "items": [
+            {
+                "precioUnitario": 3000,
+                "subtotal": 3000,
+                "idProducto": "ID003",
+                "cantidad": 1
+            },
+            {
+                "precioUnitario": 1200,
+                "subtotal": 1200,
+                "idProducto": "ID004",
+                "cantidad": 1
+            },
+            {
+                "precioUnitario": 2200,
+                "subtotal": 2200,
+                "idProducto": "ID005",
+                "cantidad": 1
+            }
+        ],
+        "montoTotal": 5200
+    },
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID002",
+        "idPedido": "PED4",
+        "items": [
+            {
+                "precioUnitario": 1200,
+                "subtotal": 3600,
+                "idProducto": "ID004",
+                "cantidad": 3
+            },
+            {
+                "precioUnitario": 2200,
+                "subtotal": 6600,
+                "idProducto": "ID005",
+                "cantidad": 3
+            }
+        ],
+        "montoTotal": 10200
+    }
+]

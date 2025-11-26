@@ -207,6 +207,7 @@ public class Cliente extends Usuario  {
         System.out.println(Etiquetas.INFO+"Compra finalizada con exito!\n");
         sistema.agregarPedido(pedido);
         carrito.clear();
+        sistema.subirJSONPedidos();
     }
 
     /// Este metodo te permite ver todos los pedidos hechos por el Cliente

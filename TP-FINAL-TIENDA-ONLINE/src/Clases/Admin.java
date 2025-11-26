@@ -2,6 +2,7 @@ package Clases;
 
 import Excepciones.AccionImposibleEx;
 import Excepciones.ElementoInexistenteEx;
+import Excepciones.ListasVaciasEx;
 import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
@@ -39,22 +40,17 @@ public class Admin extends Usuario {
             throw new ElementoInexistenteEx("No existe esa id...");
         }
         Cliente cliente = sistema.getListaCliente().getPorId(idCliente);
-
         Scanner sc = new Scanner(System.in);
         boolean confimar = true;
         System.out.println("───────────  Modificacion de Cliente  ───────────");
-
         do{
-
             System.out.println("\n1. Cambiar nombre");
             System.out.println("2. Cambiar email");
             System.out.println("3. Cambiar contraseña");
             System.out.println("4. Cambiar edad ");
             System.out.println("5. Cambiar estado");
             System.out.println("6. Terminar");
-
             int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
-
             switch (opcion){
                 case 1:
                     System.out.println("Ingrese nuevo nombre: ");
@@ -80,7 +76,6 @@ public class Admin extends Usuario {
                     }
                     break;
                 case 5:
-
                     int estadoEleccion = sistema.leerEnteroSeguro(sc,"Estado: (1)Activar, (2) Desactivar: ");
                     try{
                         cliente.verificacionEstado(estadoEleccion);
@@ -98,6 +93,29 @@ public class Admin extends Usuario {
             }
         }while(confimar);
     }
+
+    /// Metodo para buscar al cliente mas frecuente
+
+    public void buscarClienteMasFrecuente(SistemaTienda sistema) throws ListasVaciasEx {
+        if(sistema.getListaCliente().isListaVacia()){
+            throw new ListasVaciasEx("No hay clientes");
+        }
+        Cliente masFrecuente = null;
+        int maxPedidos = -1;
+        for (Cliente cliente : sistema.getListaCliente().getListaMapGenerica().values()) {
+            int cantidadPedidos = cliente.getHistorialPedidos().size();
+
+            if (cantidadPedidos > maxPedidos) {
+                maxPedidos = cantidadPedidos;
+                masFrecuente = cliente;
+            }
+        }
+        System.out.println("El cliente mas frecuente es, ID: " + masFrecuente.getIdUsuario() + ", nombre: " + masFrecuente.getNombre() +
+                ", Cant Pedidos: " + masFrecuente.getHistorialPedidos().size());
+        System.out.println("─────────────────────────────────\n");
+    }
+
+
 
 
 
