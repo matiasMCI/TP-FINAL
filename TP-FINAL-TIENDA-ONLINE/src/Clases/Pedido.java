@@ -98,6 +98,7 @@ public class Pedido {
     private String generarID(){
         return "PED"+ contador++;
     }
+
     private double calcularTotal(){
         double total = 0;
         for(ItemCarrito item : items.values()){

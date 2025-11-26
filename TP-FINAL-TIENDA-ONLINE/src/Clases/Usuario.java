@@ -85,12 +85,9 @@ public abstract class Usuario {
     ///-- toSTRING --
     @Override
     public String toString() {
-        return "Usuario{" +
-                "idUsuario='" + idUsuario + '\'' +
+        return ", id='" + idUsuario + '\'' +
                 ", nombre='" + nombre + '\'' +
-                ", email='" + email + '\'' +
-                ", contrasena='" + contrasena + '\'' +
-                '}';
+                ", email='" + email + '\'';
     }
 }
 

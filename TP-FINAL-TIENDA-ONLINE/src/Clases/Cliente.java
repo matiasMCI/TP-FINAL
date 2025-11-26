@@ -331,10 +331,18 @@ public class Cliente extends Usuario  {
         }while(confimar);
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                super.toString() +
+                "edad=" + edad +
+                ", fondos=" + fondos +
+                ", estado=" + estado +
+                '}';
+    }
 
 
-
-///  permite modificar al propio usuario sus datos
+    ///  permite modificar al propio usuario sus datos
 
 ///  sirve para establecer el punto de entrega
    /* public void EstablecerDomicilioDeEntrega(SistemaTienda sistema,String nuevoDomicilio , String id)throws IDdontExistEX{

@@ -155,6 +155,15 @@ public class SistemaTienda {
         listaProductos.mostrar();
         System.out.println("────────────────────────────────────────────-\n");
     }
+    public void mostrarListaPedido()throws ListasVaciasEx {
+        if(listaPedidos.isListaVacia()){
+            throw new ListasVaciasEx("la lista esta vacia...");
+        }
+        System.out.println("\n───────────  PEDIDOS ───────────");
+        for(Pedido p : listaPedidos.getListaMapGenerica().values()){
+            System.out.println("IDPedido: " + p.getIdPedido() + ", IDCliente" + p.getIdCliente() +", Fecha: " + p.getFecha()+", Total: " + p.getMontoTotal()+", Estado: " + p.getEstado() );
+        }
+    }
 
     public ClaseGenericaMap<Admin> getListaAdmin() {
         return listaAdmin;
@@ -181,6 +190,43 @@ public class SistemaTienda {
         }
         return false;
     }
+
+    public void agregarCliente(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("───────────  Agregar Nuevo Cliente  ───────────");
+        System.out.println("Ingrese nombre:");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese email: ");
+        String email = sc.nextLine();
+        System.out.println("Ingrese contraseña: ");
+        String contrasena = sc.nextLine();
+        System.out.println("Ingrese edad: ");
+        int edad = sc.nextInt();
+        agregarCliente(nombre,email,contrasena,edad);
+        System.out.println("Cliente agregado!");
+    }
+    /// Metodos para ALTA / BAJA CLIENTE MEDIANTE IDUsuario
+    public void darDeBajaCliente(String id)throws ElementoInexistenteEx{
+        cambiarEstadoCliente(id,false);
+    }
+    public void darDeAltaCliente(String id)throws  ElementoInexistenteEx{
+        cambiarEstadoCliente(id,true);
+    }
+    public void cambiarEstadoCliente(String id, boolean activo)throws ElementoInexistenteEx{
+        Cliente cliente = listaCliente.getPorId(id);
+        if(cliente == null){
+            throw new ElementoInexistenteEx("La id del cliente no existe...");
+        }
+        if(activo){
+            cliente.activar();
+            System.out.println("Cliente dado de alta!");
+        }else{
+            cliente.desactivar();
+            System.out.println("Cliente dado de baja!");
+        }
+    }
+
+    
 
 
     /// Loguearse
