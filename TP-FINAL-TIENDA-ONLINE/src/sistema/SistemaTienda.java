@@ -155,6 +155,28 @@ public class SistemaTienda {
         listaProductos.mostrar();
         System.out.println("────────────────────────────────────────────-\n");
     }
+
+    public void mostrarListaProductosPorCategoria(){
+        System.out.println("\n───────────    PRODUCTOS DISPONIBLES   ───────────");
+        for(CategoriaProducto categoria: CategoriaProducto.values()){
+            System.out.println("\n─────────" + categoria + "─────────");
+            boolean hayProductos = false;
+
+            for(Producto p : listaProductos.getListaMapGenerica().values()){
+                if(p.getCategoriaProducto() == categoria){
+                    hayProductos = true;
+                    System.out.println("ID: " + p.getIdProducto() + ", Nombre: " + p.getNombreProducto() +
+                            ", precio: $" + p.getPrecio());
+                }
+            }
+
+            if(!hayProductos){
+                System.out.println("No hay productos en esta categoria...");
+            }
+        }
+        System.out.println("\n");
+    }
+
     public void mostrarListaPedido()throws ListasVaciasEx {
         if(listaPedidos.isListaVacia()){
             throw new ListasVaciasEx("la lista esta vacia...");
@@ -227,6 +249,141 @@ public class SistemaTienda {
     }
 
 
+    /// METODO PARA AGREGAR UN PRODUCTO
+    ///
+    public void agregarProducto(){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("───────────  Agregar Nuevo Producto  ───────────");
+        System.out.println("Ingrese nombre: ");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese precio: ");
+        double precio = sc.nextDouble();
+
+        CategoriaProducto categoriaProducto;
+
+        do {
+            System.out.println("Categorias disponibles: COMIDA, BEBIDAS, ALIMENTOS, POSTRES");
+            System.out.println("Ingrese categoria: ");
+            String categoriaString = sc.nextLine();
+            try {
+                categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Categoria invalida.");
+                categoriaProducto = null;
+            }
+        }while(categoriaProducto == null);
+        System.out.println("Ingrese descripcion: ");
+        String descripcion = sc.nextLine();
+        System.out.println("Ingrese stock: ");
+        int stock = sc.nextInt();
+
+        agregarProducto(nombre,precio,categoriaProducto,descripcion,stock);
+        System.out.println("Producto Agregado con exito!");
+
+    }
+
+    /// METODO PARA MODIFICAR DATOS DE UN PRODUCTO
+    public void modificarProducto(String id)throws ElementoInexistenteEx {
+        if(!listaProductos.existeId(id)){
+            throw new ElementoInexistenteEx("La id del producto no existe...");
+        }
+        Producto productoModificar = listaProductos.getPorId(id);
+        Scanner sc = new Scanner(System.in);
+        boolean terminar = true;
+
+        System.out.println("─────────── Modificar Producto ───────────");
+
+        while(terminar){
+            System.out.println("1. Cambiar Nombre");
+            System.out.println("2. Cambiar Precio");
+            System.out.println("3. Cambiar Categoria");
+            System.out.println("4. Cambiar Descripcion");
+            System.out.println("5. Cambiar stock");
+            System.out.println("6. Terminar");
+            System.out.println("Elegir opcion: ");
+            int opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion){
+                case 1:
+                    System.out.println("Ingrese nombre: ");
+                    String nombre = sc.nextLine();
+                    productoModificar.setNombreProducto(nombre);
+                    break;
+                case 2:
+                    System.out.println("Ingrese precio: ");
+                    double precio = sc.nextDouble();
+                    productoModificar.setPrecio(precio);
+                    break;
+                case 3:
+
+                    CategoriaProducto categoriaProducto;
+
+                    do {
+                        System.out.println("Categorias disponibles: COMIDA, BEBIDAS, ALIMENTOS, POSTRES");
+                        System.out.println("Ingrese categoria: ");
+                        String categoriaString = sc.nextLine();
+                        try {
+                            categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Categoria invalida.");
+                            categoriaProducto = null;
+                        }
+                    }while(categoriaProducto == null);
+                    productoModificar.setCategoriaProducto(categoriaProducto);
+                    break;
+                case 4:
+                    System.out.println("Ingrese descripcion: ");
+                    String descripcion = sc.nextLine();
+                    productoModificar.setDescripcion(descripcion);
+                    break;
+                case 5:
+                    System.out.println("Ingrese stock: ");
+                    int stock = sc.nextInt();
+                    productoModificar.setStock(stock);
+                    break;
+                case 6:
+                    terminar = false;
+                    System.out.println("Aplicando cambios");
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+
+        }
+        System.out.println("Cambios exitosos!");
+    }
+
+    /// AGREGAR O QUITAR STOCK
+    public void agregarStock(String  id, int cantidad)throws ElementoInexistenteEx{
+        Producto producto = listaProductos.getPorId(id);
+        if(producto == null){
+            throw new ElementoInexistenteEx("El producto no existe...");
+        }
+        producto.setStock(producto.getStock() + cantidad);
+        System.out.println("Stock agregado con exito!");
+    }
+    public void quitarStock(String id, int cantidad)throws ElementoInexistenteEx{
+        Producto producto = listaProductos.getPorId(id);
+        if(producto == null){
+            throw new ElementoInexistenteEx("El producto no existe...");
+        }
+        /// Si la resta da menor a 0, seteamos en 0 el stock. para que el stock no sea negativo
+        if((producto.getStock() - cantidad) < 0){
+            producto.setStock(0);
+        }
+        producto.setStock(producto.getStock() - cantidad);
+        System.out.println("Stock descontado con exito!");
+    }
+
+
+
+
+
+
+    ///
 
 
     /// Loguearse

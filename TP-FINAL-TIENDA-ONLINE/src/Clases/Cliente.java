@@ -3,9 +3,7 @@ package Clases;
 import Excepciones.*;
 import sistema.SistemaTienda;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Cliente extends Usuario  {
 
@@ -15,8 +13,8 @@ public class Cliente extends Usuario  {
     private int edad;
     private  double fondos ;
     private boolean estado;
-    private Map<String, ItemCarrito> carrito;
-    private List<Pedido> historialPedidos;
+    private Map<String, ItemCarrito> carrito = new HashMap<>();
+    private List<Pedido> historialPedidos = new ArrayList<>();
 
 
     ///-- CONSTRUCTOR NORMAL

@@ -1,18 +1,26 @@
 {
     "clientes": [
         {
-            "IDUsuario": "ID2",
-            "estado": false,
-            "nombre": "matias",
-            "edad": 22,
-            "fondos": 0,
+            "IDUsuario": "ID002",
+            "estado": true,
+            "nombre": "Matias",
+            "edad": 28,
+            "fondos": 45000,
             "email": "matias@gmail.com",
             "contraseña": "matias222"
+        },
+        {
+            "IDUsuario": "ID003",
+            "estado": false,
+            "nombre": "Ivan",
+            "edad": 23,
+            "fondos": 0,
+            "email": "ivan@gmail.com",
+            "contraseña": "ivan123"
         }
     ],
     "admins": [{
-        "IDUsuario": "ID1",
-        "nombre": "ADMIN",
+        "IDUsuario": 0,
         "email": "admin",
         "contraseña": "admin"
     }]

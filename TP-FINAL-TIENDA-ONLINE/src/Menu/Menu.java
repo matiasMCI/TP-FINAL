@@ -71,6 +71,24 @@ public class Menu {
                     }
                     break;
                 case 3:
+                    while(continuar.equalsIgnoreCase("si")) {
+
+
+                        sistema.mostrarListaProductosPorCategoria();
+                        System.out.println("Ingrese el ID del producto a agregar al carrito: ");
+                        String id = sc.nextLine();
+                        System.out.println("Ingrese la cantidad de producto a agregar:");
+                        int cantidad = sc.nextInt();
+                        try {
+                            cliente.agregarACarrito(sistema, id, cantidad);
+                        } catch (SinStockEx e) {
+                            System.out.println("Error al agregar por stock: " + e.getMessage());
+                        } catch (ElementoInexistenteEx EI) {
+                            System.out.println("Error al agregar por id: " + EI.getMessage());
+                        }
+                        System.out.println("Desea agregar otro producto? SI/NO: ");
+                        continuar = sc.nextLine();
+                    }
                     break;
                 case 4:
                     cliente.mostrarCarrito();
@@ -189,16 +207,19 @@ public class Menu {
         String idCliente;
         String idProducto;
         int cantidad;
+        String seguir = "si";
 
         while (continuar) {
             System.out.println("────────────────────   ADMIN   ────────────────────");
-            System.out.println("(1) Agregar Cliente" + "              \"(8) Mostrar Clientes\"");
-            System.out.println("(2) Agregar Producto" + "             \"(9) Mostrar Productos\"");
-            System.out.println("(3) Dar de alta Cliente" + "            \"(10) Agregar stock\"");
-            System.out.println("(4) Dar de baja Cliente" + "            \"(11) Quitar stock\"");
-            System.out.println("(5) Eliminar Producto" + "              \"(12) Mostrar Comprobantes\"");
-            System.out.println("(6) Modificar Cliente" + "              \"(13) Mostrar Pedidos\"");
-            System.out.println("(7) Modificar Producto" + "              \"(14) Cerrar sesion\"");
+            System.out.println("(1) Agregar Cliente" +"               \"(10) Agregar stock\"");
+            System.out.println("(2) Agregar Producto" +"              \"(11) Quitar stock\"");
+            System.out.println("(3) Dar de alta Cliente"+"            \"(12) Mostrar Comprobantes\"");
+            System.out.println("(4) Dar de baja Cliente"+"            \"(13) Mostrar Pedidos\"");
+            System.out.println("(5) Eliminar Producto"+"              \"(14) Mostrar Cliente mas Frecuente\"" );
+            System.out.println("(6) Modificar Cliente"+"              \"(15) \"");
+            System.out.println("(7) Modificar Producto"+"             \"(16) \"");
+            System.out.println("(8) Mostrar Clientes"+"               \"(17) \"");
+            System.out.println("(9) Mostrar Productos"+"              \"(18) Cerrar sesion\"");
             System.out.println("────────────────────────────────────────────────────────");
 
 
@@ -215,6 +236,8 @@ public class Menu {
                     sistema.subirJSON();
                     break;
                 case 2:
+                    sistema.agregarProducto();
+                    sistema.subirJSONProductos();
                     break;
                 case 3:
                     sistema.mostrarListaCliente();
@@ -237,18 +260,28 @@ public class Menu {
                     }
                     break;
                 case 5:
+
                     break;
                 case 6:
-                    try{
+                    try {
                         sistema.mostrarListaCliente();
                         System.out.println("Ingrese la id Cliente a modificar: ");
                         idCliente = sc.nextLine();
-                        admin.modificarCliente(sistema,idCliente);
-                    }catch (ElementoInexistenteEx e){
+                        admin.modificarCliente(sistema, idCliente);
+                    } catch (ElementoInexistenteEx e) {
                         System.out.println("Error al modificar cliente: " + e.getMessage());
                     }
                     break;
                 case 7:
+                    try {
+                        sistema.mostrarListaProducto();
+                        System.out.println("Ingrese ID del producto a modificar: ");
+                        idProducto = sc.nextLine();
+                        sistema.modificarProducto(idProducto);
+                    } catch (ElementoInexistenteEx e) {
+                        System.out.println("Error al modificar producto: " + e.getMessage());
+                    }
+                    sistema.subirJSONProductos();
                     break;
                 case 8:
                     sistema.mostrarListaCliente();
@@ -257,14 +290,50 @@ public class Menu {
                     sistema.mostrarListaProducto();
                     break;
                 case 10:
+                    while (seguir.equalsIgnoreCase("si")) {
+                        sistema.mostrarListaProducto();
+                        System.out.println("Ingrese la idProducto a agregar stock");
+                        idProducto = sc.nextLine();
+                        System.out.println("Ingrese la cantidad a agregar: ");
+                        cantidad = sc.nextInt();
+                        try {
+                            sistema.agregarStock(idProducto, cantidad);
+                        } catch (ElementoInexistenteEx e) {
+                            System.out.println("Error al agregar stock: " + e.getMessage());
+                        }
+                        System.out.println("Desea agregar stock a otro producto? SI/NO: ");
+                        seguir = sc.nextLine();
+                    }
                     break;
                 case 11:
+                    while (seguir.equalsIgnoreCase("si")) {
+                        sistema.mostrarListaProducto();
+                        System.out.println("Ingrese la idProducto a quitar stock");
+                        idProducto = sc.nextLine();
+                        System.out.println("Ingrese la cantidad a descontar: ");
+                        cantidad = sc.nextInt();
+                        try {
+                            sistema.quitarStock(idProducto, cantidad);
+                        } catch (ElementoInexistenteEx e) {
+                            System.out.println("Error al descontar stock: " + e.getMessage());
+                        }
+                        System.out.println("Desea agregar stock a otro producto? SI/NO: ");
+                        seguir = sc.nextLine();
+                    }
                     break;
                 case 12:
                     break;
                 case 13:
+                    try {
+                        sistema.mostrarListaPedido();
+                    } catch (ListasVaciasEx e) {
+                        System.out.println("Error al mostrar pedidos: " + e.getMessage());
+                    }
                     break;
                 case 14:
+
+                     break;
+                case 18:
                     continuar = false;
                     System.out.println("Cerrando sesion...");
                     break;

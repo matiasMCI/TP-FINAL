@@ -18,8 +18,8 @@ public abstract class Usuario {
         private  String contrasena;
 
             ///-- CONSTRUCTOR --
-            public Usuario(String nombre, String email, String contrasena) {
-                this.idUsuario = idGenerador();
+
+            public Usuario(String nombre, String email, String contrasena) {this.idUsuario = idGenerador();
                 this.nombre = nombre;
                 this.email = email;
                 this.contrasena = contrasena;
@@ -54,8 +54,9 @@ public abstract class Usuario {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     private String idGenerador(){
-                return "ID" + contador++;
+                return String.format("ID%03d", contador++);
     }
 
     public String getIdUsuario() {
