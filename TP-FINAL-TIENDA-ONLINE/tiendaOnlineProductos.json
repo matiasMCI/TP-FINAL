@@ -2,46 +2,46 @@
     {
         "descripcion": "coca cola de 1.5 lts",
         "precio": 2200,
+        "estado": true,
         "idProducto": "ID001",
         "stock": 22,
         "nombreProducto": "Coca cola",
-        "categoriaProducto": "BEBIDAS",
-        "estado": true
+        "categoriaProducto": "BEBIDAS"
     },
     {
         "descripcion": "pepsi 3 lts",
         "precio": 3250,
+        "estado": true,
         "idProducto": "ID002",
         "stock": 13,
         "nombreProducto": "Pepsi",
-        "categoriaProducto": "BEBIDAS",
-       "estado": true
+        "categoriaProducto": "BEBIDAS"
     },
     {
         "descripcion": "paquete hamburguesas PaTY 6 unidades",
         "precio": 3000,
+        "estado": true,
         "idProducto": "ID003",
         "stock": 16,
         "nombreProducto": "Hamburguesas Paty",
-        "categoriaProducto": "COMIDA",
-       "estado": true
+        "categoriaProducto": "COMIDA"
     },
     {
         "descripcion": "paquete fideo tallarin 500gr",
         "precio": 1200,
+        "estado": false,
         "idProducto": "ID004",
         "stock": 11,
         "nombreProducto": "Tallarines Marolio",
-        "categoriaProducto": "ALIMENTOS",
-        "estado": true
+        "categoriaProducto": "ALIMENTOS"
     },
     {
         "descripcion": "bolsa de papas fritas lays 250gr",
         "precio": 2200,
+        "estado": true,
         "idProducto": "ID005",
         "stock": 12,
         "nombreProducto": "papas fritas lays",
-        "categoriaProducto": "ALIMENTOS",
-        "estado": true
+        "categoriaProducto": "ALIMENTOS"
     }
 ]

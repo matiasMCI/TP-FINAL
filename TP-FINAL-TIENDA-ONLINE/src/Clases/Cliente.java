@@ -174,11 +174,14 @@ public class Cliente extends Usuario implements ICliente {
     /// Si en las listaProductos no existe la IDProducto pasada por parametro arroja ElementoInexistenteEx
     /// Si ya no hay stock del producto arroja SinStockEx
     ///
-    public void agregarACarrito(SistemaTienda sistema, String IDProducto, int cantidad) throws SinStockEx, ElementoInexistenteEx {
+    public void agregarACarrito(SistemaTienda sistema, String IDProducto, int cantidad) throws SinStockEx, ElementoInexistenteEx, AccionImposibleEx {
 
         /// Compureba si existe la idProducto
         if(!sistema.getListaProductos().existeId(IDProducto)){
             throw new ElementoInexistenteEx("No existe un producto con esa id...");
+        }
+        if(!sistema.getListaProductos().getPorId(IDProducto).getEstado()){
+            throw new AccionImposibleEx("Producto dado de baja no se puede agregar al carrito...");
         }
         /// Si existe lo agarra yguarda en un objeto Producto
         Producto producto = sistema.getListaProductos().getPorId(IDProducto);

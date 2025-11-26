@@ -84,6 +84,8 @@ public class Menu {
                             System.out.println(Etiquetas.ERROR+" al agregar por stock: " + e.getMessage());
                         } catch (ElementoInexistenteEx EI) {
                             System.out.println(Etiquetas.ERROR+"al agregar por id: " + EI.getMessage());
+                        }catch (AccionImposibleEx ai){
+                            System.out.println(Etiquetas.ERROR+ "al agregar producto: " + ai.getMessage());
                         }
                         System.out.println("Desea agregar otro producto? SI/NO: ");
                         continuar = sc.nextLine();
@@ -259,10 +261,24 @@ public class Menu {
                     }
                     break;
                 case 5:
-
+                    sistema.mostrarListaProducto();
+                    System.out.println("Ingrese la id producto a dar de alta: ");
+                    idProducto = sc.nextLine().trim();
+                    try{
+                        admin.darDeAltaProducto(sistema,idProducto);
+                    }catch (ElementoInexistenteEx e){
+                        System.out.println(Etiquetas.ERROR + " al dar de alta producto: " + e.getMessage());
+                  }
                     break;
                 case 6:
-
+                    sistema.mostrarListaProducto();
+                    System.out.println("Ingrese la id producto a dar de baja: ");
+                    idProducto = sc.nextLine().trim();
+                    try{
+                        admin.darDeBajaProducto(sistema,idProducto);
+                    }catch (ElementoInexistenteEx e){
+                        System.out.println(Etiquetas.ERROR + " al dar de baja producto: " + e.getMessage());
+                    }
                     break;
                 case 7:
                     try {

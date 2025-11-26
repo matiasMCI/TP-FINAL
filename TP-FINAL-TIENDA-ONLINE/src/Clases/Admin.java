@@ -83,10 +83,10 @@ public class Admin extends Usuario implements IAdministrador {
             System.out.println(Etiquetas.EXITO +"Cliente dado de baja!");
         }
     }
-    public void darDeBajaProducto(SistemaTienda sistema, String id){
+    public void darDeBajaProducto(SistemaTienda sistema, String id)throws  ElementoInexistenteEx{
         cambiarEstadoProducto(sistema,id,false);
     }
-    public void darDeAltaProducto(SistemaTienda sistema, String id){
+    public void darDeAltaProducto(SistemaTienda sistema, String id)throws  ElementoInexistenteEx{
         cambiarEstadoProducto(sistema,id,true);
     }
     public void cambiarEstadoProducto(SistemaTienda sistema, String id, boolean activo) throws ElementoInexistenteEx{
