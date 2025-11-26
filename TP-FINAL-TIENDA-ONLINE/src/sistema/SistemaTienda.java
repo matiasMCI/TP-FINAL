@@ -123,6 +123,9 @@ public class SistemaTienda {
         Producto producto = new Producto(nombreProducto, precio, categoriaProducto, descripcion, stock);
         listaProductos.agregarGenerico(producto.getIdProducto(),producto);
     }
+    public void agregarPedido(Pedido p){
+        listaPedidos.agregarGenerico(p.getIdPedido(),p);
+    }
     /// FUNCIONES AGREGACION POR JSON
     public  void JSONAgregarCliente(String IDUsuario, String nombre, String email, String contrasena, int edad, double fondos, boolean estado){
         Cliente cliente = new Cliente(IDUsuario, nombre, email, contrasena, edad, fondos, estado);

@@ -5,6 +5,7 @@ import sistema.SistemaTienda;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Cliente extends Usuario  {
 
@@ -15,7 +16,7 @@ public class Cliente extends Usuario  {
     private  double fondos ;
     private boolean estado;
     private Map<String, ItemCarrito> carrito;
-    private List<Pedido> historialDeCompras;
+    private List<Pedido> historialPedidos;
 
 
     ///-- CONSTRUCTOR NORMAL
@@ -62,13 +63,14 @@ public class Cliente extends Usuario  {
         this.carrito = carrito;
     }
 
-    public List<Pedido> getHistorialDeCompras() {
-        return historialDeCompras;
+    public List<Pedido> getHistorialPedidos() {
+        return historialPedidos;
     }
 
-    public void setHistorialDeCompras(List<Pedido> historialDeCompras) {
-        this.historialDeCompras = historialDeCompras;
+    public void setHistorialPedidos(List<Pedido> historialPedidos) {
+        this.historialPedidos = historialPedidos;
     }
+
     public boolean isEstado() {
         return estado;
     }
@@ -181,9 +183,153 @@ public class Cliente extends Usuario  {
     }
 
 
+    /// Este metodo va a crear un nuevo pedido con los Items que esten en el carrito
+    /// Verifica que el carrito no este vacio, sino arroja CarritoVacioEx
+    /// Verifica que los fondos sean suficientes sino arroja FondosInsuficienteEx
+    /// Por ultimo vacia el carrito
+    public void finalizarCompra(SistemaTienda sistema)throws CarritoVacioEx, FondosInsuficientesEx {
+        if(carrito.isEmpty()){
+            throw new CarritoVacioEx( "El carrito esta vacio...");
+        }
+        if(this.fondos < totalCarrito()) {
+            throw new FondosInsuficientesEx("Fondos insuficientes. Te faltan: " + (totalCarrito() - this.fondos) +" pesos...");
+        }
+        /// Busco en la lista Productos de mi sistema los productos que tenga la misma id que en mi carrito
+        ///  y les descuento el la cantidad de stock
+        for(Producto producto : sistema.getListaProductos().getListaMapGenerica().values()){
+            if(carrito.containsKey(producto.getIdProducto())){
+                producto.setStock(producto.getStock() - carrito.get(producto.getIdProducto()).getCantidad());
+            }
+        }
+        setFondos(getFondos() - totalCarrito());
+
+        Pedido pedido = new Pedido(getIdUsuario(),carrito);
+        historialPedidos.add(pedido);
+        System.out.println("Compra finalizada con exito!\n");
+        sistema.agregarPedido(pedido);
+        carrito.clear();
+    }
+
+    /// Este metodo te permite ver todos los pedidos hechos por el Cliente
+    public void verPedidos()throws ListasVaciasEx {
+        if(historialPedidos.isEmpty()){
+            throw  new ListasVaciasEx("Sin historial de pedidos...");
+        }
+        System.out.println("───────────  HISTORIAL DE MIS PEDIDOS ───────────");
+        for(Pedido pedido : historialPedidos){
+            System.out.println("IDPedido: " + pedido.getIdPedido());
+            System.out.println("Fecha: " + pedido.getFecha());
+            for(ItemCarrito item : pedido.getItems().values()){
+                double subtotal = item.getCantidad() * item.getProducto().getPrecio();
+                System.out.println("- " + item.getProducto().getNombreProducto() + " x" +
+                        item.getCantidad() + "----- $" + subtotal + "\n");
+            }
+            System.out.println("Total: " + pedido.getMontoTotal());
+            System.out.println("Estado: " + pedido.getEstado());
+            System.out.println("─────────────────────────────────\n");
+        }
+    }
+ /// Este metodo te permite ver tu carrito
+    public void mostrarCarrito()throws ListasVaciasEx{
+        if(carrito.isEmpty()){
+            throw new ListasVaciasEx("El carrito esta vacio...");
+        }
+        System.out.println("─────────── Carrito de Compras ───────────");
+        double total = 0;
+        for(ItemCarrito item : carrito.values()){
+            Producto p = item.getProducto();
+            int cant = item.getCantidad();
+            double subtotal = p.getPrecio() * cant;
+            total += subtotal;
+            System.out.println("ID: " + p.getIdProducto());
+            System.out.println("Nombre: " + p.getNombreProducto());
+            System.out.println("Cantidad: " + cant);
+            System.out.println("Precion unitario: " + p.getPrecio());
+            System.out.println("Subtotal: $" + subtotal);
+            System.out.println("─────────────────────────────────");
+        }
+        System.out.println("Total a Pagar: $" + total);
+        System.out.println("\n\n");
+    }
+    /// Verificara que la eleccion sea 1 o 2
+    public void verificacionEstado(int eleccion)throws AccionImposibleEx{
+        if(eleccion < 1 || eleccion > 2){
+            throw  new AccionImposibleEx("elegir entre 1 o 2...");
+        }
+        if(eleccion == 1){
+            this.activar();
+        }else if(eleccion == 2){
+            this.desactivar();
+        }
+        System.out.println("estado cambiado");
+    }
+    /// Verificara que la edad pasada por parametro este entre 18 y 99
+    public void verificacionEdad(int edad)throws AccionImposibleEx{
+        if(edad < 18 || edad > 99){
+            throw new AccionImposibleEx("la edad debe estar entre 18 y 99(Años)...");
+        }
+        this.setEdad(edad);
+        System.out.println("edad cambiada");
+    }
 
 
+    /// Metodo para modificarPerfil
+    public void modificarPerfil(SistemaTienda sistema,Cliente cliente){
+        Scanner sc = new Scanner(System.in);
+        boolean confimar = true;
+        System.out.println("───────────  Modificacion de perfil  ───────────");
 
+        do{
+
+            System.out.println("\n1. Cambiar nombre");
+            System.out.println("2. Cambiar email");
+            System.out.println("3. Cambiar contraseña");
+            System.out.println("4. Cambiar edad ");
+            System.out.println("5. Terminar");
+            System.out.println("Opcion: ");
+            int opcion = sc.nextInt();
+
+
+            switch (opcion){
+                case 1:
+                    System.out.println("Ingrese nuevo nombre: ");
+                    String nombre = sc.nextLine();
+                    cliente.setNombre(nombre);
+                    System.out.println("nombre cambiado");
+                    break;
+                case 2:
+                    System.out.println("Ingrese nuevo email: ");
+                    String email = sc.nextLine();
+                    cliente.setEmail(email);
+                    System.out.println("email cambiado");
+                    break;
+                case 3:
+                    System.out.println("Ingrese nueva contraseña: ");
+                    String contrasena = sc.nextLine();
+                    cliente.setContrasena(contrasena);
+                    System.out.println("contraseña cambiada");
+                    break;
+                case 4:
+                    System.out.println("Ingrese nueva edad: ");
+                    int edad = sc.nextInt();
+
+                    try {
+                        cliente.verificacionEdad(edad);
+                    }catch (AccionImposibleEx e) {
+                        System.out.println("Error al asignar edad: " + e.getMessage());
+                    }
+                    break;
+                case 5:
+                    confimar = false;
+                    System.out.println("Cambio aplicados con exito!");
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+
+        }while(confimar);
+    }
 
 
 

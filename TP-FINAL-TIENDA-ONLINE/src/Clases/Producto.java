@@ -43,6 +43,14 @@ public class Producto {
         contador = valor;
     }
 
+    public static int getContador() {
+        return contador;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     public String idGenerador(){
         return String.format("ID" + "%03d",contador++);
     }

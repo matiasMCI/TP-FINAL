@@ -77,6 +77,14 @@ public class Pedido {
         this.idCliente = idCliente;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     public EstadoPedido getEstado() {
         return estado;
     }
