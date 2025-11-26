@@ -60,22 +60,60 @@ public class Menu {
                     cliente.mostrarPerfil();
                     break;
                 case 2:
-
+                    System.out.println("Ingrese fondos: ");
+                    double fondos =sc.nextDouble();
+                    try {
+                        cliente.agregarFondos(fondos);
+                    }catch (AccionImposibleEx ai){
+                        System.out.println("Error al asignar fondos: " + ai.getMessage());
+                    }catch (FondosSuperadosEx e){
+                        System.out.println("Error con tope fondos: " + e.getMessage());
+                    }
                     break;
                 case 3:
                     break;
                 case 4:
+                    cliente.mostrarCarrito();
+                    System.out.println("Ingresa id del producto a eliminar: ");
+                    String idProducto = sc.nextLine();
+                    try {
+                        cliente.eliminarDeCarrito(idProducto);
+                    }catch (ElementoInexistenteEx e){
+                        System.out.println("Error al eliminar del carrito: " + e.getMessage());
+                    }
                     break;
                 case 5:
+                    try{
+                        cliente.mostrarCarrito();
+                    }catch (ListasVaciasEx e){
+                        System.out.println("Error al mostrar Carrito: " + e.getMessage());
+                    }
                     break;
                 case 6:
+                    try {
+                        cliente.vaciarCarrito();
+                    }catch (CarritoVacioEx e ){
+                        System.out.println("Error Accion imposible: " + e.getMessage());
+                    }
                     break;
                 case 7:
+                    try {
+                        cliente.finalizarCompra(sistema);
+                    }catch (CarritoVacioEx e){
+                        System.out.println("Error con el carrito: " + e.getMessage());
+                    }catch (FondosInsuficientesEx fi){
+                        System.out.println("Error con los fondos: " + fi.getMessage());
+                    }
                     break;
                 case 8:
-
+                    try {
+                        cliente.verPedidos();
+                    }catch (ListasVaciasEx e){
+                        System.out.println("Error al mostrar historial de pedidos: " + e.getMessage());
+                    }
                     break;
                 case 9:
+                    cliente.modificarPerfil(sistema,cliente);
                     break;
                 case 10:
                     cliente.desactivar();
@@ -97,8 +135,12 @@ public class Menu {
                     cliente.mostrarPerfil();
                     break;
                 case 2:
+                    System.out.println("Activando cuenta...");
+                    cliente.activar();
+                    System.out.println("Cuenta activada!");
                     break;
                 case 3:
+                    cliente.modificarPerfil(sistema,cliente);
                     break;
                 case 4:
                     System.out.println("Sesion cerrada!");
@@ -117,24 +159,25 @@ public class Menu {
 
     /// Menu inactivo, es decir si el cliente esta de baja
     public static void mostrarMenuInactivo(){
-        System.out.println("1. Ver Perfil");
-        System.out.println("2. Activar Cuenta");
-        System.out.println("3. Modificar Perfil");
-        System.out.println("4. Desloguearse");
+        System.out.println("(1) Ver Perfil");
+        System.out.println("(2) Activar Cuenta");
+        System.out.println("(3) Modificar Perfil");
+        System.out.println("(4) Desloguearse");
         System.out.println("-------------------------------\n");
     }
     ///  Menu Activo, es decir si el cliente esta de alata
     public static void mostrarMenuActivo(){
-        System.out.println("1. Ver Perfil");
-        System.out.println("2. Agregar Fondos");
-        System.out.println("3. Agregar productos al carrito");
-        System.out.println("4. Mostrar Carrito");
-        System.out.println("4. Eliminar productos del carrito");
-        System.out.println("5. Realizar compra");
-        System.out.println("6. Ver pedidos");
-        System.out.println("7. Modificar perfil");
-        System.out.println("8. Desactivar cuenta");
-        System.out.println("9. Desloguearse");
+        System.out.println("(1) Ver Perfil");
+        System.out.println("(2) Agregar Fondos");
+        System.out.println("(3) Agregar productos al carrito");
+        System.out.println("(4) Eliminar productos del carrito");
+        System.out.println("(5) Mostrar Carrito");
+        System.out.println("(6) Vaciar Carrito");
+        System.out.println("(7) Finalizar Compra");
+        System.out.println("(8) Ver pedidos");
+        System.out.println("(9) Modificar perfil");
+        System.out.println("(10) Desactivar cuenta");
+        System.out.println("(11) Desloguearse");
         System.out.println("-------------------------------\n");
     }
 
@@ -168,16 +211,42 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
+                    sistema.agregarCliente();
+                    sistema.subirJSON();
                     break;
                 case 2:
                     break;
                 case 3:
+                    sistema.mostrarListaCliente();
+                    System.out.println("Ingrese la id cliente a dar de alta: ");
+                    idCliente = sc.nextLine().trim();
+                    try {
+                        sistema.darDeAltaCliente(idCliente);
+                    } catch (ElementoDuplicadoEx e) {
+                        System.out.println("error al dar de alta cliente: " + e.getMessage());
+                    }
                     break;
                 case 4:
+                    sistema.mostrarListaCliente();
+                    System.out.println("Ingrese la id cliente a dar de baja: ");
+                    idCliente = sc.nextLine().trim();
+                    try {
+                        sistema.darDeBajaCliente(idCliente);
+                    } catch (ElementoDuplicadoEx e) {
+                        System.out.println("error al dar de baja cliente: " + e.getMessage());
+                    }
                     break;
                 case 5:
                     break;
                 case 6:
+                    try{
+                        sistema.mostrarListaCliente();
+                        System.out.println("Ingrese la id Cliente a modificar: ");
+                        idCliente = sc.nextLine();
+                        admin.modificarCliente(sistema,idCliente);
+                    }catch (ElementoInexistenteEx e){
+                        System.out.println("Error al modificar cliente: " + e.getMessage());
+                    }
                     break;
                 case 7:
                     break;
