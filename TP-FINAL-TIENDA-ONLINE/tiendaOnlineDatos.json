@@ -11,16 +11,17 @@
         },
         {
             "IDUsuario": "ID003",
-            "estado": false,
+            "estado": true,
             "nombre": "Ivan",
             "edad": 23,
-            "fondos": 0,
+            "fondos": 12300,
             "email": "ivan@gmail.com",
             "contraseña": "ivan123"
         }
     ],
     "admins": [{
-        "IDUsuario": 0,
+        "IDUsuario": "ID001",
+        "nombre": "ADMIN",
         "email": "admin",
         "contraseña": "admin"
     }]

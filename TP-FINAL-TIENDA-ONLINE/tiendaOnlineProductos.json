@@ -5,6 +5,38 @@
         "idProducto": "ID001",
         "stock": 22,
         "nombreProducto": "Coca cola",
-        "categoriaProducto":"BEBIDAS"
+        "categoriaProducto": "BEBIDAS"
+    },
+    {
+        "descripcion": "pepsi 3 lts",
+        "precio": 3250,
+        "idProducto": "ID002",
+        "stock": 13,
+        "nombreProducto": "Pepsi",
+        "categoriaProducto": "BEBIDAS"
+    },
+    {
+        "descripcion": "paquete hamburguesas PaTY 6 unidades",
+        "precio": 3000,
+        "idProducto": "ID003",
+        "stock": 16,
+        "nombreProducto": "Hamburguesas Paty",
+        "categoriaProducto": "COMIDA"
+    },
+    {
+        "descripcion": "paquete fideo tallarin 500gr",
+        "precio": 1200,
+        "idProducto": "ID004",
+        "stock": 14,
+        "nombreProducto": "Tallarines Marolio",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "bolsa de papas fritas lays 250gr",
+        "precio": 2200,
+        "idProducto": "ID005",
+        "stock": 15,
+        "nombreProducto": "papas fritas lays",
+        "categoriaProducto": "ALIMENTOS"
     }
 ]
