@@ -21,11 +21,17 @@ import java.util.Scanner;
 /**
  * Clase SistemaTienda.
  *
- * Gestiona la tienda online completa: clientes, administradores, productos y pedidos.
- * Permite agregar, modificar y eliminar elementos, realizar operaciones de compra,
- * mantener el historial de pedidos de los clientes y exportar datos a JSON.
+ * Gestiona la tienda online completa incluyendo:
+ * clientes, administradores, productos y pedidos.
  *
- * Soporta deserialización desde JSON para reconstruir la tienda desde archivos guardados.
+ * <p>Proporciona métodos para:
+ * <ul>
+ *     <li>Agregar, modificar y eliminar clientes, admins y productos.</li>
+ *     <li>Registrar clientes y loguearse en el sistema.</li>
+ *     <li>Realizar compras y mantener historial de pedidos.</li>
+ *     <li>Exportar e importar datos desde/hacia JSON.</li>
+ * </ul>
+ * </p>
  */
 
 public class SistemaTienda {
@@ -62,13 +68,14 @@ public class SistemaTienda {
      * @throws JSONException Si ocurre un error de parsing JSON.
      */
     public SistemaTienda(JSONObject data, JSONArray data2, JSONArray dataPedido) throws JSONException {
-        this();
+        // Inicializa listas desde JSON y actualiza contadores de ID
+         this();
 
-        /// Variable para guardar al maximo ID
+        // Variable para guardar al maximo ID
         int maxID = 0;
         String id;
 
-        /// Llenado de lista Admins
+        // Llenado de lista Admins
         JSONArray jsonArrayAdmins = data.getJSONArray("admins");
         for(int i = 0; i < jsonArrayAdmins.length(); i++){
             JSONObject jsonObjectAdmin = jsonArrayAdmins.getJSONObject(i);
@@ -82,12 +89,12 @@ public class SistemaTienda {
                     jsonObjectAdmin.getString("email"),jsonObjectAdmin.getString("contraseña"));
         }
 
-        /// Llenado de listas Clientes
+        // Llenado de listas Clientes
         JSONArray jsonArrayClientes = data.getJSONArray("clientes");
         for(int i = 0; i < jsonArrayClientes.length();i++) {
             JSONObject jsonObjectCliente = jsonArrayClientes.getJSONObject(i);
 
-            /// Va agarrando ID y buscando el maximo
+            // Va agarrando ID y buscando el maximo
             id = jsonObjectCliente.getString("IDUsuario");
             int num = Integer.parseInt(id.replace("ID", ""));
             if (num > maxID) {
@@ -99,13 +106,13 @@ public class SistemaTienda {
                     jsonObjectCliente.getDouble("fondos"), jsonObjectCliente.getBoolean("estado")
             );
         }
-        /// Encuentro el maximo ID y seteo mi contador en el siguiente a ese
+        // Encuentro el maximo ID y seteo mi contador en el siguiente a ese
         Usuario.setContador(maxID+1);
 
-        /// /////////////////////
+        //
         int maxIDProducto = 0;
         String idProducto;
-        /// Lista productos
+        // Lista productos
         for(int i = 0; i < data2.length(); i++){
             JSONObject jsonObjectProducto = data2.getJSONObject(i);
 
@@ -124,7 +131,7 @@ public class SistemaTienda {
         }
         Producto.setContador(maxIDProducto+1);
 
-///  ////////////////////////
+//  ////////////////////////
 
 
         int maxIDPedido = 0;
@@ -179,15 +186,6 @@ public class SistemaTienda {
         }
         /// Setear contador
         Pedido.setContador(maxIDPedido + 1);
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -333,7 +331,11 @@ public class SistemaTienda {
         return false;
     }
 
-    /// Loguearse
+    /**
+     * Permite que un usuario inicie sesión como cliente o admin.
+     *
+     * @throws ListasVaciasEx Si no hay clientes ni admins registrados.
+     */
     public void loguearse()throws ListasVaciasEx {
 
         if(listaCliente.isListaVacia() && listaAdmin.isListaVacia()){
@@ -343,14 +345,14 @@ public class SistemaTienda {
         Scanner sc = new Scanner(System.in);
 
         do {
-            /// Ingresamos los datos para loguearse y se verifican las credenciales en el sistema
+            // Ingresamos los datos para loguearse y se verifican las credenciales en el sistema
             System.out.println("─────────── LOGIN ───────────");
             System.out.println("Ingrese su email:");
             String email = sc.nextLine(); ///Uso trim para evitar espacios y errores en el buffer
             System.out.println("Ingrese su contraseña: ");
             String contrasena = sc.nextLine();
             System.out.println("─────────────────────────────────\n");
-            /// Si las credenciales coinciden con las de un admin, tenemo accesos a ese objeto admin
+            // Si las credenciales coinciden con las de un admin, tenemo accesos a ese objeto admin
             for (Admin admin : listaAdmin.getListaMapGenerica().values()) {
                 if (admin.getEmail().equals( email) && admin.getContrasena().equals( contrasena)) {
 
@@ -360,7 +362,7 @@ public class SistemaTienda {
                     return;
                 }
             }
-            /// Si las credenciales coinciden con las de un cliente, tenemos acceso a ese objeto cliente
+            // Si las credenciales coinciden con las de un cliente, tenemos acceso a ese objeto cliente
             for (Cliente cliente : listaCliente.getListaMapGenerica().values()) {
                 if (cliente.getEmail().equals(email) && cliente.getContrasena().equals(contrasena)) {
 
@@ -378,7 +380,11 @@ public class SistemaTienda {
     }
 
 
-    /// REGISTRARSE -> Crea un nuevo cliente con los datos ingresados y lo mete en la listaCliente
+    /**
+     * Registra un cliente desde la entrada del usuario.
+     *
+     * @throws ElementoDuplicadoEx Si el cliente ya existe.
+     */
     public void registrarse()throws ElementoDuplicadoEx {
         Scanner sc = new Scanner(System.in);
         boolean flag = false;
@@ -407,9 +413,15 @@ public class SistemaTienda {
         subirJSON();
     }
 
-    /// Metodo para que lo unico que pueda leer sea un entero
-    /// De lo contrario maneja la excepcion que puede arrojar
-    /// Se queda en bucle hasta que no ingreses el mismo tipo de dato
+
+
+    /**
+     * Lee un entero seguro desde la consola.
+     *
+     * @param sc Scanner para lectura.
+     * @param mensaje Mensaje a mostrar.
+     * @return Entero ingresado por el usuario.
+     */
     public int leerEnteroSeguro(Scanner sc, String mensaje) {
         int numero;
 
@@ -425,9 +437,13 @@ public class SistemaTienda {
             }
         }
     }
-    /// Metodo para que lo unico que pueda leer sea un double
-    /// De lo contrario maneja la excepcion que puede arrojar
-    /// Se queda en bucle hasta que no ingreses el mismo tipo de dato
+    /**
+     * Lee un double seguro desde la consola.
+     *
+     * @param sc Scanner para lectura.
+     * @param mensaje Mensaje a mostrar.
+     * @return Double ingresado por el usuario.
+     */
     public double leerDoubleSeguro(Scanner sc, String mensaje) {
         double numero;
 
@@ -449,8 +465,6 @@ public class SistemaTienda {
      *
      * @return JSONArray con todos los pedidos y sus items.
      */
-
-
     public JSONArray pedidosToJSON() {
         JSONArray jsonArrayPedidos = new JSONArray();
 
@@ -482,16 +496,11 @@ public class SistemaTienda {
         }
         return jsonArrayPedidos;
     }
-
-
-
-
     /**
      * Convierte la lista de productos a JSONArray para exportar a JSON.
      *
      * @return JSONArray con todos los productos.
      */
-
     public JSONArray productosToJSON(){
         JSONArray jsonArrayProductos = new JSONArray();
         for(String id : listaProductos.getListaMapGenerica().keySet()){
@@ -506,13 +515,12 @@ public class SistemaTienda {
             jsonArrayProductos.put(jsonObjectProducto);
         }
         return jsonArrayProductos;
-}
+    }
     /**
      * Convierte la lista de admins a JSONArray para exportar a JSON.
      *
      * @return JSONArray con todos los administradores.
      */
-
         public JSONArray adminsToJson(){
             JSONArray jsonArrayAdmins = new JSONArray();
             for(Admin a : listaAdmin.getListaMapGenerica().values()){
@@ -532,7 +540,6 @@ public class SistemaTienda {
      *
      * @return JSONArray con todos los clientes.
      */
-
     public  JSONArray ClientesToJSON(){
         JSONArray jsonArrayClientes = new JSONArray() ;
         for (Cliente c : listaCliente.getListaMapGenerica().values()){
@@ -558,7 +565,6 @@ public class SistemaTienda {
      * @param jsonAdmin JSONArray de admins.
      * @return JSONObject con clientes y admins.
      */
-
     public JSONObject AllToJSON(JSONArray jsonCliente, JSONArray jsonAdmin){
         JSONObject JSONObjectAll = new JSONObject();
         JSONObjectAll.put("clientes",jsonCliente);

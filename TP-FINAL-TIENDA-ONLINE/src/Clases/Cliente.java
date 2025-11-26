@@ -8,14 +8,19 @@ import sistema.SistemaTienda;
 import java.util.*;
 
 /**
- * Clase Cliente.
+ * Representa a un cliente dentro del sistema de tienda online.
  *
- * Representa un usuario cliente de la tienda online.
- * Contiene información personal (nombre, email, edad), fondos disponibles,
- * estado de la cuenta, carrito de compras actual y un historial de pedidos realizados.
- * Hereda de la clase Usuario.
+ * La clase Cliente extiende a {@link Usuario} e implementa la interfaz {@link ICliente}.
+ * Gestiona información personal del cliente (nombre, apellido, email), su estado de cuenta,
+ * los fondos disponibles, el carrito de compras actual y el historial de pedidos.
+ *
+ * Funcionalidades principales:
+ * - Agregar y eliminar productos del carrito.
+ * - Finalizar compras y registrar pedidos en el historial.
+ * - Consultar y modificar el perfil del cliente.
+ * - Cargar fondos con validaciones.
+ * - Ver el historial de pedidos y el carrito actual.
  */
-
 public class Cliente extends Usuario implements ICliente {
 
 
@@ -30,8 +35,15 @@ public class Cliente extends Usuario implements ICliente {
 
     /**
      * Constructor principal.
-     * Crea un cliente nuevo con edad, nombre, email y contraseña.
-     * Inicializa fondos en 0 y estado en false.
+     * <p>
+     * Crea un cliente nuevo estableciendo su edad, nombre, apellido, email y contraseña.
+     * Los fondos se inicializan en 0 y la cuenta se encuentra desactivada por defecto.
+     *
+     * @param nombre     Nombre del cliente.
+     * @param apellido   Apellido del cliente.
+     * @param email      Email del cliente.
+     * @param contrasena Contraseña del cliente.
+     * @param edad       Edad del cliente.
      */
     public Cliente(String nombre, String apellido,String email, String contrasena, int edad){
         super(nombre,apellido,email,contrasena);
@@ -40,15 +52,16 @@ public class Cliente extends Usuario implements ICliente {
         this.estado = false;
     }
     /**
-     * Constructor para deserialización desde JSON.
+     * Constructor utilizado para deserializar información desde JSON.
      *
-     * @param IDUsuario ID único del usuario.
-     * @param nombre Nombre del cliente.
-     * @param email Email del cliente.
-     * @param contrasena Contraseña del cliente.
-     * @param edad Edad del cliente.
-     * @param fondos Fondos disponibles.
-     * @param estado Estado de la cuenta.
+     * @param IDUsuario   ID único del cliente.
+     * @param nombre      Nombre del cliente.
+     * @param apellido    Apellido del cliente.
+     * @param email       Email del cliente.
+     * @param contrasena  Contraseña del cliente.
+     * @param edad        Edad del cliente.
+     * @param fondos      Fondos disponibles.
+     * @param estado      Estado de la cuenta (true = activada).
      */
     public Cliente(String IDUsuario, String nombre,String apellido, String email, String contrasena, int edad, double fondos, boolean estado){
         super(IDUsuario,nombre,apellido,email,contrasena);
@@ -119,7 +132,11 @@ public class Cliente extends Usuario implements ICliente {
         }
     }
 
-    ///-- METODOS --///
+    // -------- MÉTODOS PRINCIPALES --------
+
+    /**
+     * Muestra toda la información del perfil del cliente.
+     */
     public void mostrarPerfil(){
         System.out.println("\n─────────── Perfil Cliente ───────────");
         System.out.println("ID: " + this.getIdUsuario());
@@ -128,15 +145,18 @@ public class Cliente extends Usuario implements ICliente {
         System.out.println("Edad: " + edad);
         System.out.println("Email: " + this.getEmail());
         System.out.println("Contraseña: " + this.getContrasena());
-        System.out.println("Fondos: " + fondos);
+        System.out.println("Fondos: $" + fondos);
         System.out.println("Estado: " + conversorEstado());
         System.out.println("─────────────────────────────────\n");
     }
 
-    /// Funcion para agregar Fondos al cliente
-    /// Esta consta de una limite de 500,000 pesos.
-    /// No se pueden agregar fondos negativos
-    ///
+    /**
+     * Agrega fondos al cliente.
+     *
+     * @param fondos Cantidad a agregar.
+     * @throws AccionImposibleEx    Si el monto es negativo o cero.
+     * @throws FondosSuperadosEx    Sí supera el máximo permitido (500.000).
+     */
     public void agregarFondos(double fondos)throws AccionImposibleEx,FondosSuperadosEx{
         if(fondos <= 0){
             throw new AccionImposibleEx("No se puede ingresar negativos...");
@@ -149,18 +169,25 @@ public class Cliente extends Usuario implements ICliente {
         System.out.println("Total Fondos: " + this.fondos);
     }
 
-    /// Funcion para eliminar un producto que este en el carrito mediante su ID
-    /// Si no esta arroja un excepcion -> ElementoInexistenteEx
+    /**
+     * Elimina un producto del carrito mediante su ID.
+     *
+     * @param IDProducto ID del producto.
+     * @throws ElementoInexistenteEx Si el producto no está en el carrito.
+     */
     public void eliminarDeCarrito(String IDProducto)throws ElementoInexistenteEx {
-        /// Comprueba si existe ese producto en el carrito por la IDProducto
+        // Comprueba si existe ese producto en el carrito por la IDProducto
         if(!carrito.containsKey(IDProducto)){
             throw new ElementoInexistenteEx("No existe ese producto en el carrito...");
         }
         carrito.remove(IDProducto);
         System.out.println(Etiquetas.EXITO+"Producto eliminado con exito!");
     }
-    /// Esta Funcion vacia el carrito por completo,
-    /// Si el carrito ya esta vacio arroja CarritoVacioEx
+    /**
+     * Vacía completamente el carrito.
+     *
+     * @throws CarritoVacioEx Si el carrito ya estaba vacío.
+     */
     public void vaciarCarrito()throws CarritoVacioEx {
         if(carrito.isEmpty()){
             throw new CarritoVacioEx("El carrito ya esta vacio");
@@ -170,30 +197,36 @@ public class Cliente extends Usuario implements ICliente {
         }
     }
 
-    /// Esta funcion agrega al carrito un producto por su ID y permite setear una cantidad.
-    /// Si en las listaProductos no existe la IDProducto pasada por parametro arroja ElementoInexistenteEx
-    /// Si ya no hay stock del producto arroja SinStockEx
-    ///
+    /**
+     * Agrega un producto al carrito validando existencia, stock y estado.
+     *
+     * @param sistema    Sistema de la tienda.
+     * @param IDProducto ID del producto.
+     * @param cantidad   Cantidad deseada.
+     * @throws SinStockEx              Si no hay stock suficiente.
+     * @throws ElementoInexistenteEx    Si el producto no existe.
+     * @throws AccionImposibleEx        Si el producto está dado de baja.
+     */
     public void agregarACarrito(SistemaTienda sistema, String IDProducto, int cantidad) throws SinStockEx, ElementoInexistenteEx, AccionImposibleEx {
 
-        /// Compureba si existe la idProducto
+        // Compureba si existe la idProducto
         if(!sistema.getListaProductos().existeId(IDProducto)){
             throw new ElementoInexistenteEx("No existe un producto con esa id...");
         }
         if(!sistema.getListaProductos().getPorId(IDProducto).getEstado()){
             throw new AccionImposibleEx("Producto dado de baja no se puede agregar al carrito...");
         }
-        /// Si existe lo agarra yguarda en un objeto Producto
+        // Si existe lo agarra yguarda en un objeto Producto
         Producto producto = sistema.getListaProductos().getPorId(IDProducto);
-        /// Comprueba si hay suficiente stock
+        // Comprueba si hay suficiente stock
         if(sistema.getListaProductos().getPorId(producto.getIdProducto()).getStock() < cantidad){
             throw new SinStockEx("No hay suficiente stock...");
         }
-        /// Comprueba si ese producto ya esta en el carrito
-        /// Si lo esta suma la cantidad dada a la que ya esta en carrito
+        // Comprueba si ese producto ya esta en el carrito
+        // Si lo está suma la cantidad dada a la que ya esta en carrito
         if(carrito.containsKey(producto.getIdProducto())){
             ItemCarrito itemCarrito = carrito.get(producto.getIdProducto());
-            /// Comprueba si sigue habiendo suficiente stock
+            // Comprueba si sigue habiendo suficiente stock
             if(sistema.getListaProductos().getPorId(producto.getIdProducto()).getStock() < itemCarrito.getCantidad() + cantidad){
                 throw new SinStockEx("No hay suficiente stock para aumentar la cantidad...");
             }
@@ -206,7 +239,11 @@ public class Cliente extends Usuario implements ICliente {
         }
     }
 
-    /// Esta funcion calcula el total del carrito y lo devuelve
+    /**
+     * Calcula el total del carrito.
+     *
+     * @return Total acumulado en pesos.
+     */
     public double totalCarrito(){
         double total = 0;
         for(ItemCarrito item : carrito.values()){
@@ -216,10 +253,13 @@ public class Cliente extends Usuario implements ICliente {
     }
 
 
-    /// Este metodo va a crear un nuevo pedido con los Items que esten en el carrito
-    /// Verifica que el carrito no este vacio, sino arroja CarritoVacioEx
-    /// Verifica que los fondos sean suficientes sino arroja FondosInsuficienteEx
-    /// Por ultimo vacia el carrito
+    /**
+     * Finaliza la compra creando un nuevo pedido.
+     *
+     * @param sistema Sistema de la tienda.
+     * @throws CarritoVacioEx          Si el carrito está vacío.
+     * @throws FondosInsuficientesEx   Si los fondos no alcanzan.
+     */
     public void finalizarCompra(SistemaTienda sistema)throws CarritoVacioEx, FondosInsuficientesEx {
         if(carrito.isEmpty()){
             throw new CarritoVacioEx( "El carrito esta vacio...");
@@ -227,8 +267,8 @@ public class Cliente extends Usuario implements ICliente {
         if(this.fondos < totalCarrito()) {
             throw new FondosInsuficientesEx("Fondos insuficientes. Te faltan: " + (totalCarrito() - this.fondos) +" pesos...");
         }
-        /// Busco en la lista Productos de mi sistema los productos que tenga la misma id que en mi carrito
-        ///  y les descuento el la cantidad de stock
+        // Busco en la lista Productos de mi sistema los productos que tenga la misma id que en mi carrito
+        //  y les descuento el la cantidad de stock
         for(Producto producto : sistema.getListaProductos().getListaMapGenerica().values()){
             if(carrito.containsKey(producto.getIdProducto())){
                 producto.setStock(producto.getStock() - carrito.get(producto.getIdProducto()).getCantidad());
@@ -244,7 +284,11 @@ public class Cliente extends Usuario implements ICliente {
         sistema.subirJSONPedidos();
     }
 
-    /// Este metodo te permite ver todos los pedidos hechos por el Cliente
+    /**
+     * Muestra el historial completo de pedidos del cliente.
+     *
+     * @throws ListasVaciasEx Si no hay pedidos registrados.
+     */
     public void verPedidos()throws ListasVaciasEx {
         if(historialPedidos.isEmpty()){
             throw  new ListasVaciasEx("Sin historial de pedidos...");
@@ -263,7 +307,11 @@ public class Cliente extends Usuario implements ICliente {
             System.out.println("─────────────────────────────────\n");
         }
     }
- /// Este metodo te permite ver tu carrito
+    /**
+     * Muestra los productos del carrito.
+     *
+     * @throws ListasVaciasEx Si el carrito está vacío.
+     */
     public void mostrarCarrito()throws ListasVaciasEx{
         if(carrito.isEmpty()){
             throw new ListasVaciasEx("El carrito esta vacio...");
@@ -285,19 +333,30 @@ public class Cliente extends Usuario implements ICliente {
         System.out.println("Total a Pagar: $" + total);
         System.out.println("\n\n");
     }
-    /// Verificara que la eleccion sea 1 o 2
+
+    /**
+     * Verifica si una elección de estado es válida y aplica el cambio.
+     *
+     * @param eleccion 1 (activar) o 2 (desactivar).
+     * @throws AccionImposibleEx Si la opción no es válida.
+     */
     public void verificacionEstado(int eleccion)throws AccionImposibleEx{
         if(eleccion < 1 || eleccion > 2){
             throw  new AccionImposibleEx("elegir entre 1 o 2...");
         }
         if(eleccion == 1){
             this.activar();
-        }else if(eleccion == 2){
+        }else {
             this.desactivar();
         }
         System.out.println(Etiquetas.INFO+"estado cambiado");
     }
-    /// Verificara que la edad pasada por parametro este entre 18 y 99
+    /**
+     * Verifica si la edad ingresada es válida y la actualiza.
+     *
+     * @param edad Edad nueva entre 18 y 99.
+     * @throws AccionImposibleEx Si la edad no está en el rango permitido.
+     */
     public void verificacionEdad(int edad)throws AccionImposibleEx{
         if(edad < 18 || edad > 99){
             throw new AccionImposibleEx("la edad debe estar entre 18 y 99(Años)...");
@@ -307,7 +366,12 @@ public class Cliente extends Usuario implements ICliente {
     }
 
 
-    /// Metodo para modificarPerfil
+    /**
+     * Permite modificar campos del perfil del cliente.
+     *
+             * @param sistema Objeto del sistema.
+            * @param cliente Cliente a modificar.
+     */
     public void modificarPerfil(SistemaTienda sistema,Cliente cliente){
         Scanner sc = new Scanner(System.in);
         boolean confimar = true;

@@ -11,20 +11,51 @@ import sistema.SistemaTienda;
 
 import java.util.Scanner;
 
+
+
+/**
+ * Representa a un administrador dentro del sistema de ventas del supermercado.
+ * El administrador posee permisos especiales para gestionar clientes, productos
+ * y ciertos procesos internos como el manejo de pedidos o modificaciones de stock.
+ * Entre sus funciones principales se encuentran:
+ * - Dar de alta o baja clientes y productos
+ * - Agregar y modificar productos
+ * - Agregar clientes
+ * - Controlar stock
+ * - Modificar datos de clientes
+ * - Gestionar estados de pedidos
+ * - Listar pedidos filtrados
+ * - Buscar al cliente más frecuente
+ * Esta clase extiende a Usuario y aplica las capacidades definidas
+ * en la interfaz IAdministrador.
+ */
+
+
 public class Admin extends Usuario implements IAdministrador {
 
-    /**
-     * Esta clase representa a los usuarios que van a poder controlar los clientes y productos
-     * de la pagina / app de ventas del supermercado , es el rol que tiene acceso a metodos mas especificos
-     * y importantes del sistema , como agregar productos o eliminar clientes
-     */
 
-    /// CONSTRUCTOR NORMAL
+
+    /**
+     * Constructor para crear un administrador nuevo mediante datos proporcionados por consola.
+     *
+     * @param nombre     Nombre del administrador
+     * @param apellido   Apellido del administrador
+     * @param email      Email utilizado para iniciar sesión
+     * @param contrasena Contraseña del administrador
+     */
     public Admin(String nombre, String apellido,String email, String contrasena) {
         super(nombre, apellido,email, contrasena);
 
     }
-    /// CONSTRUCTO JSON
+    /**
+     * Constructor utilizado para recrear administradores desde archivos JSON.
+     *
+     * @param IDUsuario  ID único del administrador
+     * @param nombre     Nombre del administrador
+     * @param apellido   Apellido del administrador
+     * @param email      Email del administrador
+     * @param contrasena Contraseña del administrador
+     */
     public Admin(String IDUsuario, String nombre,String apellido, String email, String contrasena){
         super(IDUsuario,nombre,apellido, email, contrasena);
     }
@@ -36,9 +67,13 @@ public class Admin extends Usuario implements IAdministrador {
         return "Admin{" + super.toString() + " }";
     }
 
-    ///-- METODOS --
 
 
+    /**
+     * Agrega un nuevo cliente al sistema solicitando los datos por consola.
+     *
+     * @param sistema Sistema que contiene la lista de clientes
+     */
     public void agregarCliente(SistemaTienda sistema){
         Scanner sc = new Scanner(System.in);
         boolean flag = false;
@@ -63,13 +98,31 @@ public class Admin extends Usuario implements IAdministrador {
         System.out.println(Etiquetas.EXITO +"Cliente agregado!");
     }
 
-    /// Metodos para ALTA / BAJA CLIENTE MEDIANTE IDUsuario
+    /**
+     * Da de baja un cliente por ID.
+     *
+     * @param sistema Sistema donde se aloja la lista de clientes
+     * @param id      ID del cliente
+     * @throws ElementoInexistenteEx Si la ID no existe
+     */
     public void darDeBajaCliente(SistemaTienda sistema,String id)throws ElementoInexistenteEx{
         cambiarEstadoCliente(sistema,id,false);
     }
+    /**
+     * Da de alta un cliente por ID.
+     */
     public void darDeAltaCliente(SistemaTienda sistema,String id)throws  ElementoInexistenteEx{
         cambiarEstadoCliente(sistema, id,true);
     }
+
+    /**
+     * Cambia el estado (activo/inactivo) de un cliente.
+     *
+     * @param sistema Sistema con la lista de clientes
+     * @param id      ID del cliente
+     * @param activo  true = activar, false = desactivar
+     * @throws ElementoInexistenteEx Si el cliente no existe
+     */
     public void cambiarEstadoCliente(SistemaTienda sistema, String id, boolean activo)throws ElementoInexistenteEx{
         Cliente cliente = sistema.getListaCliente().getPorId(id);
         if(cliente == null){
@@ -83,12 +136,30 @@ public class Admin extends Usuario implements IAdministrador {
             System.out.println(Etiquetas.EXITO +"Cliente dado de baja!");
         }
     }
+
+
+
+
+    /**
+     * Da de baja un producto por ID.
+     *
+     * @throws ElementoInexistenteEx Si el ID no existe
+     */
     public void darDeBajaProducto(SistemaTienda sistema, String id)throws  ElementoInexistenteEx{
         cambiarEstadoProducto(sistema,id,false);
     }
+
+    /**
+     * Da de alta un producto por ID.
+     */
     public void darDeAltaProducto(SistemaTienda sistema, String id)throws  ElementoInexistenteEx{
         cambiarEstadoProducto(sistema,id,true);
     }
+    /**
+     * Cambia el estado (activo/inactivo) de un producto.
+     *
+     * @throws ElementoInexistenteEx Si el producto no existe
+     */
     public void cambiarEstadoProducto(SistemaTienda sistema, String id, boolean activo) throws ElementoInexistenteEx{
         Producto producto = sistema.getListaProductos().getPorId(id);
         if(producto == null){
@@ -102,8 +173,11 @@ public class Admin extends Usuario implements IAdministrador {
             System.out.println(Etiquetas.EXITO +"Producto dado de baja!");
         }
     }
-    /// METODO PARA AGREGAR UN PRODUCTO
-    ///
+    /**
+     * Agrega un nuevo producto al sistema consultando datos desde consola.
+     *
+     * @param sistema Sistema principal
+     */
     public void agregarProducto(SistemaTienda sistema){
 
         Scanner sc = new Scanner(System.in);
@@ -135,7 +209,11 @@ public class Admin extends Usuario implements IAdministrador {
     }
 
 
-    /// METODO PARA MODIFICAR DATOS DE UN PRODUCTO
+    /**
+     * Permite modificar todos los atributos editables de un producto ya existente.
+     *
+     * @throws ElementoInexistenteEx Si el ID no existe
+     */
     public void modificarProducto(SistemaTienda sistema,String id)throws ElementoInexistenteEx {
         if(!sistema.getListaProductos().existeId(id)){
             throw new ElementoInexistenteEx("La id del producto no existe...");
@@ -207,7 +285,11 @@ public class Admin extends Usuario implements IAdministrador {
 
 
 
-    /// AGREGAR O QUITAR STOCK
+    /**
+     * Agrega stock a un producto.
+     *
+     * @throws ElementoInexistenteEx Si el ID no existe
+     */
     public void agregarStock(SistemaTienda sistema,String  id, int cantidad)throws ElementoInexistenteEx{
         Producto producto = sistema.getListaProductos().getPorId(id);
         if(producto == null){
@@ -216,12 +298,18 @@ public class Admin extends Usuario implements IAdministrador {
         producto.setStock(producto.getStock() + cantidad);
         System.out.println(Etiquetas.EXITO +"Stock agregado con exito!");
     }
+
+    /**
+     * Quita stock a un producto. Si el resultado es negativo, lo deja en 0.
+     */
     public void quitarStock(SistemaTienda sistema,String id, int cantidad)throws ElementoInexistenteEx{
         Producto producto = sistema.getListaProductos().getPorId(id);
         if(producto == null){
             throw new ElementoInexistenteEx("El producto no existe...");
         }
-        /// Si la resta da menor a 0, seteamos en 0 el stock. para que el stock no sea negativo
+        /**
+         * Si la resta da menor a 0, seteamos en 0 el stock. para que el stock no sea negativo
+         */
         if((producto.getStock() - cantidad) < 0){
             producto.setStock(0);
         }
@@ -230,6 +318,13 @@ public class Admin extends Usuario implements IAdministrador {
     }
 
 
+
+
+    /**
+     * Permite modificar cualquier dato editable de un cliente.
+     *
+     * @throws ElementoInexistenteEx Si no existe el ID
+     */
 
     public void modificarCliente(SistemaTienda sistema, String idCliente)throws ElementoInexistenteEx {
         if(!sistema.getListaCliente().getListaMapGenerica().containsKey(idCliente)){
@@ -296,7 +391,12 @@ public class Admin extends Usuario implements IAdministrador {
         }while(confimar);
     }
 
-    /// Metodo para buscar al cliente mas frecuente
+
+    /**
+     * Busca al cliente que más pedidos realizó.
+     *
+     * @throws ListasVaciasEx Si no hay clientes en el sistema
+     */
 
     public void buscarClienteMasFrecuente(SistemaTienda sistema) throws ListasVaciasEx {
         if(sistema.getListaCliente().isListaVacia()){
@@ -338,7 +438,12 @@ public class Admin extends Usuario implements IAdministrador {
         return estado;
     }
 
-
+    /**
+     * Cambia el estado de un pedido.
+     *
+     * @throws ElementoInexistenteEx Si el pedido no existe
+     * @throws AccionImposibleEx     Si el pedido ya tiene el estado indicado
+     */
     public void cambiarEstadoPedido(SistemaTienda sistema, String idPedido, Scanner sc) throws ElementoInexistenteEx,AccionImposibleEx{
             Pedido pedido = sistema.getListaPedidos().getPorId(idPedido);
             if (pedido == null) {
@@ -355,7 +460,11 @@ public class Admin extends Usuario implements IAdministrador {
             sistema.subirJSONPedidos();
     }
 
-
+    /**
+     * Lista todos los pedidos que coinciden con un estado específico.
+     *
+     * @throws ElementoInexistenteEx Si no hay pedidos en ese estado
+     */
     public void listarPedidosPorEstado(SistemaTienda sistema, Scanner sc)throws ElementoInexistenteEx {
 
         EstadoPedido estadoPedido = leerEstadoPedido(sc);
@@ -375,7 +484,12 @@ public class Admin extends Usuario implements IAdministrador {
     }
 
 
-
+    /**
+     * Lista todos los pedidos realizados por un cliente específico.
+     *
+     * @throws ElementoInexistenteEx Si el cliente no existe
+     * @throws ListasVaciasEx        Si el cliente no realizó pedidos
+     */
     public void listarPedidosPorCliente(SistemaTienda sistema, String idCliente) throws ElementoInexistenteEx , ListasVaciasEx{
         if(!sistema.getListaCliente().getListaMapGenerica().containsKey(idCliente)){
             throw new ElementoInexistenteEx("No existe esa id...");

@@ -4,9 +4,14 @@ import Enums.CategoriaProducto;
 
 
 /**
- * La clase Producto representa un artículo disponible en una tienda.
- *  Contiene información sobre el id, nombre y precio del producto.
+ * Representa un producto disponible dentro de la tienda.
+ * Cada producto posee un ID único, nombre, precio, categoría,
+ * descripción, stock y un estado que indica si está disponible
+ * para los clientes.
  *
+ * <p>El estado {@code true} significa que el producto está de alta
+ * y visible para los clientes; {@code false} indica que está dado de baja
+ * y no debe mostrarse al público.</p>
  */
 
 public class Producto {
@@ -21,7 +26,17 @@ public class Producto {
     private Boolean estado;
 
 
-    ///-- CONSTRUCTOR --
+
+    /**
+     * Constructor principal para crear un producto dentro del sistema.
+     *
+     * @param nombreProducto      nombre del producto
+     * @param precio              precio del producto
+     * @param categoriaProducto   categoría del producto
+     * @param descripcion         descripción breve
+     * @param stock               stock inicial
+     */
+
     public Producto( String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock) {
         this.idProducto = idGenerador();
         this.nombreProducto = nombreProducto;
@@ -31,7 +46,17 @@ public class Producto {
         this.stock = stock;
         estado = true;
     }
-    /// CONSTRUCTOR JSON
+    /**
+     * Constructor utilizado al cargar productos desde archivos JSON.
+     *
+     * @param idProducto          ID ya generado
+     * @param nombreProducto      nombre del producto
+     * @param precio              precio
+     * @param categoriaProducto   categoría
+     * @param descripcion         descripción
+     * @param stock               cantidad disponible
+     * @param estado              estado del producto
+     */
     public Producto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock, boolean estado){
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
@@ -53,7 +78,11 @@ public class Producto {
     public void setStock(int stock) {
         this.stock = stock;
     }
-
+    /**
+     * Genera un ID único con formato: {@code ID###}.
+     *
+     * @return ID autogenerado
+     */
     public String idGenerador(){
         return String.format("ID" + "%03d",contador++);
     }
@@ -107,12 +136,20 @@ public class Producto {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+    /** Activa el producto (lo hace visible a clientes). */
     public void activar(){
         estado = true;
     }
+    /** Desactiva el producto (lo oculta para clientes). */
     public void desactivar(){
         estado = false;
     }
+    /**
+     * Retorna un mensaje legible del estado.
+     *
+     * @return cadena indicando si está de alta o baja
+     */
     public String conversorEstado(){
         if(getEstado()){
             return "Producto dado de alta";

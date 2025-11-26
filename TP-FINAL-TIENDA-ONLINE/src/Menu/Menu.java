@@ -10,28 +10,49 @@ import sistema.SistemaTienda;
 import java.util.Calendar;
 import java.util.Scanner;
 
+/**
+ * Clase que gestiona la interacción con el usuario a través de menús de consola.
+ *
+ * <p>Proporciona menús y opciones tanto para clientes como para administradores.
+ * Permite iniciar sesión, registrarse, modificar perfiles, gestionar carritos y pedidos,
+ * así como operaciones de administración de clientes, productos y pedidos.</p>
+ */
+
 public class Menu {
 
 
+    public static final String COLOR = "\u001B[36m";
+    public static final String RESET = "\u001B[0m";
+
+    /**
+     * Muestra el menú de login inicial con las opciones:
+     * iniciar sesión, registrarse o salir.
+     */
+
     public static void menuLogin(){
-        System.out.println("─────────── TIENDA ONLINE ───────────");
+        System.out.println(COLOR + "─────────── TIENDA ONLINE ───────────" + RESET);
         System.out.println();
-        System.out.println("(1) Iniciar sesión");
-        System.out.println("(2) Registrarse");
-        System.out.println("(3) Salir");
+        System.out.println("   (1) Iniciar sesión");
+        System.out.println("   (2) Registrarse");
+        System.out.println("   (3) Salir");
         System.out.println();
-        System.out.println("─────────────────────────────────────");
+        System.out.println(COLOR + "─────────────────────────────────────" + RESET);
     }
 
 
 
-    /// Menu Clientes
+    /**
+     * Muestra el menú principal del cliente según su estado de cuenta.
+     *
+     * @param sistema SistemaTienda utilizado para operaciones
+     * @param cliente Cliente logueado
+     */
     public static void menuCliente(SistemaTienda sistema, Cliente cliente){
         Scanner sc = new Scanner(System.in);
         boolean logueado = true;
 
         while(logueado){
-            System.out.println("─────────    Menu Cliente   ─────────");
+            System.out.println(COLOR +"─────────    Menu Cliente   ─────────" + RESET);
 
             if(cliente.isEstado()){
                 /// Si el cliente tiene la cuenta activa muestra este menu completo
@@ -48,7 +69,14 @@ public class Menu {
     }
 
 
-
+    /**
+     * Procesa las opciones seleccionadas por el cliente según su estado de cuenta.
+     *
+     * @param sistema SistemaTienda utilizado para operaciones
+     * @param cliente Cliente logueado
+     * @param opcion  Opción seleccionada por el usuario
+     * @return {@code true} si el usuario continúa en el menú, {@code false} si cierra sesión
+     */
     private static boolean procesarOpciones(SistemaTienda sistema, Cliente cliente, int opcion){
 
         Scanner sc = new Scanner(System.in);
@@ -176,15 +204,19 @@ public class Menu {
 
 
 
-    /// Menu inactivo, es decir si el cliente esta de baja
+    /**
+     * Muestra el menú de cliente cuando la cuenta está inactiva.
+     */
     public static void mostrarMenuInactivo(){
         System.out.println("(1) Ver Perfil");
         System.out.println("(2) Activar Cuenta");
         System.out.println("(3) Modificar Perfil");
         System.out.println("(4) Desloguearse");
-        System.out.println("-------------------------------\n");
+        System.out.println(COLOR + "─────────────────────────────────────" + RESET);
     }
-    ///  Menu Activo, es decir si el cliente esta de alata
+    /**
+     * Muestra el menú completo del cliente cuando la cuenta está activa.
+     */
     public static void mostrarMenuActivo(){
         System.out.println("(1) Ver Perfil");
         System.out.println("(2) Agregar Fondos");
@@ -197,10 +229,16 @@ public class Menu {
         System.out.println("(9) Modificar perfil");
         System.out.println("(10) Desactivar cuenta");
         System.out.println("(11) Desloguearse");
-        System.out.println("-------------------------------\n");
+        System.out.println(COLOR + "─────────────────────────────────────" + RESET);
     }
 
-
+    /**
+     * Muestra y procesa el menú del administrador, permitiendo
+     * agregar/modificar clientes y productos, gestionar stock y pedidos.
+     *
+     * @param admin Administrador que accede al sistema
+     * @param sistema SistemaTienda utilizado para operaciones
+     */
     public static void menuAdmin(Admin admin, SistemaTienda sistema) {
 
         Scanner sc = new Scanner(System.in);
@@ -211,7 +249,7 @@ public class Menu {
         String seguir = "si";
 
         while (continuar) {
-            System.out.println("\n────────────────────   ADMIN   ────────────────────");
+            System.out.println(COLOR + "────────────────────   ADMIN   ────────────────────" + RESET);
             System.out.println("(1) Agregar Cliente"               + "          \"(11) Agregar stock\"");
             System.out.println("(2) Agregar Producto"             + "         \"(12) 1uitar stock\"");
             System.out.println("(3) Dar de alta Cliente"          + "        \"(13) Mostrar Comprobantes\"");
@@ -222,7 +260,7 @@ public class Menu {
             System.out.println("(8) Modificar Producto"           + "      \"(18) Mostrar Pedidos Por Estado\"");
             System.out.println("(9) Mostrar Clientes"             + "       \"(19) \"");
             System.out.println("(10) Mostrar Productos"           + "      \"(20) Cerrar Sesion\"");
-            System.out.println("────────────────────────────────────────────────────────");
+            System.out.println(COLOR + "────────────────────────────────────────────────────────" + RESET);
 
 
 

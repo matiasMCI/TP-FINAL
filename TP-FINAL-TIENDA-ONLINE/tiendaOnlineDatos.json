@@ -3,9 +3,9 @@
         {
             "IDUsuario": "ID002",
             "estado": true,
-            "apellido": "Coli",
-            "nombre": "Matias",
-            "edad": 28,
+            "apellido": "coli",
+            "nombre": "Mati",
+            "edad": 24,
             "fondos": 393000,
             "email": "matias@gmail.com",
             "contraseña": "matias222"
