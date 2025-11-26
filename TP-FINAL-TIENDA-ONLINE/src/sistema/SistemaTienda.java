@@ -14,9 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Clase SistemaTienda.
@@ -44,9 +42,10 @@ public class SistemaTienda {
     private ClaseGenericaMap<Cliente> listaCliente;
     private ClaseGenericaMap<Producto> listaProductos;
     private ClaseGenericaMap<Pedido>listaPedidos;
+    private List<Comprobante> comprobantes;
 
     /**
-     * Constructor por defecto.
+     * Constructor por defecto
      * Inicializa las listas de administradores, clientes, productos y pedidos vacías.
      */
 
@@ -55,6 +54,7 @@ public class SistemaTienda {
         listaCliente = new ClaseGenericaMap<>();
         listaProductos = new ClaseGenericaMap<>();
         listaPedidos = new ClaseGenericaMap<>();
+        comprobantes = new ArrayList<>();
     }
 
     /**
@@ -234,10 +234,20 @@ public class SistemaTienda {
     public void agregarPedido(Pedido p){
         listaPedidos.agregarGenerico(p.getIdPedido(),p);
     }
-    /// FUNCIONES AGREGACION POR JSON
+
+    /**
+     * Agrega un comprobante a la lista de comprobantes del sistema.
+     *
+     * @param c Comprobante que se desea agregar.
+     */
+    public void agregarComprobante(Comprobante c){
+        comprobantes.add(c);
+    }
+    // FUNCIONES AGREGACION POR JSON
     /**
      * Agrega un cliente desde datos JSON.
      */
+
     public  void JSONAgregarCliente(String IDUsuario, String nombre,String apellido, String email, String contrasena, int edad, double fondos, boolean estado){
         Cliente cliente = new Cliente(IDUsuario, nombre, apellido,email, contrasena, edad, fondos, estado);
         listaCliente.agregarGenerico(cliente.getIdUsuario(),cliente);

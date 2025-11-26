@@ -5,6 +5,8 @@ import Interfaces.ICliente;
 import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.*;
 
 /**
@@ -252,6 +254,45 @@ public class Cliente extends Usuario implements ICliente {
         return total;
     }
 
+    /**
+     * Genera un comprobante de compra en un archivo de texto para un pedido específico.
+     * El archivo contiene ID del pedido, ID del cliente, fecha, lista de productos con cantidades y subtotales, y el total pagado.
+     * Luego, registra un objeto Comprobante en el sistema.
+     *
+     * @param pedido Pedido para el cual se generará el comprobante.
+     * @param sistema SistemaTienda donde se registrará el comprobante.
+     * @throws Exception Si ocurre un error al crear o escribir en el archivo.
+     */
+
+    public void generarComprobante(Pedido pedido, SistemaTienda sistema){
+        try {
+            String archivo = "comprobante_" + pedido.getIdPedido() + ".txt";
+            BufferedWriter bw = new BufferedWriter(new FileWriter(archivo));
+
+            bw.write("─────────── COMPROBANTE DE COMPRA ───────────\n");
+            bw.write("Pedido: " + pedido.getIdPedido() + "\n");
+            bw.write("Cliente: " + pedido.getIdCliente() + "\n");
+            bw.write("Fecha: " + pedido.getFecha() + "\n");
+
+            bw.write("Productos:\n");
+            for (ItemCarrito item : pedido.getItems().values()) {
+                double subtotal = item.getCantidad() * item.getProducto().getPrecio();
+                bw.write("- " + item.getProducto().getNombreProducto() + " x" +
+                        item.getCantidad() + "----- $" + subtotal + "\n");
+            }
+            bw.write("\nTotal Pagado: $" + pedido.getMontoTotal() + "\n");
+            bw.write("────────────────────────────────────────────\n");
+
+            bw.close();
+            System.out.println(Etiquetas.INFO+"Comprobante generado: " + archivo);
+
+            sistema.agregarComprobante(new Comprobante(pedido.getIdPedido(), this.getIdUsuario(), pedido.getFecha(), pedido.getMontoTotal(), archivo));
+        }catch (Exception e){
+            System.out.println("al generar comprobante: " +e.getMessage());
+        }
+    }
+
+
 
     /**
      * Finaliza la compra creando un nuevo pedido.
@@ -281,6 +322,7 @@ public class Cliente extends Usuario implements ICliente {
         System.out.println(Etiquetas.INFO+"Compra finalizada con exito!\n");
         sistema.agregarPedido(pedido);
         carrito.clear();
+        generarComprobante(pedido,sistema);
         sistema.subirJSONPedidos();
     }
 
