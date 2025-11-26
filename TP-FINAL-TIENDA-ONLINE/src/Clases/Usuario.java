@@ -14,21 +14,24 @@ public abstract class Usuario {
 
         private String idUsuario;
         private String nombre;
+        private String apellido;
         private String email;
         private  String contrasena;
 
             ///-- CONSTRUCTOR --
 
-            public Usuario(String nombre, String email, String contrasena) {this.idUsuario = idGenerador();
+            public Usuario(String nombre, String apellido,String email, String contrasena) {this.idUsuario = idGenerador();
                 this.nombre = nombre;
+                this.apellido = apellido;
                 this.email = email;
                 this.contrasena = contrasena;
             }
 
     /// CONSTRUCTOR PARA JSON
-    public Usuario(String IDUsuario, String nombre, String email, String contrasena){
+    public Usuario(String IDUsuario, String nombre, String apellido,String email, String contrasena){
         this.idUsuario = IDUsuario;
         this.nombre = nombre;
+        this.apellido = apellido;
         this.email = email;
         this.contrasena = contrasena;
     }
@@ -83,12 +86,27 @@ public abstract class Usuario {
         this.contrasena = contrasena;
     }
 
-    ///-- toSTRING --
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    public String getNombreCompleto() {
+        return nombre + " " + apellido;
+    }
+
+
     @Override
     public String toString() {
-        return ", id='" + idUsuario + '\'' +
+        return
+                "idUsuario='" + idUsuario + '\'' +
                 ", nombre='" + nombre + '\'' +
-                ", email='" + email + '\'';
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                '}';
     }
 }
 

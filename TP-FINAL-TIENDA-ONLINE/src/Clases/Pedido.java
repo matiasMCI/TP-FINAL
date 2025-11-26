@@ -7,13 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Pedido {
 
-    /**
-     * la clase pedido son los datos que se van a guardar de una compra que luego se van a guardar en un historiar
-     * depedidos para la comodidad del cliente , esta guarda el id de pedido , el nombre del cliente , el estado del
-     * pedido y una lista de los productos que se compraron
-     */
+/**
+ * Clase Pedido.
+ *
+ * Representa una compra realizada por un cliente dentro de la tienda online.
+ * Cada pedido contiene un identificador único, el cliente que lo realizó,
+ * una lista de items comprados (ItemCarrito), el monto total, la fecha de creación
+ * y el estado del pedido (PAGADO, EN_PROCESO, CANCELADO, etc.).
+ *
+ * La clase también gestiona un contador estático para generar IDs únicos automáticamente.
+ */
+public class Pedido {
 
     private static int contador = 1;
 
@@ -25,7 +30,14 @@ public class Pedido {
     private EstadoPedido estado;
 
 
-    ///-- CONSTRUCTOR --
+    /**
+     * Constructor principal.
+     * Crea un pedido nuevo a partir de un cliente y los items seleccionados.
+     * Genera un ID único automáticamente, calcula el monto total y establece la fecha actual.
+     *
+     * @param idCliente ID del cliente que realiza el pedido.
+     * @param items Mapa de items (producto y cantidad) incluidos en el pedido.
+     */
     public Pedido( String idCliente, Map<String ,ItemCarrito>items) {
        this.idPedido = generarID();
         this.idCliente = idCliente;
@@ -35,7 +47,16 @@ public class Pedido {
         this.estado = EstadoPedido.PAGADO;
     }
 
-    /// CONSTRUCTO JSON
+    /**
+     * Constructor utilizado para deserialización desde JSON.
+     * Permite crear un objeto Pedido con todos los campos ya definidos.
+     *
+     * @param idPedido ID del pedido.
+     * @param montoTotal Monto total del pedido.
+     * @param idCliente ID del cliente.
+     * @param fecha Fecha del pedido.
+     * @param estado Estado del pedido.
+     */
     public Pedido(String idPedido, double montoTotal, String idCliente, String fecha, EstadoPedido estado){
         this.idPedido = idPedido;
         this.montoTotal = montoTotal;
@@ -103,11 +124,21 @@ public class Pedido {
     }
 
 
-
+    /**
+     * Genera un ID único para el pedido.
+     *
+     * @return ID en formato "PED" + contador.
+     */
     private String generarID(){
         return "PED"+ contador++;
     }
 
+
+    /**
+     * Calcula el total del pedido sumando los subtotales de todos los items.
+     *
+     * @return Monto total del pedido.
+     */
     private double calcularTotal(){
         double total = 0;
         for(ItemCarrito item : items.values()){

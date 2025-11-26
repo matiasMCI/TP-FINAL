@@ -49,7 +49,6 @@ try {
                 } catch (ElementoDuplicadoEx e) {
                     System.out.println(Etiquetas.ERROR + "al registrar:" + e.getMessage());
                 }
-                sistema.mostrarListaCliente();
                 break;
             case 3:
                 activo = false;

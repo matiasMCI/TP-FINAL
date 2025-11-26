@@ -227,11 +227,11 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
-                    sistema.agregarCliente();
+                    admin.agregarCliente(sistema);
                     sistema.subirJSON();
                     break;
                 case 2:
-                    sistema.agregarProducto();
+                    admin.agregarProducto(sistema);
                     sistema.subirJSONProductos();
                     break;
                 case 3:
@@ -239,7 +239,7 @@ public class Menu {
                     System.out.println("Ingrese la id cliente a dar de alta: ");
                     idCliente = sc.nextLine().trim();
                     try {
-                        sistema.darDeAltaCliente(idCliente);
+                        admin.darDeAltaCliente(sistema,idCliente);
                     } catch (ElementoDuplicadoEx e) {
                         System.out.println(Etiquetas.ERROR + " al dar de alta cliente: " + e.getMessage());
                     }
@@ -249,7 +249,7 @@ public class Menu {
                     System.out.println("Ingrese la id cliente a dar de baja: ");
                     idCliente = sc.nextLine().trim();
                     try {
-                        sistema.darDeBajaCliente(idCliente);
+                        admin.darDeBajaCliente(sistema,idCliente);
                     } catch (ElementoDuplicadoEx e) {
                         System.out.println(Etiquetas.ERROR + "al dar de baja cliente: " + e.getMessage());
                     }
@@ -272,7 +272,7 @@ public class Menu {
                         sistema.mostrarListaProducto();
                         System.out.println("Ingrese ID del producto a modificar: ");
                         idProducto = sc.nextLine();
-                        sistema.modificarProducto(idProducto);
+                        admin.modificarProducto(sistema,idProducto);
                     } catch (ElementoInexistenteEx e) {
                         System.out.println(Etiquetas.ERROR + " al modificar producto: " + e.getMessage());
                     }
@@ -291,7 +291,7 @@ public class Menu {
                         idProducto = sc.nextLine();
                         cantidad = sistema.leerEnteroSeguro(sc, "Ingrese la cantidad a agregar: ");
                         try {
-                            sistema.agregarStock(idProducto, cantidad);
+                            admin.agregarStock(sistema,idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {
                             System.out.println(Etiquetas.ERROR + "al agregar stock: " + e.getMessage());
                         }
@@ -306,7 +306,7 @@ public class Menu {
                         idProducto = sc.nextLine();
                         cantidad = sistema.leerEnteroSeguro(sc,"Ingrese la cantidad a descontar: ");
                         try {
-                            sistema.quitarStock(idProducto, cantidad);
+                            admin.quitarStock(sistema,idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {
                             System.out.println(Etiquetas.ERROR+"al descontar stock: " + e.getMessage());
                         }
@@ -324,7 +324,11 @@ public class Menu {
                     }
                     break;
                 case 14:
-
+                        try{
+                            admin.buscarClienteMasFrecuente(sistema);
+                        }catch (ListasVaciasEx e){
+                            System.out.println(Etiquetas.ERROR + "al buscar clientes: " + e.getMessage());
+                        }
                      break;
                 case 18:
                     continuar = false;

@@ -98,18 +98,17 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    ///-- toSTRING --
+    /// -- toSTRING --
     @Override
     public String toString() {
-        return "Clases.Producto{" +
-                "idProducto='" + idProducto + '\'' +
-                ", nombreProducto='" + nombreProducto + '\'' +
+        return
+                " nombreProducto='" + nombreProducto + '\'' +
                 ", precio=" + precio +
                 ", categoriaProducto=" + categoriaProducto +
                 ", descripcion='" + descripcion + '\'' +
+                ", stock=" + stock +
                 '}';
     }
-
 
 
 ///-- METODOS --

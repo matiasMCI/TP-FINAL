@@ -6,6 +6,15 @@ import sistema.SistemaTienda;
 
 import java.util.*;
 
+/**
+ * Clase Cliente.
+ *
+ * Representa un usuario cliente de la tienda online.
+ * Contiene información personal (nombre, email, edad), fondos disponibles,
+ * estado de la cuenta, carrito de compras actual y un historial de pedidos realizados.
+ * Hereda de la clase Usuario.
+ */
+
 public class Cliente extends Usuario  {
 
 
@@ -18,22 +27,37 @@ public class Cliente extends Usuario  {
     private List<Pedido> historialPedidos = new ArrayList<>();
 
 
-    ///-- CONSTRUCTOR NORMAL
-    public Cliente(String nombre, String email, String contrasena, int edad){
-        super(nombre,email,contrasena);
+    /**
+     * Constructor principal.
+     * Crea un cliente nuevo con edad, nombre, email y contraseña.
+     * Inicializa fondos en 0 y estado en false.
+     */
+    public Cliente(String nombre, String apellido,String email, String contrasena, int edad){
+        super(nombre,apellido,email,contrasena);
         this.edad = edad;
         this.fondos = 0;
         this.estado = false;
     }
-    /// CONSTRUCTOR PARA JSON
-    public Cliente(String IDUsuario, String nombre, String email, String contrasena, int edad, double fondos, boolean estado){
-        super(IDUsuario,nombre,email,contrasena);
+    /**
+     * Constructor para deserialización desde JSON.
+     *
+     * @param IDUsuario ID único del usuario.
+     * @param nombre Nombre del cliente.
+     * @param email Email del cliente.
+     * @param contrasena Contraseña del cliente.
+     * @param edad Edad del cliente.
+     * @param fondos Fondos disponibles.
+     * @param estado Estado de la cuenta.
+     */
+    public Cliente(String IDUsuario, String nombre,String apellido, String email, String contrasena, int edad, double fondos, boolean estado){
+        super(IDUsuario,nombre,apellido,email,contrasena);
         this.edad = edad;
         this.fondos = fondos;
         this.estado = estado;
     }
 
     ///-- GETTERS SETTERS --
+
     public int getEdad() {
         return edad;
     }
@@ -62,6 +86,11 @@ public class Cliente extends Usuario  {
         this.carrito = carrito;
     }
 
+    /**
+     * Devuelve la lista de pedidos realizados por el cliente.
+     *
+     * @return Lista de objetos Pedido.
+     */
     public List<Pedido> getHistorialPedidos() {
         return historialPedidos;
     }
@@ -94,6 +123,7 @@ public class Cliente extends Usuario  {
         System.out.println("\n─────────── Perfil Cliente ───────────");
         System.out.println("ID: " + this.getIdUsuario());
         System.out.println("Nombre: " + this.getNombre());
+        System.out.println("Apellido : " + this.getApellido());
         System.out.println("Edad: " + edad);
         System.out.println("Email: " + this.getEmail());
         System.out.println("Contraseña: " + this.getContrasena());
@@ -222,7 +252,7 @@ public class Cliente extends Usuario  {
             for(ItemCarrito item : pedido.getItems().values()){
                 double subtotal = item.getCantidad() * item.getProducto().getPrecio();
                 System.out.println("- " + item.getProducto().getNombreProducto() + " x" +
-                        item.getCantidad() + "----- $" + subtotal + "\n");
+                        item.getCantidad() + "----- $" + subtotal);
             }
             System.out.println("Total: " + pedido.getMontoTotal());
             System.out.println("Estado: " + pedido.getEstado());
@@ -282,10 +312,11 @@ public class Cliente extends Usuario  {
         do{
 
             System.out.println("\n1. Cambiar nombre");
-            System.out.println("2. Cambiar email");
-            System.out.println("3. Cambiar contraseña");
-            System.out.println("4. Cambiar edad ");
-            System.out.println("5. Terminar");
+            System.out.println("2. Cambiar Apellido");
+            System.out.println("3. Cambiar email");
+            System.out.println("4. Cambiar contraseña");
+            System.out.println("5. Cambiar edad ");
+            System.out.println("6. Terminar");
 
             int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
 
@@ -297,18 +328,23 @@ public class Cliente extends Usuario  {
                     System.out.println(Etiquetas.INFO+"nombre cambiado");
                     break;
                 case 2:
+                    System.out.println("Ingrese nuevo apellido: ");
+                    String apellido = sc.nextLine();
+                    cliente.setApellido(apellido);
+                    System.out.println(Etiquetas.INFO+"apellido cambiado");
+                case 3:
                     System.out.println("Ingrese nuevo email: ");
                     String email = sc.nextLine();
                     cliente.setEmail(email);
                     System.out.println(Etiquetas.INFO+"email cambiado");
                     break;
-                case 3:
+                case 4:
                     System.out.println("Ingrese nueva contraseña: ");
                     String contrasena = sc.nextLine();
                     cliente.setContrasena(contrasena);
                     System.out.println(Etiquetas.INFO+"contraseña cambiada");
                     break;
-                case 4:
+                case 5:
                     int edad = sistema.leerEnteroSeguro(sc, "Ingrese nueva edad: ");
                     try {
                         cliente.verificacionEdad(edad);
@@ -316,7 +352,7 @@ public class Cliente extends Usuario  {
                         System.out.println(Etiquetas.ERROR + "al asignar edad: " + e.getMessage());
                     }
                     break;
-                case 5:
+                case 6:
                     confimar = false;
                     System.out.println(Etiquetas.EXITO+"Cambio aplicados con exito!");
                     break;

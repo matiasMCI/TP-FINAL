@@ -20,9 +20,12 @@ import java.util.Scanner;
 
 /**
  * Clase SistemaTienda.
- * Gestiona los productos, clientes, pedidos y administradores de la tienda.
- * Permite agregar, eliminar y consultar elementos, y exportar datos a JSON.
  *
+ * Gestiona la tienda online completa: clientes, administradores, productos y pedidos.
+ * Permite agregar, modificar y eliminar elementos, realizar operaciones de compra,
+ * mantener el historial de pedidos de los clientes y exportar datos a JSON.
+ *
+ * Soporta deserialización desde JSON para reconstruir la tienda desde archivos guardados.
  */
 
 public class SistemaTienda {
@@ -31,17 +34,14 @@ public class SistemaTienda {
     private static final String  archivoProductos = "tiendaOnlineProductos";
     private static final String archivoPedidos = "tiendaOnlinePedidos";
 
-
-
     private ClaseGenericaMap<Admin> listaAdmin;
     private ClaseGenericaMap<Cliente> listaCliente;
     private ClaseGenericaMap<Producto> listaProductos;
     private ClaseGenericaMap<Pedido>listaPedidos;
 
-
-
     /**
-     * Constructor. Inicializa las listas de productos, clientes, pedidos y administradores.
+     * Constructor por defecto.
+     * Inicializa las listas de administradores, clientes, productos y pedidos vacías.
      */
 
     public SistemaTienda() {
@@ -50,7 +50,17 @@ public class SistemaTienda {
         listaProductos = new ClaseGenericaMap<>();
         listaPedidos = new ClaseGenericaMap<>();
     }
-    /// Json a las listas
+
+    /**
+     * Constructor para deserializar la tienda desde JSON.
+     * Llena listas de clientes, admins, productos y pedidos.
+     * Actualiza los contadores de ID para nuevos objetos.
+     *
+     * @param data JSONObject con clientes y admins.
+     * @param data2 JSONArray con productos.
+     * @param dataPedido JSONArray con pedidos.
+     * @throws JSONException Si ocurre un error de parsing JSON.
+     */
     public SistemaTienda(JSONObject data, JSONArray data2, JSONArray dataPedido) throws JSONException {
         this();
 
@@ -68,6 +78,7 @@ public class SistemaTienda {
                 maxID = num;
             }
             JSONAgregarAdmin(jsonObjectAdmin.getString("IDUsuario"),jsonObjectAdmin.getString("nombre"),
+                    jsonObjectAdmin.getString("apellido"),
                     jsonObjectAdmin.getString("email"),jsonObjectAdmin.getString("contraseña"));
         }
 
@@ -83,7 +94,7 @@ public class SistemaTienda {
                 maxID = num;
             }
             JSONAgregarCliente(jsonObjectCliente.getString("IDUsuario"),
-                    jsonObjectCliente.getString("nombre"), jsonObjectCliente.getString("email"),
+                    jsonObjectCliente.getString("nombre"),jsonObjectCliente.getString("apellido") ,jsonObjectCliente.getString("email"),
                     jsonObjectCliente.getString("contraseña"), jsonObjectCliente.getInt("edad"),
                     jsonObjectCliente.getDouble("fondos"), jsonObjectCliente.getBoolean("estado")
             );
@@ -179,34 +190,69 @@ public class SistemaTienda {
     }
 
 
-    ///-- METODOS --
-
-
-    /// Funciones de agregarcion por menu
-    public void agregarCliente(String nombre, String email, String contrasena, int edad){
-        Cliente cliente = new Cliente(nombre, email, contrasena, edad);
+    /**
+     * Agrega un nuevo cliente a la tienda.
+     *
+     * @param nombre Nombre del cliente.
+     * @param email Email del cliente.
+     * @param contrasena Contraseña del cliente.
+     * @param edad Edad del cliente.
+     */
+    public void agregarCliente(String nombre, String apellido,String email, String contrasena, int edad){
+        Cliente cliente = new Cliente(nombre, apellido,email, contrasena, edad);
         listaCliente.agregarGenerico(cliente.getIdUsuario(),cliente);
     }
-    public void agregarAdmin(String nombre, String email, String contrasena){
-        Admin admin = new Admin(nombre, email, contrasena);
+    /**
+     * Agrega un nuevo administrador a la tienda.
+     *
+     * @param nombre Nombre del administrador.
+     * @param email Email del administrador.
+     * @param contrasena Contraseña del administrador.
+     */
+    public void agregarAdmin(String nombre,String apellido, String email, String contrasena){
+        Admin admin = new Admin(nombre, apellido,email, contrasena);
         listaAdmin.agregarGenerico(admin.getIdUsuario(),admin);
     }
+    /**
+     * Agrega un producto nuevo a la tienda.
+     *
+     * @param nombreProducto Nombre del producto.
+     * @param precio Precio del producto.
+     * @param categoriaProducto Categoría del producto.
+     * @param descripcion Descripción del producto.
+     * @param stock Stock disponible.
+     * @throws ElementoDuplicadoEx Si ya existe un producto con el mismo ID.
+     */
     public void agregarProducto(String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock)throws  ElementoDuplicadoEx{
         Producto producto = new Producto(nombreProducto, precio, categoriaProducto, descripcion, stock);
         listaProductos.agregarGenerico(producto.getIdProducto(),producto);
     }
+    /**
+     * Agrega un pedido a la lista general de pedidos y al historial del cliente.
+     *
+     * @param p Pedido a agregar.
+     */
     public void agregarPedido(Pedido p){
         listaPedidos.agregarGenerico(p.getIdPedido(),p);
     }
     /// FUNCIONES AGREGACION POR JSON
-    public  void JSONAgregarCliente(String IDUsuario, String nombre, String email, String contrasena, int edad, double fondos, boolean estado){
-        Cliente cliente = new Cliente(IDUsuario, nombre, email, contrasena, edad, fondos, estado);
+    /**
+     * Agrega un cliente desde datos JSON.
+     */
+    public  void JSONAgregarCliente(String IDUsuario, String nombre,String apellido, String email, String contrasena, int edad, double fondos, boolean estado){
+        Cliente cliente = new Cliente(IDUsuario, nombre, apellido,email, contrasena, edad, fondos, estado);
         listaCliente.agregarGenerico(cliente.getIdUsuario(),cliente);
     }
-    public void JSONAgregarAdmin(String IDUsuario, String nombre, String email, String contrasena){
-        Admin admin = new Admin(IDUsuario,nombre,email,contrasena);
+    /**
+     * Agrega un administrador desde datos JSON.
+     */
+    public void JSONAgregarAdmin(String IDUsuario, String nombre, String apellido,String email, String contrasena){
+        Admin admin = new Admin(IDUsuario,nombre,apellido,email,contrasena);
         listaAdmin.agregarGenerico(admin.getIdUsuario(),admin);
     }
+    /**
+     * Agrega un producto desde datos JSON.
+     */
     public void JSONAgregarProducto(String idProducto,String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock){
         Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion, stock);
         listaProductos.agregarGenerico(producto.getIdProducto(), producto);
@@ -277,188 +323,14 @@ public class SistemaTienda {
     }
 
 
-    public boolean existeCliente(String nombre){
+    public boolean existeCliente(String nombre, String apellido){
         for(Cliente cliente : listaCliente.getListaMapGenerica().values()){
-            if(cliente.getNombre().equalsIgnoreCase(nombre)){
+            if(cliente.getNombre().equalsIgnoreCase(nombre) && cliente.getApellido().equalsIgnoreCase(apellido)){
                 return true;
             }
         }
         return false;
     }
-
-    public void agregarCliente(){
-        Scanner sc = new Scanner(System.in);
-        boolean flag = false;
-        System.out.println("───────────  Agregar Nuevo Cliente  ───────────");
-        System.out.println("Ingrese nombre:");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese email: ");
-        String email = sc.nextLine();
-        System.out.println("Ingrese contraseña: ");
-        String contrasena = sc.nextLine();
-        int edad;
-        do {
-            System.out.println("La edad debe ser entre 18 y 99 años.");
-            edad = leerEnteroSeguro(sc, "Ingrese la edad: ");
-            if(edad >= 18 && edad <= 99){
-                flag = true;
-            }
-        }while(!flag);
-        agregarCliente(nombre,email,contrasena,edad);
-        System.out.println(Etiquetas.EXITO +"Cliente agregado!");
-    }
-    /// Metodos para ALTA / BAJA CLIENTE MEDIANTE IDUsuario
-    public void darDeBajaCliente(String id)throws ElementoInexistenteEx{
-        cambiarEstadoCliente(id,false);
-    }
-    public void darDeAltaCliente(String id)throws  ElementoInexistenteEx{
-        cambiarEstadoCliente(id,true);
-    }
-    public void cambiarEstadoCliente(String id, boolean activo)throws ElementoInexistenteEx{
-        Cliente cliente = listaCliente.getPorId(id);
-        if(cliente == null){
-            throw new ElementoInexistenteEx("La id del cliente no existe...");
-        }
-        if(activo){
-            cliente.activar();
-            System.out.println(Etiquetas.EXITO +"Cliente dado de alta!");
-        }else{
-            cliente.desactivar();
-            System.out.println(Etiquetas.EXITO +"Cliente dado de baja!");
-        }
-    }
-
-
-    /// METODO PARA AGREGAR UN PRODUCTO
-    ///
-    public void agregarProducto(){
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("───────────  Agregar Nuevo Producto  ───────────");
-        System.out.println("Ingrese nombre: ");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese precio: ");
-        double precio = leerDoubleSeguro(sc,"Ingrese precio: ");
-
-        CategoriaProducto categoriaProducto;
-
-        do {
-            System.out.println("Categorias disponibles: COMIDA, BEBIDAS, ALIMENTOS, POSTRES");
-            System.out.println("Ingrese categoria: ");
-            String categoriaString = sc.nextLine();
-            try {
-                categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                System.out.println(Etiquetas.INFO+"Categoria invalida.");
-                categoriaProducto = null;
-            }
-        }while(categoriaProducto == null);
-        System.out.println("Ingrese descripcion: ");
-        String descripcion = sc.nextLine();
-        int stock = leerEnteroSeguro(sc,"Ingrese stock: ");
-
-        agregarProducto(nombre,precio,categoriaProducto,descripcion,stock);
-        System.out.println(Etiquetas.EXITO +"Producto Agregado con exito!");
-    }
-
-    /// METODO PARA MODIFICAR DATOS DE UN PRODUCTO
-    public void modificarProducto(String id)throws ElementoInexistenteEx {
-        if(!listaProductos.existeId(id)){
-            throw new ElementoInexistenteEx("La id del producto no existe...");
-        }
-        Producto productoModificar = listaProductos.getPorId(id);
-        Scanner sc = new Scanner(System.in);
-        boolean terminar = true;
-
-        System.out.println("─────────── Modificar Producto ───────────");
-
-        while(terminar){
-            System.out.println("1. Cambiar Nombre");
-            System.out.println("2. Cambiar Precio");
-            System.out.println("3. Cambiar Categoria");
-            System.out.println("4. Cambiar Descripcion");
-            System.out.println("5. Cambiar stock");
-            System.out.println("6. Terminar");
-            int opcion = leerEnteroSeguro(sc,"Opcion: ");
-
-            switch (opcion){
-                case 1:
-                    System.out.println("Ingrese nombre: ");
-                    String nombre = sc.nextLine();
-                    productoModificar.setNombreProducto(nombre);
-                    break;
-                case 2:
-                    double precio = leerDoubleSeguro(sc,"Ingrese Precio: ");
-                    productoModificar.setPrecio(precio);
-                    break;
-                case 3:
-
-                    CategoriaProducto categoriaProducto;
-
-                    do {
-                        System.out.println("Categorias disponibles: COMIDA, BEBIDAS, ALIMENTOS, POSTRES");
-                        System.out.println("Ingrese categoria: ");
-                        String categoriaString = sc.nextLine();
-                        try {
-                            categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
-                        } catch (IllegalArgumentException e) {
-                            System.out.println(Etiquetas.INFO+"Categoria invalida.");
-                            categoriaProducto = null;
-                        }
-                    }while(categoriaProducto == null);
-                    productoModificar.setCategoriaProducto(categoriaProducto);
-                    break;
-                case 4:
-                    System.out.println("Ingrese descripcion: ");
-                    String descripcion = sc.nextLine();
-                    productoModificar.setDescripcion(descripcion);
-                    break;
-                case 5:
-                    int stock = leerEnteroSeguro(sc,"Ingrese stock: ");
-                    productoModificar.setStock(stock);
-                    break;
-                case 6:
-                    terminar = false;
-                    System.out.println(Etiquetas.INFO+"Aplicando cambios");
-                    break;
-                default:
-                    System.out.println(Etiquetas.INFO+"Opcion invalida");
-                    break;
-            }
-
-        }
-        System.out.println(Etiquetas.EXITO +"Cambios exitosos!");
-    }
-
-    /// AGREGAR O QUITAR STOCK
-    public void agregarStock(String  id, int cantidad)throws ElementoInexistenteEx{
-        Producto producto = listaProductos.getPorId(id);
-        if(producto == null){
-            throw new ElementoInexistenteEx("El producto no existe...");
-        }
-        producto.setStock(producto.getStock() + cantidad);
-        System.out.println(Etiquetas.EXITO +"Stock agregado con exito!");
-    }
-    public void quitarStock(String id, int cantidad)throws ElementoInexistenteEx{
-        Producto producto = listaProductos.getPorId(id);
-        if(producto == null){
-            throw new ElementoInexistenteEx("El producto no existe...");
-        }
-        /// Si la resta da menor a 0, seteamos en 0 el stock. para que el stock no sea negativo
-        if((producto.getStock() - cantidad) < 0){
-            producto.setStock(0);
-        }
-        producto.setStock(producto.getStock() - cantidad);
-        System.out.println(Etiquetas.EXITO +"Stock descontado con exito!");
-    }
-
-
-
-
-
-
-    ///
-
 
     /// Loguearse
     public void loguearse()throws ListasVaciasEx {
@@ -511,11 +383,13 @@ public class SistemaTienda {
         boolean flag = false;
         System.out.println("─────────── Registrarse ───────────");
         System.out.println("Ingrese su nombre: ");
-        String nombre = sc.nextLine();
+        String nombre = sc.nextLine().trim();
+        System.out.println("Ingrese su apellido: ");
+        String apellido = sc.nextLine().trim();
         System.out.println("Ingrese su email: ");
-        String email = sc.nextLine();
+        String email = sc.nextLine().trim();
         System.out.println("Ingrese su contrasena: ");
-        String contrasena = sc.nextLine();
+        String contrasena = sc.nextLine().trim();
         int edad;
         do {
             System.out.println("La edad debe ser entre 18 y 99 años.");
@@ -524,25 +398,13 @@ public class SistemaTienda {
                 flag = true;
             }
         }while(!flag);
-        if (existeCliente(nombre)) {
+        if (existeCliente(nombre, apellido)) {
             throw new ElementoDuplicadoEx("El usuario a registrar ya existe en la lista...");
         }
-        agregarCliente(nombre, email, contrasena, edad);
+        agregarCliente(nombre,apellido, email, contrasena, edad);
         System.out.println(Etiquetas.EXITO +"Cliente registrado!");
         subirJSON();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /// Metodo para que lo unico que pueda leer sea un entero
     /// De lo contrario maneja la excepcion que puede arrojar
@@ -581,9 +443,11 @@ public class SistemaTienda {
         }
     }
 
-
-
-
+    /**
+     * Convierte la lista de pedidos a JSONArray para exportar a JSON.
+     *
+     * @return JSONArray con todos los pedidos y sus items.
+     */
 
 
     public JSONArray pedidosToJSON() {
@@ -624,8 +488,8 @@ public class SistemaTienda {
     /**
      * Convierte la lista de productos a JSONArray para exportar a JSON.
      *
+     * @return JSONArray con todos los productos.
      */
-
 
     public JSONArray productosToJSON(){
         JSONArray jsonArrayProductos = new JSONArray();
@@ -642,8 +506,9 @@ public class SistemaTienda {
         return jsonArrayProductos;
 }
     /**
-     * Convierte la lista de productos a JSONArray para exportar a JSON.
+     * Convierte la lista de admins a JSONArray para exportar a JSON.
      *
+     * @return JSONArray con todos los administradores.
      */
 
         public JSONArray adminsToJson(){
@@ -652,6 +517,7 @@ public class SistemaTienda {
                 JSONObject jsonObjectAdmin = new JSONObject();
                 jsonObjectAdmin.put("IDUsuario",a.getIdUsuario());
                 jsonObjectAdmin.put("nombre",a.getNombre());
+                jsonObjectAdmin.put("apellido",a.getApellido());
                 jsonObjectAdmin.put("email",a.getEmail());
                 jsonObjectAdmin.put("contraseña",a.getContrasena());
                 jsonArrayAdmins.put(jsonObjectAdmin);
@@ -659,12 +525,19 @@ public class SistemaTienda {
             return jsonArrayAdmins;
         }
 
+    /**
+     * Convierte la lista de clientes a JSONArray para exportar a JSON.
+     *
+     * @return JSONArray con todos los clientes.
+     */
+
     public  JSONArray ClientesToJSON(){
         JSONArray jsonArrayClientes = new JSONArray() ;
         for (Cliente c : listaCliente.getListaMapGenerica().values()){
             JSONObject jsonObjectCliente = new JSONObject();
             jsonObjectCliente.put("IDUsuario",c.getIdUsuario());
             jsonObjectCliente.put("nombre",c.getNombre());
+            jsonObjectCliente.put("apellido",c.getApellido());
             jsonObjectCliente.put("email",c.getEmail());
             jsonObjectCliente.put("contraseña",c.getContrasena());
             jsonObjectCliente.put("edad",c.getEdad());
@@ -675,6 +548,15 @@ public class SistemaTienda {
         }
         return jsonArrayClientes;
     }
+
+    /**
+     * Combina clientes y admins en un JSONObject completo.
+     *
+     * @param jsonCliente JSONArray de clientes.
+     * @param jsonAdmin JSONArray de admins.
+     * @return JSONObject con clientes y admins.
+     */
+
     public JSONObject AllToJSON(JSONArray jsonCliente, JSONArray jsonAdmin){
         JSONObject JSONObjectAll = new JSONObject();
         JSONObjectAll.put("clientes",jsonCliente);
@@ -682,12 +564,22 @@ public class SistemaTienda {
         return JSONObjectAll;
     }
 
+    /**
+     * Sube la tienda completa a JSON.
+     */
     public void subirJSON(){
             JSONUtiles.uploadJSON(AllToJSON(ClientesToJSON(),adminsToJson()),archivoCompleto);
     }
+    /**
+     * Sube la lista de productos a JSON.
+     */
     public void subirJSONProductos(){
             JSONUtiles.uploadJSON(productosToJSON(),archivoProductos);
     }
+
+    /**
+     * Sube la lista de pedidos a JSON.
+     */
     public void subirJSONPedidos(){
             JSONUtiles.uploadJSON(pedidosToJSON(),archivoPedidos);
     }

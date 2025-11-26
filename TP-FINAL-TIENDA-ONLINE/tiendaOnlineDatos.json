@@ -3,6 +3,7 @@
         {
             "IDUsuario": "ID002",
             "estado": true,
+            "apellido": "Coli",
             "nombre": "Matias",
             "edad": 28,
             "fondos": 393000,
@@ -12,6 +13,7 @@
         {
             "IDUsuario": "ID003",
             "estado": true,
+            "apellido": "Suarez",
             "nombre": "Ivan",
             "edad": 23,
             "fondos": 12300,
@@ -21,15 +23,37 @@
         {
             "IDUsuario": "ID004",
             "estado": true,
+            "apellido": "Lo celso",
             "nombre": "Andres",
             "edad": 18,
             "fondos": 83100,
             "email": "andres@gmail.com",
             "contraseña": "andres123"
+        },
+        {
+            "IDUsuario": "ID005",
+            "estado": false,
+            "apellido": "Ramirez",
+            "nombre": "Facundo",
+            "edad": 19,
+            "fondos": 0,
+            "email": "facundo@gmail.com",
+            "contraseña": "facundo123"
+        },
+        {
+            "IDUsuario": "ID006",
+            "estado": false,
+            "apellido": "Disalvo",
+            "nombre": "Julian",
+            "edad": 29,
+            "fondos": 0,
+            "email": "julian@gmail.com",
+            "contraseña": "julian123"
         }
     ],
     "admins": [{
         "IDUsuario": "ID001",
+        "apellido": "ADMIN",
         "nombre": "ADMIN",
         "email": "admin",
         "contraseña": "admin"
