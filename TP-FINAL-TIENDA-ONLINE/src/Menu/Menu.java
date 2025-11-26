@@ -3,6 +3,7 @@ package Menu;
 import Clases.Admin;
 import Clases.Cliente;
 import Excepciones.*;
+import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
 import java.util.Scanner;
@@ -62,9 +63,9 @@ public class Menu {
                     try {
                         cliente.agregarFondos(fondos);
                     }catch (AccionImposibleEx ai){
-                        System.out.println("Error al asignar fondos: " + ai.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al asignar fondos: " + ai.getMessage());
                     }catch (FondosSuperadosEx e){
-                        System.out.println("Error con tope fondos: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "con tope fondos: " + e.getMessage());
                     }
                     break;
                 case 3:
@@ -78,9 +79,9 @@ public class Menu {
                         try {
                             cliente.agregarACarrito(sistema, id, cantidad);
                         } catch (SinStockEx e) {
-                            System.out.println("Error al agregar por stock: " + e.getMessage());
+                            System.out.println(Etiquetas.ERROR+" al agregar por stock: " + e.getMessage());
                         } catch (ElementoInexistenteEx EI) {
-                            System.out.println("Error al agregar por id: " + EI.getMessage());
+                            System.out.println(Etiquetas.ERROR+"al agregar por id: " + EI.getMessage());
                         }
                         System.out.println("Desea agregar otro producto? SI/NO: ");
                         continuar = sc.nextLine();
@@ -93,37 +94,37 @@ public class Menu {
                     try {
                         cliente.eliminarDeCarrito(idProducto);
                     }catch (ElementoInexistenteEx e){
-                        System.out.println("Error al eliminar del carrito: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR+" al eliminar del carrito: " + e.getMessage());
                     }
                     break;
                 case 5:
                     try{
                         cliente.mostrarCarrito();
                     }catch (ListasVaciasEx e){
-                        System.out.println("Error al mostrar Carrito: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + e.getMessage());
                     }
                     break;
                 case 6:
                     try {
                         cliente.vaciarCarrito();
                     }catch (CarritoVacioEx e ){
-                        System.out.println("Error Accion imposible: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR+"Accion imposible: " + e.getMessage());
                     }
                     break;
                 case 7:
                     try {
                         cliente.finalizarCompra(sistema);
                     }catch (CarritoVacioEx e){
-                        System.out.println("Error con el carrito: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR+ " con el carrito: " + e.getMessage());
                     }catch (FondosInsuficientesEx fi){
-                        System.out.println("Error con los fondos: " + fi.getMessage());
+                        System.out.println(Etiquetas.ERROR+" con los fondos: " + fi.getMessage());
                     }
                     break;
                 case 8:
                     try {
                         cliente.verPedidos();
                     }catch (ListasVaciasEx e){
-                        System.out.println("Error al mostrar historial de pedidos: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR+" al mostrar historial de pedidos: " + e.getMessage());
                     }
                     break;
                 case 9:
@@ -131,13 +132,13 @@ public class Menu {
                     break;
                 case 10:
                     cliente.desactivar();
-                    System.out.println("Cuenta desactivada");
+                    System.out.println(Etiquetas.INFO+ "Cuenta desactivada");
                     break;
                 case 11:
-                    System.out.println( "Sesion cerrada");
+                    System.out.println(Etiquetas.INFO + "Sesion cerrada");
                     return false;
                 default:
-                    System.out.println("Opcion invalida...");
+                    System.out.println(Etiquetas.WARNING+"Opcion invalida...");
                     break;
             }
 
@@ -157,10 +158,10 @@ public class Menu {
                     cliente.modificarPerfil(sistema,cliente);
                     break;
                 case 4:
-                    System.out.println("Sesion cerrada!");
+                    System.out.println(Etiquetas.INFO+"Sesion cerrada!");
                     return false;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println(Etiquetas.WARNING+"Opcion invalida");
                     break;
             }
 
@@ -240,7 +241,7 @@ public class Menu {
                     try {
                         sistema.darDeAltaCliente(idCliente);
                     } catch (ElementoDuplicadoEx e) {
-                        System.out.println("error al dar de alta cliente: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + " al dar de alta cliente: " + e.getMessage());
                     }
                     break;
                 case 4:
@@ -250,7 +251,7 @@ public class Menu {
                     try {
                         sistema.darDeBajaCliente(idCliente);
                     } catch (ElementoDuplicadoEx e) {
-                        System.out.println("error al dar de baja cliente: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al dar de baja cliente: " + e.getMessage());
                     }
                     break;
                 case 5:
@@ -263,7 +264,7 @@ public class Menu {
                         idCliente = sc.nextLine();
                         admin.modificarCliente(sistema, idCliente);
                     } catch (ElementoInexistenteEx e) {
-                        System.out.println("Error al modificar cliente: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al modificar cliente: " + e.getMessage());
                     }
                     break;
                 case 7:
@@ -273,7 +274,7 @@ public class Menu {
                         idProducto = sc.nextLine();
                         sistema.modificarProducto(idProducto);
                     } catch (ElementoInexistenteEx e) {
-                        System.out.println("Error al modificar producto: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + " al modificar producto: " + e.getMessage());
                     }
                     sistema.subirJSONProductos();
                     break;
@@ -292,7 +293,7 @@ public class Menu {
                         try {
                             sistema.agregarStock(idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {
-                            System.out.println("Error al agregar stock: " + e.getMessage());
+                            System.out.println(Etiquetas.ERROR + "al agregar stock: " + e.getMessage());
                         }
                         System.out.println("Desea agregar stock a otro producto? SI/NO: ");
                         seguir = sc.nextLine();
@@ -307,7 +308,7 @@ public class Menu {
                         try {
                             sistema.quitarStock(idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {
-                            System.out.println("Error al descontar stock: " + e.getMessage());
+                            System.out.println(Etiquetas.ERROR+"al descontar stock: " + e.getMessage());
                         }
                         System.out.println("Desea agregar stock a otro producto? SI/NO: ");
                         seguir = sc.nextLine();
@@ -319,7 +320,7 @@ public class Menu {
                     try {
                         sistema.mostrarListaPedido();
                     } catch (ListasVaciasEx e) {
-                        System.out.println("Error al mostrar pedidos: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al mostrar pedidos: " + e.getMessage());
                     }
                     break;
                 case 14:
@@ -327,18 +328,14 @@ public class Menu {
                      break;
                 case 18:
                     continuar = false;
-                    System.out.println("Cerrando sesion...");
+                    System.out.println(Etiquetas.INFO+"Cerrando sesion...");
                     break;
                 default:
-                    System.out.println("Opcion invalida...");
+                    System.out.println(Etiquetas.WARNING+"Opcion invalida...");
                     break;
             }
 
         }
     }
-
-
-
-
 
 }

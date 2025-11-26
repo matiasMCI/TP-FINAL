@@ -1,6 +1,7 @@
 package Clases;
 
 import Excepciones.*;
+import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
 import java.util.*;
@@ -113,7 +114,7 @@ public class Cliente extends Usuario  {
             throw new FondosSuperadosEx("Excederas los fondos maximos($500,000)");
         }
         this.setFondos(this.fondos + fondos);
-        System.out.println("fondos cargados!");
+        System.out.println(Etiquetas.EXITO +"fondos cargados!");
         System.out.println("Total Fondos: " + this.fondos);
     }
 
@@ -125,7 +126,7 @@ public class Cliente extends Usuario  {
             throw new ElementoInexistenteEx("No existe ese producto en el carrito...");
         }
         carrito.remove(IDProducto);
-        System.out.println("Producto eliminado con exito!");
+        System.out.println(Etiquetas.EXITO+"Producto eliminado con exito!");
     }
     /// Esta Funcion vacia el carrito por completo,
     /// Si el carrito ya esta vacio arroja CarritoVacioEx
@@ -134,7 +135,7 @@ public class Cliente extends Usuario  {
             throw new CarritoVacioEx("El carrito ya esta vacio");
         }else {
             carrito.clear();
-            System.out.println("Carrito vaciado con exito!");
+            System.out.println(Etiquetas.EXITO+"Carrito vaciado con exito!");
         }
     }
 
@@ -163,11 +164,11 @@ public class Cliente extends Usuario  {
                 throw new SinStockEx("No hay suficiente stock para aumentar la cantidad...");
             }
             itemCarrito.setCantidad(itemCarrito.getCantidad() + cantidad);
-            System.out.println("Agregado exitosamente!\n\n");
+            System.out.println(Etiquetas.EXITO+"Agregado exitosamente!\n\n");
 
         } else {
             carrito.put(producto.getIdProducto(), new ItemCarrito(producto,cantidad));
-            System.out.println("Agregado exitosamente!\n\n");
+            System.out.println(Etiquetas.EXITO+"Agregado exitosamente!\n\n");
         }
     }
 
@@ -203,7 +204,7 @@ public class Cliente extends Usuario  {
 
         Pedido pedido = new Pedido(getIdUsuario(),carrito);
         historialPedidos.add(pedido);
-        System.out.println("Compra finalizada con exito!\n");
+        System.out.println(Etiquetas.INFO+"Compra finalizada con exito!\n");
         sistema.agregarPedido(pedido);
         carrito.clear();
     }
@@ -259,7 +260,7 @@ public class Cliente extends Usuario  {
         }else if(eleccion == 2){
             this.desactivar();
         }
-        System.out.println("estado cambiado");
+        System.out.println(Etiquetas.INFO+"estado cambiado");
     }
     /// Verificara que la edad pasada por parametro este entre 18 y 99
     public void verificacionEdad(int edad)throws AccionImposibleEx{
@@ -267,7 +268,7 @@ public class Cliente extends Usuario  {
             throw new AccionImposibleEx("la edad debe estar entre 18 y 99(Años)...");
         }
         this.setEdad(edad);
-        System.out.println("edad cambiada");
+        System.out.println(Etiquetas.INFO+"edad cambiada");
     }
 
 
@@ -292,34 +293,34 @@ public class Cliente extends Usuario  {
                     System.out.println("Ingrese nuevo nombre: ");
                     String nombre = sc.nextLine();
                     cliente.setNombre(nombre);
-                    System.out.println("nombre cambiado");
+                    System.out.println(Etiquetas.INFO+"nombre cambiado");
                     break;
                 case 2:
                     System.out.println("Ingrese nuevo email: ");
                     String email = sc.nextLine();
                     cliente.setEmail(email);
-                    System.out.println("email cambiado");
+                    System.out.println(Etiquetas.INFO+"email cambiado");
                     break;
                 case 3:
                     System.out.println("Ingrese nueva contraseña: ");
                     String contrasena = sc.nextLine();
                     cliente.setContrasena(contrasena);
-                    System.out.println("contraseña cambiada");
+                    System.out.println(Etiquetas.INFO+"contraseña cambiada");
                     break;
                 case 4:
                     int edad = sistema.leerEnteroSeguro(sc, "Ingrese nueva edad: ");
                     try {
                         cliente.verificacionEdad(edad);
                     }catch (AccionImposibleEx e) {
-                        System.out.println("Error al asignar edad: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al asignar edad: " + e.getMessage());
                     }
                     break;
                 case 5:
                     confimar = false;
-                    System.out.println("Cambio aplicados con exito!");
+                    System.out.println(Etiquetas.EXITO+"Cambio aplicados con exito!");
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println(Etiquetas.WARNING+"Opcion invalida");
                     break;
             }
         }while(confimar);

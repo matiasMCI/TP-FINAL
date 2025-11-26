@@ -1,6 +1,7 @@
 import Excepciones.ElementoDuplicadoEx;
 import Excepciones.ListasVaciasEx;
 import JSONUtiles.JSONUtiles;
+import Utilidades.Etiquetas;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ try {
                 try {
                     sistema.loguearse();
                 } catch (ListasVaciasEx e) {
-                    System.out.println("error al loguerse: " + e.getMessage());
+                    System.out.println(Etiquetas.ERROR + "al loguerse: " + e.getMessage());
                 }
                 break;
             case 2:
@@ -44,16 +45,16 @@ try {
                 try {
                     sistema.registrarse();
                 } catch (ElementoDuplicadoEx e) {
-                    System.out.println("error al registrar:" + e.getMessage());
+                    System.out.println(Etiquetas.ERROR + "al registrar:" + e.getMessage());
                 }
                 sistema.mostrarListaCliente();
                 break;
             case 3:
                 activo = false;
-                System.out.println("Saliendo del sistema, Hasta luego!");
+                System.out.println(Etiquetas.INFO + "Saliendo del sistema, Hasta luego!");
                 break;
             default:
-                System.out.println("Opcion Invalida..");
+                System.out.println(Etiquetas.WARNING + "Opcion Invalida..");
                 break;
         }
 
@@ -61,7 +62,7 @@ try {
 
 
 }catch (JSONException je ){
-    System.out.println("Error json : " + je.getMessage());
+    System.out.println(Etiquetas.ERROR + " json" + je.getMessage());
 }
 
 

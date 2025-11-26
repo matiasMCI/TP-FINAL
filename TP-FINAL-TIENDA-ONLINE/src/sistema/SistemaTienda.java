@@ -7,6 +7,7 @@ import Excepciones.ElementoInexistenteEx;
 import Excepciones.ListasVaciasEx;
 import JSONUtiles.JSONUtiles;
 import Menu.Menu;
+import Utilidades.Etiquetas;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -232,7 +233,7 @@ public class SistemaTienda {
             }
         }while(!flag);
         agregarCliente(nombre,email,contrasena,edad);
-        System.out.println("Cliente agregado!");
+        System.out.println(Etiquetas.EXITO +"Cliente agregado!");
     }
     /// Metodos para ALTA / BAJA CLIENTE MEDIANTE IDUsuario
     public void darDeBajaCliente(String id)throws ElementoInexistenteEx{
@@ -248,10 +249,10 @@ public class SistemaTienda {
         }
         if(activo){
             cliente.activar();
-            System.out.println("Cliente dado de alta!");
+            System.out.println(Etiquetas.EXITO +"Cliente dado de alta!");
         }else{
             cliente.desactivar();
-            System.out.println("Cliente dado de baja!");
+            System.out.println(Etiquetas.EXITO +"Cliente dado de baja!");
         }
     }
 
@@ -276,7 +277,7 @@ public class SistemaTienda {
             try {
                 categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Categoria invalida.");
+                System.out.println(Etiquetas.INFO+"Categoria invalida.");
                 categoriaProducto = null;
             }
         }while(categoriaProducto == null);
@@ -285,8 +286,7 @@ public class SistemaTienda {
         int stock = leerEnteroSeguro(sc,"Ingrese stock: ");
 
         agregarProducto(nombre,precio,categoriaProducto,descripcion,stock);
-        System.out.println("Producto Agregado con exito!");
-
+        System.out.println(Etiquetas.EXITO +"Producto Agregado con exito!");
     }
 
     /// METODO PARA MODIFICAR DATOS DE UN PRODUCTO
@@ -330,7 +330,7 @@ public class SistemaTienda {
                         try {
                             categoriaProducto = CategoriaProducto.valueOf(categoriaString.toUpperCase());
                         } catch (IllegalArgumentException e) {
-                            System.out.println("Categoria invalida.");
+                            System.out.println(Etiquetas.INFO+"Categoria invalida.");
                             categoriaProducto = null;
                         }
                     }while(categoriaProducto == null);
@@ -347,15 +347,15 @@ public class SistemaTienda {
                     break;
                 case 6:
                     terminar = false;
-                    System.out.println("Aplicando cambios");
+                    System.out.println(Etiquetas.INFO+"Aplicando cambios");
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println(Etiquetas.INFO+"Opcion invalida");
                     break;
             }
 
         }
-        System.out.println("Cambios exitosos!");
+        System.out.println(Etiquetas.EXITO +"Cambios exitosos!");
     }
 
     /// AGREGAR O QUITAR STOCK
@@ -365,7 +365,7 @@ public class SistemaTienda {
             throw new ElementoInexistenteEx("El producto no existe...");
         }
         producto.setStock(producto.getStock() + cantidad);
-        System.out.println("Stock agregado con exito!");
+        System.out.println(Etiquetas.EXITO +"Stock agregado con exito!");
     }
     public void quitarStock(String id, int cantidad)throws ElementoInexistenteEx{
         Producto producto = listaProductos.getPorId(id);
@@ -377,7 +377,7 @@ public class SistemaTienda {
             producto.setStock(0);
         }
         producto.setStock(producto.getStock() - cantidad);
-        System.out.println("Stock descontado con exito!");
+        System.out.println(Etiquetas.EXITO +"Stock descontado con exito!");
     }
 
 
@@ -409,7 +409,7 @@ public class SistemaTienda {
             for (Admin admin : listaAdmin.getListaMapGenerica().values()) {
                 if (admin.getEmail().equals( email) && admin.getContrasena().equals( contrasena)) {
 
-                    System.out.println("Logueado como Admin!");
+                    System.out.println(Etiquetas.INFO+"Logueado como Admin!");
                     Menu.menuAdmin(admin, this);
                     subirJSON();
                     return;
@@ -419,14 +419,14 @@ public class SistemaTienda {
             for (Cliente cliente : listaCliente.getListaMapGenerica().values()) {
                 if (cliente.getEmail().equals(email) && cliente.getContrasena().equals(contrasena)) {
 
-                    System.out.println("Logueado como Cliente!");
+                    System.out.println(Etiquetas.INFO+"Logueado como Cliente!");
 
                     Menu.menuCliente(this , cliente);
                     subirJSON();
                     return;
                 }
             }
-            System.out.println(" Usuario no encontrado...");
+            System.out.println(Etiquetas.INFO+" Usuario no encontrado...");
             System.out.println("Desea intentarlo de nuevo? si/no: ");
             decision = sc.nextLine().trim();
         }while(decision.equalsIgnoreCase("si"));
@@ -456,7 +456,7 @@ public class SistemaTienda {
             throw new ElementoDuplicadoEx("El usuario a registrar ya existe en la lista...");
         }
         agregarCliente(nombre, email, contrasena, edad);
-        System.out.println("Cliente registrado!");
+        System.out.println(Etiquetas.EXITO +"Cliente registrado!");
         subirJSON();
     }
 
@@ -486,7 +486,7 @@ public class SistemaTienda {
                 numero = Integer.parseInt(input);
                 return numero;  // Si es válido, lo retorna
             } catch (NumberFormatException e) {
-                System.out.println("Error Ingrese un número válido.");
+                System.out.println(Etiquetas.ERROR + " Ingrese un número válido.");
             }
         }
     }
@@ -504,7 +504,7 @@ public class SistemaTienda {
                 numero = Double.parseDouble(input);
                 return numero;  // Si es válido, lo retorna
             } catch (NumberFormatException e) {
-                System.out.println("Error Ingrese un número válido.");
+                System.out.println(Etiquetas.ERROR + " Ingrese un número válido.");
             }
         }
     }

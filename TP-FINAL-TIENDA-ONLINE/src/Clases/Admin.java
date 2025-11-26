@@ -2,6 +2,7 @@ package Clases;
 
 import Excepciones.AccionImposibleEx;
 import Excepciones.ElementoInexistenteEx;
+import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
 import java.util.Scanner;
@@ -75,7 +76,7 @@ public class Admin extends Usuario {
                     try {
                         cliente.verificacionEdad(edad);
                     }catch (AccionImposibleEx e) {
-                        System.out.println("error al asignar edad: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "error al asignar edad: " + e.getMessage());
                     }
                     break;
                 case 5:
@@ -84,15 +85,15 @@ public class Admin extends Usuario {
                     try{
                         cliente.verificacionEstado(estadoEleccion);
                     }catch (AccionImposibleEx e){
-                        System.out.println(" error al asignar estado: " + e.getMessage());
+                        System.out.println(Etiquetas.ERROR + "al asignar estado: " + e.getMessage());
                     }
                     break;
                 case 6:
                     confimar = false;
-                    System.out.println("Cambio aplicados con exito!");
+                    System.out.println(Etiquetas.EXITO +"Cambio aplicados con exito!");
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    System.out.println(Etiquetas.WARNING+"Opcion invalida");
                     break;
             }
         }while(confimar);
