@@ -215,6 +215,7 @@ public class SistemaTienda {
 
     public void agregarCliente(){
         Scanner sc = new Scanner(System.in);
+        boolean flag = false;
         System.out.println("───────────  Agregar Nuevo Cliente  ───────────");
         System.out.println("Ingrese nombre:");
         String nombre = sc.nextLine();
@@ -222,8 +223,14 @@ public class SistemaTienda {
         String email = sc.nextLine();
         System.out.println("Ingrese contraseña: ");
         String contrasena = sc.nextLine();
-        System.out.println("Ingrese edad: ");
-        int edad = sc.nextInt();
+        int edad;
+        do {
+            System.out.println("La edad debe ser entre 18 y 99 años.");
+            edad = leerEnteroSeguro(sc, "Ingrese la edad: ");
+            if(edad >= 18 && edad <= 99){
+                flag = true;
+            }
+        }while(!flag);
         agregarCliente(nombre,email,contrasena,edad);
         System.out.println("Cliente agregado!");
     }
@@ -258,7 +265,7 @@ public class SistemaTienda {
         System.out.println("Ingrese nombre: ");
         String nombre = sc.nextLine();
         System.out.println("Ingrese precio: ");
-        double precio = sc.nextDouble();
+        double precio = leerDoubleSeguro(sc,"Ingrese precio: ");
 
         CategoriaProducto categoriaProducto;
 
@@ -275,8 +282,7 @@ public class SistemaTienda {
         }while(categoriaProducto == null);
         System.out.println("Ingrese descripcion: ");
         String descripcion = sc.nextLine();
-        System.out.println("Ingrese stock: ");
-        int stock = sc.nextInt();
+        int stock = leerEnteroSeguro(sc,"Ingrese stock: ");
 
         agregarProducto(nombre,precio,categoriaProducto,descripcion,stock);
         System.out.println("Producto Agregado con exito!");
@@ -301,9 +307,7 @@ public class SistemaTienda {
             System.out.println("4. Cambiar Descripcion");
             System.out.println("5. Cambiar stock");
             System.out.println("6. Terminar");
-            System.out.println("Elegir opcion: ");
-            int opcion = sc.nextInt();
-            sc.nextLine();
+            int opcion = leerEnteroSeguro(sc,"Opcion: ");
 
             switch (opcion){
                 case 1:
@@ -312,8 +316,7 @@ public class SistemaTienda {
                     productoModificar.setNombreProducto(nombre);
                     break;
                 case 2:
-                    System.out.println("Ingrese precio: ");
-                    double precio = sc.nextDouble();
+                    double precio = leerDoubleSeguro(sc,"Ingrese Precio: ");
                     productoModificar.setPrecio(precio);
                     break;
                 case 3:
@@ -339,8 +342,7 @@ public class SistemaTienda {
                     productoModificar.setDescripcion(descripcion);
                     break;
                 case 5:
-                    System.out.println("Ingrese stock: ");
-                    int stock = sc.nextInt();
+                    int stock = leerEnteroSeguro(sc,"Ingrese stock: ");
                     productoModificar.setStock(stock);
                     break;
                 case 6:
@@ -434,7 +436,7 @@ public class SistemaTienda {
     /// REGISTRARSE -> Crea un nuevo cliente con los datos ingresados y lo mete en la listaCliente
     public void registrarse()throws ElementoDuplicadoEx {
         Scanner sc = new Scanner(System.in);
-
+        boolean flag = false;
         System.out.println("─────────── Registrarse ───────────");
         System.out.println("Ingrese su nombre: ");
         String nombre = sc.nextLine();
@@ -442,8 +444,14 @@ public class SistemaTienda {
         String email = sc.nextLine();
         System.out.println("Ingrese su contrasena: ");
         String contrasena = sc.nextLine();
-        System.out.println("Ingrese su edad: ");
-        int edad = sc.nextInt();
+        int edad;
+        do {
+            System.out.println("La edad debe ser entre 18 y 99 años.");
+            edad = leerEnteroSeguro(sc, "Ingrese su edad: ");
+            if(edad >= 18 && edad <= 99){
+                flag = true;
+            }
+        }while(!flag);
         if (existeCliente(nombre)) {
             throw new ElementoDuplicadoEx("El usuario a registrar ya existe en la lista...");
         }
@@ -451,6 +459,57 @@ public class SistemaTienda {
         System.out.println("Cliente registrado!");
         subirJSON();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /// Metodo para que lo unico que pueda leer sea un entero
+    /// De lo contrario maneja la excepcion que puede arrojar
+    /// Se queda en bucle hasta que no ingreses el mismo tipo de dato
+    public int leerEnteroSeguro(Scanner sc, String mensaje) {
+        int numero;
+
+        while (true) {
+            System.out.print(mensaje);
+            String input = sc.nextLine();
+
+            try {
+                numero = Integer.parseInt(input);
+                return numero;  // Si es válido, lo retorna
+            } catch (NumberFormatException e) {
+                System.out.println("Error Ingrese un número válido.");
+            }
+        }
+    }
+    /// Metodo para que lo unico que pueda leer sea un double
+    /// De lo contrario maneja la excepcion que puede arrojar
+    /// Se queda en bucle hasta que no ingreses el mismo tipo de dato
+    public double leerDoubleSeguro(Scanner sc, String mensaje) {
+        double numero;
+
+        while (true) {
+            System.out.print(mensaje);
+            String input = sc.nextLine();
+
+            try {
+                numero = Double.parseDouble(input);
+                return numero;  // Si es válido, lo retorna
+            } catch (NumberFormatException e) {
+                System.out.println("Error Ingrese un número válido.");
+            }
+        }
+    }
+
+
 
 
 
@@ -487,7 +546,7 @@ public class SistemaTienda {
             JSONArray jsonArrayAdmins = new JSONArray();
             for(Admin a : listaAdmin.getListaMapGenerica().values()){
                 JSONObject jsonObjectAdmin = new JSONObject();
-                jsonObjectAdmin.put("IDUsuario",a.getIdAdmin());
+                jsonObjectAdmin.put("IDUsuario",a.getIdUsuario());
                 jsonObjectAdmin.put("nombre",a.getNombre());
                 jsonObjectAdmin.put("email",a.getEmail());
                 jsonObjectAdmin.put("contraseña",a.getContrasena());

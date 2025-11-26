@@ -14,49 +14,16 @@ public class Admin extends Usuario {
      * y importantes del sistema , como agregar productos o eliminar clientes
      */
 
-
-
-    private String nombre;
-    private int edad;
-    private int idAdmin;
-
     /// CONSTRUCTOR NORMAL
     public Admin(String nombre, String email, String contrasena) {
         super(nombre, email, contrasena);
-        this.nombre = nombre;
-        this.edad = edad;
-        this.idAdmin = idAdmin;
+
     }
     /// CONSTRUCTO JSON
     public Admin(String IDUsuario, String nombre, String email, String contrasena){
         super(IDUsuario,nombre, email, contrasena);
     }
 
-    ///-- GETTERS SETTERS --
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public int getIdAdmin() {
-        return idAdmin;
-    }
-
-    public void setIdAdmin(int idAdmin) {
-        this.idAdmin = idAdmin;
-    }
 
     ///-- toSTRING --
     @Override
@@ -84,9 +51,8 @@ public class Admin extends Usuario {
             System.out.println("4. Cambiar edad ");
             System.out.println("5. Cambiar estado");
             System.out.println("6. Terminar");
-            System.out.println("Elegir opcion: ");
-            int opcion = sc.nextInt();
-            sc.nextLine();
+
+            int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
 
             switch (opcion){
                 case 1:
@@ -105,8 +71,7 @@ public class Admin extends Usuario {
                     cliente.setContrasena(contrasena);
                     break;
                 case 4:
-                    System.out.println("Ingrese nueva edad: ");
-                    int edad = sc.nextInt();
+                    int edad = sistema.leerEnteroSeguro(sc,"Ingrese nueva edad: ");
                     try {
                         cliente.verificacionEdad(edad);
                     }catch (AccionImposibleEx e) {
@@ -115,8 +80,7 @@ public class Admin extends Usuario {
                     break;
                 case 5:
 
-                    System.out.println("Estado: (1)Activar, (2) Desactivar: ");
-                    int estadoEleccion = sc.nextInt();
+                    int estadoEleccion = sistema.leerEnteroSeguro(sc,"Estado: (1)Activar, (2) Desactivar: ");
                     try{
                         cliente.verificacionEstado(estadoEleccion);
                     }catch (AccionImposibleEx e){
@@ -131,11 +95,17 @@ public class Admin extends Usuario {
                     System.out.println("Opcion invalida");
                     break;
             }
-
         }while(confimar);
-
-
     }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -37,9 +37,7 @@ public class Menu {
                 /// sino muestra este menu con menos opciones
                 mostrarMenuInactivo();
             }
-            System.out.println("Opcion: ");
-            int opcion = sc.nextInt();
-            sc.nextLine();
+            int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
             logueado = procesarOpciones(sistema,cliente,opcion);
             sistema.subirJSON();
 
@@ -60,8 +58,7 @@ public class Menu {
                     cliente.mostrarPerfil();
                     break;
                 case 2:
-                    System.out.println("Ingrese fondos: ");
-                    double fondos =sc.nextDouble();
+                    double fondos = sistema.leerDoubleSeguro(sc,"Ingrese fondos: ");
                     try {
                         cliente.agregarFondos(fondos);
                     }catch (AccionImposibleEx ai){
@@ -77,8 +74,7 @@ public class Menu {
                         sistema.mostrarListaProductosPorCategoria();
                         System.out.println("Ingrese el ID del producto a agregar al carrito: ");
                         String id = sc.nextLine();
-                        System.out.println("Ingrese la cantidad de producto a agregar:");
-                        int cantidad = sc.nextInt();
+                        int cantidad = sistema.leerEnteroSeguro(sc,"Ingrese la cantidad de producto a agregar:");
                         try {
                             cliente.agregarACarrito(sistema, id, cantidad);
                         } catch (SinStockEx e) {
@@ -226,9 +222,7 @@ public class Menu {
             sistema.subirJSON();
             sistema.subirJSONProductos();
 
-            System.out.println("Elegir: ");
-            int opcion = sc.nextInt();
-            sc.nextLine();
+            int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
 
             switch (opcion) {
                 case 1:
@@ -294,8 +288,7 @@ public class Menu {
                         sistema.mostrarListaProducto();
                         System.out.println("Ingrese la idProducto a agregar stock");
                         idProducto = sc.nextLine();
-                        System.out.println("Ingrese la cantidad a agregar: ");
-                        cantidad = sc.nextInt();
+                        cantidad = sistema.leerEnteroSeguro(sc, "Ingrese la cantidad a agregar: ");
                         try {
                             sistema.agregarStock(idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {
@@ -310,8 +303,7 @@ public class Menu {
                         sistema.mostrarListaProducto();
                         System.out.println("Ingrese la idProducto a quitar stock");
                         idProducto = sc.nextLine();
-                        System.out.println("Ingrese la cantidad a descontar: ");
-                        cantidad = sc.nextInt();
+                        cantidad = sistema.leerEnteroSeguro(sc,"Ingrese la cantidad a descontar: ");
                         try {
                             sistema.quitarStock(idProducto, cantidad);
                         } catch (ElementoInexistenteEx e) {

@@ -284,9 +284,8 @@ public class Cliente extends Usuario  {
             System.out.println("3. Cambiar contraseña");
             System.out.println("4. Cambiar edad ");
             System.out.println("5. Terminar");
-            System.out.println("Opcion: ");
-            int opcion = sc.nextInt();
 
+            int opcion = sistema.leerEnteroSeguro(sc,"Opcion: ");
 
             switch (opcion){
                 case 1:
@@ -308,9 +307,7 @@ public class Cliente extends Usuario  {
                     System.out.println("contraseña cambiada");
                     break;
                 case 4:
-                    System.out.println("Ingrese nueva edad: ");
-                    int edad = sc.nextInt();
-
+                    int edad = sistema.leerEnteroSeguro(sc, "Ingrese nueva edad: ");
                     try {
                         cliente.verificacionEdad(edad);
                     }catch (AccionImposibleEx e) {
@@ -325,7 +322,6 @@ public class Cliente extends Usuario  {
                     System.out.println("Opcion invalida");
                     break;
             }
-
         }while(confimar);
     }
 

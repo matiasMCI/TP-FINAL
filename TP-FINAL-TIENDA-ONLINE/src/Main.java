@@ -26,9 +26,8 @@ try {
 
     do {
         Menu.Menu.menuLogin();
-        System.out.println("Opcion: ");
 
-        int opcion = sc.nextInt();
+        int opcion = sistema.leerEnteroSeguro(sc,"opcion: ");
 
         switch (opcion) {
             case 1:

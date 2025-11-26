@@ -5,7 +5,7 @@
             "estado": true,
             "nombre": "Matias",
             "edad": 28,
-            "fondos": 45000,
+            "fondos": 87000,
             "email": "matias@gmail.com",
             "contraseña": "matias222"
         },
@@ -17,6 +17,15 @@
             "fondos": 12300,
             "email": "ivan@gmail.com",
             "contraseña": "ivan123"
+        },
+        {
+            "IDUsuario": "ID004",
+            "estado": true,
+            "nombre": "Andres",
+            "edad": 18,
+            "fondos": 83100,
+            "email": "andres@gmail.com",
+            "contraseña": "andres123"
         }
     ],
     "admins": [{
