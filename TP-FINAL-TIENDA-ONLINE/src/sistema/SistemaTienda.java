@@ -119,7 +119,8 @@ public class SistemaTienda {
                     jsonObjectProducto.getDouble("precio"),
                     jsonObjectProducto.getEnum(CategoriaProducto.class,"categoriaProducto"),
                     jsonObjectProducto.getString("descripcion"),
-                    jsonObjectProducto.getInt("stock"));
+                    jsonObjectProducto.getInt("stock"),
+                    jsonObjectProducto.getBoolean("estado"));
         }
         Producto.setContador(maxIDProducto+1);
 
@@ -253,8 +254,8 @@ public class SistemaTienda {
     /**
      * Agrega un producto desde datos JSON.
      */
-    public void JSONAgregarProducto(String idProducto,String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock){
-        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion, stock);
+    public void JSONAgregarProducto(String idProducto,String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock, boolean estado){
+        Producto producto = new Producto(idProducto, nombreProducto, precio, categoriaProducto, descripcion, stock, estado);
         listaProductos.agregarGenerico(producto.getIdProducto(), producto);
     }
 
@@ -282,7 +283,7 @@ public class SistemaTienda {
             boolean hayProductos = false;
 
             for(Producto p : listaProductos.getListaMapGenerica().values()){
-                if(p.getCategoriaProducto() == categoria){
+                if(p.getCategoriaProducto() == categoria && p.getEstado()){
                     hayProductos = true;
                     System.out.println("ID: " + p.getIdProducto() + ", Nombre: " + p.getNombreProducto() +
                             ", precio: $" + p.getPrecio());
@@ -501,6 +502,7 @@ public class SistemaTienda {
             jsonObjectProducto.put("categoriaProducto",listaProductos.getPorId(id).getCategoriaProducto());
             jsonObjectProducto.put("descripcion",listaProductos.getPorId(id).getDescripcion());
             jsonObjectProducto.put("stock",listaProductos.getPorId(id).getStock());
+            jsonObjectProducto.put("estado",listaProductos.getPorId(id).getEstado());
             jsonArrayProductos.put(jsonObjectProducto);
         }
         return jsonArrayProductos;

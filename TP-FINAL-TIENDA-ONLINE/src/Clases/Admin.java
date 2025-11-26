@@ -1,15 +1,17 @@
 package Clases;
 
 import Enums.CategoriaProducto;
+import Enums.EstadoPedido;
 import Excepciones.AccionImposibleEx;
 import Excepciones.ElementoInexistenteEx;
 import Excepciones.ListasVaciasEx;
+import Interfaces.IAdministrador;
 import Utilidades.Etiquetas;
 import sistema.SistemaTienda;
 
 import java.util.Scanner;
 
-public class Admin extends Usuario {
+public class Admin extends Usuario implements IAdministrador {
 
     /**
      * Esta clase representa a los usuarios que van a poder controlar los clientes y productos
@@ -81,7 +83,25 @@ public class Admin extends Usuario {
             System.out.println(Etiquetas.EXITO +"Cliente dado de baja!");
         }
     }
-
+    public void darDeBajaProducto(SistemaTienda sistema, String id){
+        cambiarEstadoProducto(sistema,id,false);
+    }
+    public void darDeAltaProducto(SistemaTienda sistema, String id){
+        cambiarEstadoProducto(sistema,id,true);
+    }
+    public void cambiarEstadoProducto(SistemaTienda sistema, String id, boolean activo) throws ElementoInexistenteEx{
+        Producto producto = sistema.getListaProductos().getPorId(id);
+        if(producto == null){
+            throw new ElementoInexistenteEx("La id Producto no existe...");
+        }
+        if(activo){
+            producto.activar();
+            System.out.println(Etiquetas.EXITO +"Producto dado de alta!");
+        }else{
+            producto.desactivar();
+            System.out.println(Etiquetas.EXITO +"Producto dado de baja!");
+        }
+    }
     /// METODO PARA AGREGAR UN PRODUCTO
     ///
     public void agregarProducto(SistemaTienda sistema){
@@ -183,6 +203,8 @@ public class Admin extends Usuario {
         }
         System.out.println(Etiquetas.EXITO +"Cambios exitosos!");
     }
+
+
 
 
     /// AGREGAR O QUITAR STOCK
@@ -296,6 +318,81 @@ public class Admin extends Usuario {
     }
 
 
+
+    private EstadoPedido leerEstadoPedido(Scanner sc) {
+        EstadoPedido estado = null;
+
+        do {
+            System.out.println("Estados disponibles: PAGADO, CANCELADO, ENTREGADO");
+            System.out.print("Ingrese Estado: ");
+            String entrada = sc.nextLine().trim().toUpperCase();
+
+            try {
+                estado = EstadoPedido.valueOf(entrada);
+            } catch (IllegalArgumentException e) {
+                System.out.println(Etiquetas.INFO + " Estado inválido.");
+            }
+
+        } while (estado == null);
+
+        return estado;
+    }
+
+
+    public void cambiarEstadoPedido(SistemaTienda sistema, String idPedido, Scanner sc) throws ElementoInexistenteEx,AccionImposibleEx{
+            Pedido pedido = sistema.getListaPedidos().getPorId(idPedido);
+            if (pedido == null) {
+                throw new ElementoInexistenteEx("Pedido no encontrado: " + idPedido);
+            }
+            EstadoPedido estadoPedido = leerEstadoPedido(sc);
+
+            if (pedido.getEstado() == estadoPedido) {
+                throw new AccionImposibleEx("El pedido ya tiene ese estado...");
+            }
+
+            pedido.setEstado(estadoPedido);
+            System.out.println(Etiquetas.EXITO + " al cambiar el estado del pedido");
+            sistema.subirJSONPedidos();
+    }
+
+
+    public void listarPedidosPorEstado(SistemaTienda sistema, Scanner sc)throws ElementoInexistenteEx {
+
+        EstadoPedido estadoPedido = leerEstadoPedido(sc);
+        boolean encontrado = false;
+        for (Pedido pedido : sistema.getListaPedidos().getListaMapGenerica().values()) {
+            if (pedido.getEstado() == estadoPedido) {
+                System.out.println("IDPedido: " + pedido.getIdPedido() +
+                        ", Cliente: " + pedido.getIdCliente() +
+                        ", Fecha: " + pedido.getFecha() +
+                        ", Total: $" + pedido.getMontoTotal());
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            System.out.println(Etiquetas.INFO+" No hay pedidos con estado " + estadoPedido);
+        }
+    }
+
+
+
+    public void listarPedidosPorCliente(SistemaTienda sistema, String idCliente) throws ElementoInexistenteEx , ListasVaciasEx{
+        if(!sistema.getListaCliente().getListaMapGenerica().containsKey(idCliente)){
+            throw new ElementoInexistenteEx("No existe esa id...");
+        }
+        if(sistema.getListaCliente().getPorId(idCliente).getHistorialPedidos().isEmpty()){
+            throw new ListasVaciasEx(" el cliente no tiene pedidos...");
+        }
+        System.out.println("--- Mostrando Pedidos Del Cliente --- " );
+        for (Pedido pedido : sistema.getListaPedidos().getListaMapGenerica().values()) {
+            if (pedido.getIdCliente().equals(idCliente)) {
+                System.out.println("IDPedido: " + pedido.getIdPedido() +
+                        ", Fecha: " + pedido.getFecha() +
+                        ", Total: $" + pedido.getMontoTotal() +
+                        ", Estado: " + pedido.getEstado());
+            }
+        }
+    }
 
 
 

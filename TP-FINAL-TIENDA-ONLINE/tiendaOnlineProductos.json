@@ -5,7 +5,8 @@
         "idProducto": "ID001",
         "stock": 22,
         "nombreProducto": "Coca cola",
-        "categoriaProducto": "BEBIDAS"
+        "categoriaProducto": "BEBIDAS",
+        "estado": true
     },
     {
         "descripcion": "pepsi 3 lts",
@@ -13,7 +14,8 @@
         "idProducto": "ID002",
         "stock": 13,
         "nombreProducto": "Pepsi",
-        "categoriaProducto": "BEBIDAS"
+        "categoriaProducto": "BEBIDAS",
+       "estado": true
     },
     {
         "descripcion": "paquete hamburguesas PaTY 6 unidades",
@@ -21,7 +23,8 @@
         "idProducto": "ID003",
         "stock": 16,
         "nombreProducto": "Hamburguesas Paty",
-        "categoriaProducto": "COMIDA"
+        "categoriaProducto": "COMIDA",
+       "estado": true
     },
     {
         "descripcion": "paquete fideo tallarin 500gr",
@@ -29,7 +32,8 @@
         "idProducto": "ID004",
         "stock": 11,
         "nombreProducto": "Tallarines Marolio",
-        "categoriaProducto": "ALIMENTOS"
+        "categoriaProducto": "ALIMENTOS",
+        "estado": true
     },
     {
         "descripcion": "bolsa de papas fritas lays 250gr",
@@ -37,6 +41,7 @@
         "idProducto": "ID005",
         "stock": 12,
         "nombreProducto": "papas fritas lays",
-        "categoriaProducto": "ALIMENTOS"
+        "categoriaProducto": "ALIMENTOS",
+        "estado": true
     }
 ]

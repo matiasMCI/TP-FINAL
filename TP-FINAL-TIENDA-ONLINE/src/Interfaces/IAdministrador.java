@@ -6,17 +6,17 @@ import Enums.CategoriaProducto;
 
 public interface IAdministrador {
 
-    public void DarDeBajaCliente(SistemaTienda sistema,int id);
-    public void DarDeAltaCliente(SistemaTienda sistema,int id);
-    public void ModificarCliente(SistemaTienda sistema,int id);
-    public void ModificarProducto(SistemaTienda sistemaTienda, String id);
-    public void DarDeBajaProducto(SistemaTienda sistema,String id);
-    public void DarDeAltaProducto(SistemaTienda sistema,String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion);
-    public void ClienteMasFrecuente(SistemaTienda sistema);
-    public void VerClientes(SistemaTienda sistema);
-    public void VerListaDeProductos(SistemaTienda sistema);
-    public void VerPedidos(SistemaTienda sistema);
-    public void cargarJsonProducto(SistemaTienda sistema );
-    public void cargarJsonClientes(SistemaTienda sistema);
+
+    public void agregarCliente(SistemaTienda sistema);
+    public void darDeBajaCliente(SistemaTienda sistema,String id);
+    public void darDeAltaCliente(SistemaTienda sistema,String id);
+    public void cambiarEstadoCliente(SistemaTienda sistema, String id, boolean activo);
+    public void agregarProducto(SistemaTienda sistema);
+    public void modificarProducto(SistemaTienda sistema,String id);
+    public void agregarStock(SistemaTienda sistema,String  id, int cantidad);
+    public void quitarStock(SistemaTienda sistema,String id, int cantidad);
+    public void modificarCliente(SistemaTienda sistema, String idCliente);
+    public void buscarClienteMasFrecuente(SistemaTienda sistema);
+
 
 }

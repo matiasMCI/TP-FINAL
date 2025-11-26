@@ -23,7 +23,6 @@ try {
     JSONArray jsonArrayDataPedido = new JSONArray(dataPedido);
     SistemaTienda sistema = new SistemaTienda(jsonData, jsonArrayData2, jsonArrayDataPedido);
 
-
     Scanner sc = new Scanner(System.in);
     boolean activo = true;
 
@@ -43,7 +42,6 @@ try {
                 break;
             case 2:
                 /// Menu.Menu Registrarse
-
                 try {
                     sistema.registrarse();
                 } catch (ElementoDuplicadoEx e) {
@@ -58,7 +56,6 @@ try {
                 System.out.println(Etiquetas.WARNING + "Opcion Invalida..");
                 break;
         }
-
     } while (activo);
 
 

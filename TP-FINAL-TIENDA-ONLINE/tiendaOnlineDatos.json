@@ -49,6 +49,16 @@
             "fondos": 0,
             "email": "julian@gmail.com",
             "contraseña": "julian123"
+        },
+        {
+            "IDUsuario": "ID007",
+            "estado": false,
+            "apellido": "Fontana",
+            "nombre": "Camila",
+            "edad": 25,
+            "fondos": 0,
+            "email": "camila@gmail.com",
+            "contraseña": "camila123"
         }
     ],
     "admins": [{

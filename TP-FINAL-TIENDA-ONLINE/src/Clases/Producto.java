@@ -18,6 +18,7 @@ public class Producto {
     private CategoriaProducto categoriaProducto;
     private String descripcion;
     private int stock;
+    private Boolean estado;
 
 
     ///-- CONSTRUCTOR --
@@ -28,15 +29,17 @@ public class Producto {
         this.categoriaProducto = categoriaProducto;
         this.descripcion = descripcion;
         this.stock = stock;
+        estado = true;
     }
     /// CONSTRUCTOR JSON
-    public Producto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock){
+    public Producto(String idProducto, String nombreProducto, double precio, CategoriaProducto categoriaProducto, String descripcion, int stock, boolean estado){
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precio = precio;
         this.categoriaProducto = categoriaProducto;
         this.descripcion = descripcion;
         this.stock = stock;
+        this.estado = estado;
     }
     ///-- GETTERS SETTERS --
     public static void setContador(int valor){
@@ -98,15 +101,37 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
+    public Boolean getEstado() {
+        return estado;
+    }
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+    public void activar(){
+        estado = true;
+    }
+    public void desactivar(){
+        estado = false;
+    }
+    public String conversorEstado(){
+        if(getEstado()){
+            return "Producto dado de alta";
+        }else{
+            return "Producto dado de baja";
+        }
+    }
+
     /// -- toSTRING --
     @Override
     public String toString() {
         return
-                " nombreProducto='" + nombreProducto + '\'' +
+                "idProducto='" + idProducto + '\'' +
+                ", nombreProducto='" + nombreProducto + '\'' +
                 ", precio=" + precio +
                 ", categoriaProducto=" + categoriaProducto +
                 ", descripcion='" + descripcion + '\'' +
                 ", stock=" + stock +
+                ", estado=" + conversorEstado() +
                 '}';
     }
 
