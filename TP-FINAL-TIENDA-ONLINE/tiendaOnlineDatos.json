@@ -4,9 +4,9 @@
             "IDUsuario": "ID002",
             "estado": true,
             "apellido": "coli",
-            "nombre": "Mati",
+            "nombre": "Matias",
             "edad": 24,
-            "fondos": 393000,
+            "fondos": 355000,
             "email": "matias@gmail.com",
             "contraseña": "matias222"
         },
@@ -42,23 +42,33 @@
         },
         {
             "IDUsuario": "ID006",
-            "estado": false,
+            "estado": true,
             "apellido": "Disalvo",
             "nombre": "Julian",
             "edad": 29,
-            "fondos": 0,
+            "fondos": 117400,
             "email": "julian@gmail.com",
             "contraseña": "julian123"
         },
         {
             "IDUsuario": "ID007",
-            "estado": false,
+            "estado": true,
             "apellido": "Fontana",
             "nombre": "Camila",
             "edad": 25,
-            "fondos": 0,
+            "fondos": 116400,
             "email": "camila@gmail.com",
             "contraseña": "camila123"
+        },
+        {
+            "IDUsuario": "ID008",
+            "estado": false,
+            "apellido": "Acevedo",
+            "nombre": "Lucia",
+            "edad": 26,
+            "fondos": 0,
+            "email": "lucia@gmail.com",
+            "contraseña": "lucias123"
         }
     ],
     "admins": [{

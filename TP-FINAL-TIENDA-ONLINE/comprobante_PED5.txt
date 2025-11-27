@@ -1,0 +1,13 @@
+─────────── COMPROBANTE DE COMPRA ───────────
+Pedido: PED5
+Cliente: ID002
+Fecha: 2025-11-26
+Productos:
+- Yogur natural x2----- $2400.0
+- Bananas x4----- $6800.0
+- Sprite x2----- $4200.0
+- Chocolate x3----- $2700.0
+- Flan casero x3----- $9000.0
+
+Total Pagado: $25100.0
+────────────────────────────────────────────

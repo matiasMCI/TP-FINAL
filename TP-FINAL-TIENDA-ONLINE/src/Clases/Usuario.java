@@ -130,8 +130,7 @@ public abstract class Usuario {
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
-                ", contrasena='" + contrasena + '\'' +
-                '}';
+                ", contrasena='" + contrasena + '\'';
     }
 }
 

@@ -88,5 +88,57 @@
             }
         ],
         "montoTotal": 10200
+    },
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID002",
+        "idPedido": "PED5",
+        "items": [
+            {
+                "precioUnitario": 1200,
+                "subtotal": 2400,
+                "idProducto": "ID011",
+                "cantidad": 2
+            },
+            {
+                "precioUnitario": 3000,
+                "subtotal": 9000,
+                "idProducto": "ID020",
+                "cantidad": 3
+            },
+            {
+                "precioUnitario": 1700,
+                "subtotal": 6800,
+                "idProducto": "ID014",
+                "cantidad": 4
+            },
+            {
+                "precioUnitario": 2100,
+                "subtotal": 4200,
+                "idProducto": "ID015",
+                "cantidad": 2
+            },
+            {
+                "precioUnitario": 900,
+                "subtotal": 2700,
+                "idProducto": "ID016",
+                "cantidad": 3
+            }
+        ],
+        "montoTotal": 25100
+    },
+    {
+        "fecha": "2025-11-26",
+        "estado": "PAGADO",
+        "idCliente": "ID002",
+        "idPedido": "PED6",
+        "items": [{
+            "precioUnitario": 1700,
+            "subtotal": 8500,
+            "idProducto": "ID014",
+            "cantidad": 5
+        }],
+        "montoTotal": 8500
     }
 ]

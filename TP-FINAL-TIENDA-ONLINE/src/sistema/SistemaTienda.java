@@ -315,6 +315,16 @@ public class SistemaTienda {
         }
     }
 
+    public void mostrarComprobantes() throws ListasVaciasEx{
+        if(comprobantes.isEmpty()){
+            throw new ListasVaciasEx("No hay comprobantes registrados.");
+        }
+        System.out.println("─────────── LISTA COMPROBANTES ───────────");
+        for(Comprobante c : comprobantes){
+            System.out.println(c.toString());
+        }
+    }
+
     public ClaseGenericaMap<Admin> getListaAdmin() {
         return listaAdmin;
     }

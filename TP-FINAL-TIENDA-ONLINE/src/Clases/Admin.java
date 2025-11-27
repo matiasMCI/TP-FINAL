@@ -99,6 +99,25 @@ public class Admin extends Usuario implements IAdministrador {
     }
 
     /**
+     * Muestra el perfil de un cliente específico según su ID.
+     *
+     * Este método busca un cliente en el sistema mediante la ID proporcionada.
+     * Si el cliente existe, se llama al método mostrarPerfil() del cliente
+     * para mostrar su información. Si no existe, se lanza una excepción.
+     *
+     * @param sistema El sistema de tienda que contiene la lista de clientes.
+     * @param id La ID del cliente que se desea mostrar.
+     * @throws ElementoInexistenteEx Si no se encuentra ningún cliente con la ID proporcionada.
+     */
+    public void mostrarClientePorID(SistemaTienda sistema, String id)throws ElementoInexistenteEx{
+        Cliente cliente = sistema.getListaCliente().getPorId(id);
+        if(cliente == null){
+            throw new ElementoInexistenteEx("La id del cliente no existe...");
+        }
+        cliente.mostrarPerfil();
+    }
+
+    /**
      * Da de baja un cliente por ID.
      *
      * @param sistema Sistema donde se aloja la lista de clientes
@@ -423,7 +442,7 @@ public class Admin extends Usuario implements IAdministrador {
         EstadoPedido estado = null;
 
         do {
-            System.out.println("Estados disponibles: PAGADO, CANCELADO, ENTREGADO");
+            System.out.println("Estados disponibles: PAGADO, ENTREGADO");
             System.out.print("Ingrese Estado: ");
             String entrada = sc.nextLine().trim().toUpperCase();
 
@@ -469,6 +488,7 @@ public class Admin extends Usuario implements IAdministrador {
 
         EstadoPedido estadoPedido = leerEstadoPedido(sc);
         boolean encontrado = false;
+        System.out.println("────────  Mostrando Pedidos Por estado ─────── ");
         for (Pedido pedido : sistema.getListaPedidos().getListaMapGenerica().values()) {
             if (pedido.getEstado() == estadoPedido) {
                 System.out.println("IDPedido: " + pedido.getIdPedido() +
@@ -497,7 +517,7 @@ public class Admin extends Usuario implements IAdministrador {
         if(sistema.getListaCliente().getPorId(idCliente).getHistorialPedidos().isEmpty()){
             throw new ListasVaciasEx(" el cliente no tiene pedidos...");
         }
-        System.out.println("--- Mostrando Pedidos Del Cliente --- " );
+        System.out.println("──────────  Mostrando Pedidos Del Cliente ────────── " );
         for (Pedido pedido : sistema.getListaPedidos().getListaMapGenerica().values()) {
             if (pedido.getIdCliente().equals(idCliente)) {
                 System.out.println("IDPedido: " + pedido.getIdPedido() +

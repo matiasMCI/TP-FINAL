@@ -477,7 +477,7 @@ public class Cliente extends Usuario implements ICliente {
     public String toString() {
         return "Cliente{" +
                 super.toString() +
-                "edad=" + edad +
+                ", edad=" + edad +
                 ", fondos=" + fondos +
                 ", estado=" + estado +
                 '}';

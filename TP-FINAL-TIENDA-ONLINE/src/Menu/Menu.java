@@ -250,16 +250,16 @@ public class Menu {
 
         while (continuar) {
             System.out.println(COLOR + "────────────────────   ADMIN   ────────────────────" + RESET);
-            System.out.println("(1) Agregar Cliente"               + "          \"(11) Agregar stock\"");
-            System.out.println("(2) Agregar Producto"             + "         \"(12) 1uitar stock\"");
-            System.out.println("(3) Dar de alta Cliente"          + "        \"(13) Mostrar Comprobantes\"");
-            System.out.println("(4) Dar de baja Cliente"          + "        \"(14) Mostrar Pedidos\"");
-            System.out.println("(5) Dar de alta Producto"         + "        \"(15) Mostrar Cliente mas Frecuente\"");
-            System.out.println("(6) Dar de baja Producto"         + "        \"(16) Cambiar Estado Pedido\"");
-            System.out.println("(7) Modificar Cliente"            + "       \"(17) Mostrar Pedidos Por ID Cliente\"");
-            System.out.println("(8) Modificar Producto"           + "      \"(18) Mostrar Pedidos Por Estado\"");
-            System.out.println("(9) Mostrar Clientes"             + "       \"(19) \"");
-            System.out.println("(10) Mostrar Productos"           + "      \"(20) Cerrar Sesion\"");
+            System.out.println("(1) Agregar Cliente"+ "           \"(11) Agregar stock\"");
+            System.out.println("(2) Agregar Producto" + "          \"(12) Quitar stock\"");
+            System.out.println("(3) Dar de alta Cliente" + "       \"(13) Mostrar Comprobantes\"");
+            System.out.println("(4) Dar de baja Cliente" + "       \"(14) Mostrar Pedidos\"");
+            System.out.println("(5) Dar de alta Producto" + "      \"(15) Mostrar Cliente mas Frecuente\"");
+            System.out.println("(6) Dar de baja Producto" + "      \"(16) Cambiar Estado Pedido\"");
+            System.out.println("(7) Modificar Cliente"+"         \"(17) Mostrar Pedidos Por ID Cliente\"");
+            System.out.println("(8) Modificar Producto"  + "        \"(18) Mostrar Pedidos Por Estado\"");
+            System.out.println("(9) Mostrar Clientes"+ "           \"(19) Mostrar Info Cliente por ID \"");
+            System.out.println("(10) Mostrar Productos"+ "         \"(20) Cerrar Sesion\"");
             System.out.println(COLOR + "────────────────────────────────────────────────────────" + RESET);
 
 
@@ -284,7 +284,7 @@ public class Menu {
                     idCliente = sc.nextLine().trim();
                     try {
                         admin.darDeAltaCliente(sistema,idCliente);
-                    } catch (ElementoDuplicadoEx e) {
+                    } catch (ElementoInexistenteEx e) {
                         System.out.println(Etiquetas.ERROR + " al dar de alta cliente: " + e.getMessage());
                     }
                     break;
@@ -294,7 +294,7 @@ public class Menu {
                     idCliente = sc.nextLine().trim();
                     try {
                         admin.darDeBajaCliente(sistema,idCliente);
-                    } catch (ElementoDuplicadoEx e) {
+                    } catch (ElementoInexistenteEx e) {
                         System.out.println(Etiquetas.ERROR + "al dar de baja cliente: " + e.getMessage());
                     }
                     break;
@@ -322,7 +322,7 @@ public class Menu {
                     try {
                         sistema.mostrarListaCliente();
                         System.out.println("Ingrese la id Cliente a modificar: ");
-                        idCliente = sc.nextLine();
+                        idCliente = sc.nextLine().trim();
                         admin.modificarCliente(sistema, idCliente);
                     } catch (ElementoInexistenteEx e) {
                         System.out.println(Etiquetas.ERROR + "al modificar cliente: " + e.getMessage());
@@ -332,7 +332,7 @@ public class Menu {
                     try {
                         sistema.mostrarListaProducto();
                         System.out.println("Ingrese ID del producto a modificar: ");
-                        idProducto = sc.nextLine();
+                        idProducto = sc.nextLine().trim();
                         admin.modificarProducto(sistema,idProducto);
                     } catch (ElementoInexistenteEx e) {
                         System.out.println(Etiquetas.ERROR + " al modificar producto: " + e.getMessage());
@@ -349,7 +349,7 @@ public class Menu {
                     while (seguir.equalsIgnoreCase("si")) {
                         sistema.mostrarListaProducto();
                         System.out.println("Ingrese la idProducto a agregar stock");
-                        idProducto = sc.nextLine();
+                        idProducto = sc.nextLine().trim();
                         cantidad = sistema.leerEnteroSeguro(sc, "Ingrese la cantidad a agregar: ");
                         try {
                             admin.agregarStock(sistema,idProducto, cantidad);
@@ -363,8 +363,8 @@ public class Menu {
                 case 12:
                     while (seguir.equalsIgnoreCase("si")) {
                         sistema.mostrarListaProducto();
-                        System.out.println("Ingrese la idProducto a quitar stock");
-                        idProducto = sc.nextLine();
+                        System.out.println("Ingrese la idProducto a quitar stock: ");
+                        idProducto = sc.nextLine().trim();
                         cantidad = sistema.leerEnteroSeguro(sc,"Ingrese la cantidad a descontar: ");
                         try {
                             admin.quitarStock(sistema,idProducto, cantidad);
@@ -376,6 +376,11 @@ public class Menu {
                     }
                     break;
                 case 13:
+                    try{
+                        sistema.mostrarComprobantes();
+                    }catch (ListasVaciasEx e){
+                        System.out.println(Etiquetas.ERROR+" al mostrar comprobantes: " + e.getMessage());
+                    }
                     break;
                 case 14:
                     try {
@@ -417,6 +422,15 @@ public class Menu {
                     break;
                 case 18:
                     admin.listarPedidosPorEstado(sistema, sc);
+                    break;
+                case 19:
+                    try{
+                        System.out.println("Ingrese la id Cliente a mostrar Info: ");
+                        idCliente = sc.next().trim();
+                        admin.mostrarClientePorID(sistema, idCliente);
+                    }catch (ElementoInexistenteEx e){
+                        System.out.println(Etiquetas.ERROR + " al mostrar perfil: " + e.getMessage());
+                    }
                     break;
                 case 20:
                     continuar = false;

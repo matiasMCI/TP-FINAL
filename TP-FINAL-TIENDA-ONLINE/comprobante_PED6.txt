@@ -1,0 +1,9 @@
+─────────── COMPROBANTE DE COMPRA ───────────
+Pedido: PED6
+Cliente: ID002
+Fecha: 2025-11-26
+Productos:
+- Bananas x5----- $8500.0
+
+Total Pagado: $8500.0
+────────────────────────────────────────────

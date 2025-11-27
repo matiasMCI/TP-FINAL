@@ -4,7 +4,7 @@
         "precio": 2200,
         "estado": true,
         "idProducto": "ID001",
-        "stock": 22,
+        "stock": 17,
         "nombreProducto": "Coca cola",
         "categoriaProducto": "BEBIDAS"
     },
@@ -40,8 +40,143 @@
         "precio": 2200,
         "estado": true,
         "idProducto": "ID005",
-        "stock": 12,
+        "stock": 7,
         "nombreProducto": "papas fritas lays",
         "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "jugo de naranja 1 lts",
+        "precio": 1800,
+        "estado": true,
+        "idProducto": "ID006",
+        "stock": 20,
+        "nombreProducto": "Jugo de naranja",
+        "categoriaProducto": "BEBIDAS"
+    },
+    {
+        "descripcion": "paquete de arroz 1kg",
+        "precio": 1500,
+        "estado": true,
+        "idProducto": "ID007",
+        "stock": 25,
+        "nombreProducto": "Arroz",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "pan de molde 500gr",
+        "precio": 1000,
+        "estado": true,
+        "idProducto": "ID008",
+        "stock": 17,
+        "nombreProducto": "Pan de molde",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "helado de chocolate 1kg",
+        "precio": 3500,
+        "estado": true,
+        "idProducto": "ID009",
+        "stock": 3,
+        "nombreProducto": "Helado chocolate",
+        "categoriaProducto": "POSTRES"
+    },
+    {
+        "descripcion": "torta de vainilla 1kg",
+        "precio": 4500,
+        "estado": true,
+        "idProducto": "ID010",
+        "stock": 6,
+        "nombreProducto": "Torta vainilla",
+        "categoriaProducto": "POSTRES"
+    },
+    {
+        "descripcion": "yogur natural 1lt",
+        "precio": 1200,
+        "estado": true,
+        "idProducto": "ID011",
+        "stock": 12,
+        "nombreProducto": "Yogur natural",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "pechuga de pollo 1kg",
+        "precio": 4200,
+        "estado": true,
+        "idProducto": "ID012",
+        "stock": 12,
+        "nombreProducto": "Pechuga de pollo",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "manzanas rojas 1kg",
+        "precio": 2000,
+        "estado": true,
+        "idProducto": "ID013",
+        "stock": 25,
+        "nombreProducto": "Manzanas",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "banana 1kg",
+        "precio": 1700,
+        "estado": true,
+        "idProducto": "ID014",
+        "stock": 16,
+        "nombreProducto": "Bananas",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "gaseosa sprite 2lts",
+        "precio": 2100,
+        "estado": true,
+        "idProducto": "ID015",
+        "stock": 17,
+        "nombreProducto": "Sprite",
+        "categoriaProducto": "BEBIDAS"
+    },
+    {
+        "descripcion": "chocolate tabletas 100gr",
+        "precio": 900,
+        "estado": true,
+        "idProducto": "ID016",
+        "stock": 19,
+        "nombreProducto": "Chocolate",
+        "categoriaProducto": "POSTRES"
+    },
+    {
+        "descripcion": "agua mineral 500ml",
+        "precio": 800,
+        "estado": false,
+        "idProducto": "ID017",
+        "stock": 40,
+        "nombreProducto": "Agua mineral",
+        "categoriaProducto": "BEBIDAS"
+    },
+    {
+        "descripcion": "queso cremoso 500gr",
+        "precio": 3200,
+        "estado": true,
+        "idProducto": "ID018",
+        "stock": 15,
+        "nombreProducto": "Queso cremoso",
+        "categoriaProducto": "ALIMENTOS"
+    },
+    {
+        "descripcion": "milanesas de carne 1kg",
+        "precio": 5500,
+        "estado": true,
+        "idProducto": "ID019",
+        "stock": 9,
+        "nombreProducto": "Milanesas carne",
+        "categoriaProducto": "COMIDA"
+    },
+    {
+        "descripcion": "flan casero 1kg",
+        "precio": 3000,
+        "estado": true,
+        "idProducto": "ID020",
+        "stock": 0,
+        "nombreProducto": "Flan casero",
+        "categoriaProducto": "POSTRES"
     }
 ]
