@@ -1,2 +1,2 @@
 # TP-FINAL
- Contiene lso archivos del TP-FINAL (TIENDA ONLINE)
+ Contiene los archivos del TP-FINAL (TIENDA ONLINE)
